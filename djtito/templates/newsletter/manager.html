@@ -1,0 +1,28 @@
+{% extends "newsletter/email.html" %}
+{% block head %}
+    {% if user.is_superuser %}
+    <link href="//www.carthage.edu/themes/shared/css/forms.css"
+        rel="stylesheet" type="text/css" />
+    {% endif %}
+{% endblock %}
+{% block footer %}
+    {% if user.is_superuser %}
+    <h2>Email Manager</h2>
+    <div class="forms-container">
+        {% include "includes/required_text.html" %}
+        {% include "includes/errors_text.html" %}
+        <form action="{% url 'newsletter_manager' %}?days={{days}}"
+            method="post" class="form" id="profile">
+        {% csrf_token %}
+        <fieldset class="blockLabels">
+            <ol>
+                {% for field in form.visible_fields %}
+                    {% include "form_field.inc.html" %}
+                {% endfor %}
+            </ol>
+        </fieldset>
+        {% include "form_submit.inc.html" %}
+    </form>
+    </div>
+{% endif %}
+{% endblock %}
