@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import os, sys, django
+import os, sys
 
 # env
 sys.path.append('/usr/lib/python2.7/')
@@ -11,6 +11,8 @@ sys.path.append('/data2/django_projects/')
 sys.path.append('/data2/django_third/')
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "djtito.settings")
 
+# new in django 1.7.x
+import django
 django.setup()
 
 from django.conf import settings
@@ -54,13 +56,17 @@ def main():
     FROM = "Carthage Bridge <bridge@carthage.edu>"
     settings.DEFAULT_CHARSET = 'utf-8'
     settings.FILE_CHARSET = 'utf-8'
-    settings.DATABASES["livewhale"]['OPTIONS'] = {'charset': 'latin1', 'use_unicode': False}
+    settings.DATABASES["livewhale"]['OPTIONS'] = {
+        'charset': 'latin1', 'use_unicode': False
+    }
     d = None
     if days:
         d = days
     data = fetch_newsletter(days=d)
     # send mail
-    subject = "[The Bridge] News & Events: %s" % (NOW.strftime("%A, %B %d, %Y"))
+    subject = "[The Bridge] News & Events: {}".format(
+        NOW.strftime("%A, %B %d, %Y")
+    )
     request = None
     send_mail(
         request, TO_LIST, subject, FROM,
@@ -75,9 +81,11 @@ if __name__ == "__main__":
     (options, args) = parser.parse_args()
     send = options.send
     days = options.days
+
     if not send:
         print "'y' or 'n' as to whether or not this is a dry run.\n"
         parser.print_help()
         exit(-1)
 
     sys.exit(main())
+

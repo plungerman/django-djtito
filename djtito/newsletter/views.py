@@ -83,12 +83,13 @@ def manager(request):
             if days:
                 days = "-d {}".format(days)
             # ok, don't even ask about this #chaputza. bloody livewhale.
-            x = "/usr/bin/python {}/bin/bridge_mail.py {} -s {}".format (
-                settings.ROOT_DIR, days, send_to
+            status = os.system(
+                "/usr/bin/python {}/bin/bridge_mail.py {} -s {}".format (
+                    settings.ROOT_DIR, days, send_to
+                )
             )
-            logger.debug( "execute = {}".format(x) )
-            status = os.system( x )
             logger.debug( "status = {}".format(status) )
+
             return HttpResponseRedirect(reverse('newsletter_manager'))
 
     t = loader.get_template('newsletter/manager.html')
