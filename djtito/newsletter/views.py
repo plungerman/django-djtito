@@ -13,8 +13,6 @@ from djtito.newsletter.forms import NewsletterForm
 import os
 import datetime
 
-import logging
-logger = logging.getLogger(__name__)
 
 def fetch_newsletter(days=None):
     """
@@ -88,7 +86,6 @@ def manager(request):
                     settings.ROOT_DIR, days, send_to
                 )
             )
-            logger.debug( "status = {}".format(status) )
 
             return HttpResponseRedirect(reverse('newsletter_manager'))
 
