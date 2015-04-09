@@ -77,7 +77,7 @@ def manager(request):
             cd = form.cleaned_data
             send_to = "n"
             if cd["send_to"] == "True":
-                sent_to = "y"
+                send_to = "y"
             if days:
                 days = "-d {}".format(days)
             # ok, don't even ask about this #chaputza. bloody livewhale.
