@@ -40,6 +40,6 @@ urlpatterns = patterns('',
     ),
     url(
         r'^$',
-        RedirectView.as_view(url="/djtito/accounts/")
+        RedirectView.as_view(url="/djtito/newsletter/manager/")
     ),
 )
