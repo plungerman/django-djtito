@@ -11,7 +11,7 @@
     <div class="forms-container">
         {% include "includes/required_text.html" %}
         {% include "includes/errors_text.html" %}
-        <form action="{% url 'newsletter_manager' %}?days={{days}}"
+        <form action="{% url 'newsletter_manager' %}"
             method="post" class="form" id="profile">
         {% csrf_token %}
         <fieldset class="blockLabels">
