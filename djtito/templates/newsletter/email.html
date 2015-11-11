@@ -4,8 +4,8 @@
 <head>
 {% block head %}{% endblock %}
 </head>
-<body>
-<img src="https://www.carthage.edu/live/images/1154/?utm_source=djwailer&utm_medium=email&utm_term=bridge%2Bbanner&utm_content=bridge%20news&utm_campaign=bridge_newsletter" />
+<body style="line-height:1.5em;font-family:ScalaSans,sans-serif;">
+<img src="https://www.carthage.edu/live/images/1154/?utm_source=djwailer&utm_medium=email&utm_term=bridge%2Bbanner&utm_content=bridge%20news&utm_campaign=bridge_newsletter">
 <h1>News from The Bridge</h1>
 <p>
     <a href="{{top.get_absolute_url}}">{{top.headline|safe}}</a>
@@ -15,7 +15,12 @@
     <h3>{{h.0}}</h3>
     <ul>
     {% for n in h.1 %}
-    <li><a href="{{n.get_absolute_url}}">{{n.headline|safe}}</a></li>
+    <li>
+        <a href="{{n.get_absolute_url}}">{{n.headline|safe}}</a>
+        {% if n.new %}
+            <img src="https://www.carthage.edu/themes/shared/img/ico/leaf-16.png">
+        {% endif %}
+    </li>
     {% endfor %}
     </ul>
     {% endif %}
