@@ -12,6 +12,7 @@ from djtito.newsletter.forms import NewsletterForm
 
 import os
 import datetime
+import uuid
 
 
 def fetch_newsletter(days=None):
@@ -70,6 +71,8 @@ def manager(request):
     else:
         days = ""
     data = fetch_newsletter(days=days)
+    data["cid"] = uuid.uuid4().int & (1<<64)-1
+    data["now"] = datetime.datetime.now()
     form = NewsletterForm()
     if request.POST:
         form = NewsletterForm(request.POST)
