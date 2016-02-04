@@ -15,6 +15,8 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "djtito.settings")
 import django
 django.setup()
 
+import uuid
+
 from django.conf import settings
 
 from djtito.newsletter.views import fetch_newsletter
@@ -63,6 +65,8 @@ def main():
     if days:
         d = days
     data = fetch_newsletter(days=d)
+    data["cid"] = uuid.uuid4().int & (1<<64)-1
+    data["now"] = NOW
     # send mail
     subject = "[The Bridge] News & Events: {}".format(
         NOW.strftime("%A, %B %d, %Y")
