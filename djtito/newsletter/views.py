@@ -3,9 +3,9 @@ from django.core.urlresolvers import reverse
 from django.template import RequestContext, loader
 from django.shortcuts import render_to_response
 from django.http import HttpResponseRedirect, HttpResponse
+from django.contrib.auth.decorators import user_passes_test
 
 from djtools.utils.mail import send_mail
-from djtools.decorators.auth import superuser_only
 
 from djwailer.core.models import LivewhaleNews as News
 from djtito.newsletter.forms import NewsletterForm
@@ -63,7 +63,7 @@ def fetch_newsletter(days=None):
         news.append(TAGS[t])
     return {'news':news}
 
-@superuser_only
+@user_passes_test(lambda u: u.groups.filter(name=settings.STAFF_GROUP).exists())
 def manager(request):
     data = None
     if request.GET.get("days"):
