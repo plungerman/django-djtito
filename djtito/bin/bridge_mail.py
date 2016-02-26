@@ -50,8 +50,8 @@ parser.add_option("-d", "--days", help="Time frame in days.", dest="days")
 def main():
     # mail stuff
     if send=="y":
-        BCC = ["bridge@carthage.edu",]
-        TO_LIST = settings.NEWSLETTER_TO_LIST
+        BCC = settings.NEWSLETTER_TO_LIST
+        TO_LIST = ["bridge@carthage.edu",]
     else:
         BCC = settings.MANAGERS
         TO_LIST = settings.NEWSLETTER_TO_LIST_TEST
