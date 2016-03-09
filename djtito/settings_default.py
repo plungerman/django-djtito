@@ -62,7 +62,8 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'USER': '',
         'PASSWORD': '',
-        'OPTIONS': {'charset':'latin1','use_unicode':True,}
+        #'OPTIONS': {'charset':'latin1','use_unicode':True,}
+        'OPTIONS': {'charset':'latin1','use_unicode':False,}
     },
 }
 
