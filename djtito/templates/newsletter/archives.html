@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}
+{{data.now|date:"F j, Y"}} &mdash;
+Archives &mdash;
+Bridge &mbdash;
+Carthage College
+{% endblock %}
+{% block content_head %}
+    <h1 id="page_title">
+         {{data.now|date:"F j, Y"}}
+    </h1>
+{% endblock %}
+{% block content %}
+    {% include "newsletter/content.inc.html" %}
+{% endblock %}

@@ -8,7 +8,7 @@
 {% block footer %}
     {% if user.is_superuser %}
     <h2>Email Manager</h2>
-    <div class="forms-container">
+    <div class="forms-container" id="page-content-wrap">
         {% include "includes/required_text.html" %}
         {% include "includes/errors_text.html" %}
         <form action="{% url 'newsletter_manager' %}"
