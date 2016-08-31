@@ -12,7 +12,11 @@
           {{n.headline|safe}}
         </a>
         {% if n.new %}
+          {% if data.static %}
           <i class="fa fa-leaf new-leaf" aria-hidden="true"></i>
+          {% else %}
+          <img src="https://www.carthage.edu/themes/shared/img/ico/leaf-16.png" style="margin-left:5px;">
+          {% endif %}
         {% endif %}
       </li>
     {% endfor %}
