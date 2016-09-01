@@ -17,6 +17,12 @@ import collections
 
 
 def archives(request, year=None):
+    """
+    generates an ordered dictionary with a list of dictionaries
+    that contain information about the static files so that we
+    can display the archives at the UI level in chronological order
+    grouped by month.
+    """
 
     if not year:
         year = NOW.year
@@ -27,6 +33,8 @@ def archives(request, year=None):
     dir_list = sorted(os.listdir(path))
     philes_dict = collections.OrderedDict()
     m = None
+    philes = []
+
     for f in dir_list:
 
         spliff = f.split('_')
@@ -45,7 +53,8 @@ def archives(request, year=None):
         print date.strftime("%A")
         philes.append({"dayo":dayo,"day":date.strftime("%A"), "path":path})
 
-    philes_dict[month] = philes
+    if philes:
+        philes_dict[month] = philes
 
     return render_to_response(
         "newsletter/archives_list.html", {"philes":philes_dict,"year":year},

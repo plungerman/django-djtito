@@ -13,12 +13,16 @@ Carthage College
     </h1>
 {% endblock %}
 {% block content %}
-{% for month,files in philes.items %}
+{% if philes %}
+  {% for month,files in philes.items %}
     <h2>{{month}}</h2>
     <ul>
     {% for f in files %}
     <li><a href="{{f.path}}">{{f.day}} the {{f.dayo|ordinal}}</a></li>
     {% endfor %}
     </ul>
-{% endfor %}
+  {% endfor %}
+{% else %}
+  <h3>No archives available for {{year}}</h3>
+{% endif %}
 {% endblock %}

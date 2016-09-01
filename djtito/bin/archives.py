@@ -39,12 +39,6 @@ parser.add_argument(
     help="Time frame in days",
     dest="days"
 )
-parser.add_argument(
-    "--test",
-    action='store_true',
-    help="Dry run?",
-    dest="test"
-)
 
 def main():
     # mail stuff
@@ -62,9 +56,6 @@ def main():
 
 if __name__ == "__main__":
     args = parser.parse_args()
-
     days = args.days
-    test = args.test
 
     sys.exit(main())
-

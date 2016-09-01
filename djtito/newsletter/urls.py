@@ -3,7 +3,7 @@ from django.views.generic import TemplateView, RedirectView
 
 urlpatterns = patterns('djtito.newsletter.views',
     url(
-        r'^archives/(?P<cid>\d+)/$', 'archives', name='newsletter_archives'
+        r'^archives/(?P<year>\d+)/$', 'archives', name='newsletter_archives'
     ),
     url(
         r'^archives/$', 'archives', name='newsletter_archives_default'
