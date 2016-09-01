@@ -1,11 +1,56 @@
 from django.conf import settings
 from django.core.urlresolvers import reverse
+from django.shortcuts import render_to_response
 from django.template import RequestContext, loader
 from django.http import HttpResponseRedirect, HttpResponse
 
 from djtito.newsletter.forms import NewsletterForm
 from djtito.utils import create_archive, fetch_news, send_newsletter
+
 from djtools.decorators.auth import group_required
+from djtools.fields import NOW
+
+import os
+import calendar
+import datetime
+import collections
+
+
+def archives(request, year=None):
+
+    if not year:
+        year = NOW.year
+    ad = settings.ARCHIVES_DIR
+    path = "{}{}{}".format(
+        settings.STATIC_ROOT, ad, year
+    )
+    dir_list = sorted(os.listdir(path))
+    philes_dict = collections.OrderedDict()
+    m = None
+    for f in dir_list:
+
+        spliff = f.split('_')
+        if spliff[0] != m:
+            if m:
+                philes_dict[month] = philes
+            philes = []
+        m = spliff[0]
+        if "0" in m:
+            month = calendar.month_name[int(m[1:])]
+        path = "{}{}{}/{}".format(settings.STATIC_URL, ad, year, f)
+        dayo = spliff[1].split('.')[0]
+        date = datetime.datetime.strptime(
+            '{}-{}-{}'.format(year, spliff[0], dayo), '%Y-%m-%d'
+        )
+        print date.strftime("%A")
+        philes.append({"dayo":dayo,"day":date.strftime("%A"), "path":path})
+
+    philes_dict[month] = philes
+
+    return render_to_response(
+        "newsletter/archives_list.html", {"philes":philes_dict,"year":year},
+        context_instance=RequestContext(request)
+    )
 
 
 @group_required(settings.STAFF_GROUP)

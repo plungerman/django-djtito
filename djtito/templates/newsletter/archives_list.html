@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load humanize %}
+{% block title %}
+{{year}} &mdash;
+Bridge &mbdash;
+Newsletter &mdash;
+Archives &mdash;
+Carthage College
+{% endblock %}
+{% block content_head %}
+    <h1 id="page_title">
+         {{year}}
+    </h1>
+{% endblock %}
+{% block content %}
+{% for month,files in philes.items %}
+    <h2>{{month}}</h2>
+    <ul>
+    {% for f in files %}
+    <li><a href="{{f.path}}">{{f.day}} the {{f.dayo|ordinal}}</a></li>
+    {% endfor %}
+    </ul>
+{% endfor %}
+{% endblock %}
