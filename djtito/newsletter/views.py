@@ -8,7 +8,6 @@ from djtito.newsletter.forms import NewsletterForm
 from djtito.utils import create_archive, fetch_news, send_newsletter
 
 from djtools.decorators.auth import group_required
-from djtools.fields import NOW
 
 import os
 import calendar
@@ -24,6 +23,8 @@ def archives(request, year=None):
     grouped by month.
     """
 
+    NOW  = datetime.datetime.now()
+
     if not year:
         year = NOW.year
     ad = settings.ARCHIVES_DIR
@@ -38,20 +39,20 @@ def archives(request, year=None):
     for f in dir_list:
 
         spliff = f.split('_')
-        if spliff[0] != m:
-            if m:
-                philes_dict[month] = philes
-            philes = []
-        m = spliff[0]
-        if "0" in m:
-            month = calendar.month_name[int(m[1:])]
-        path = "{}{}{}/{}".format(settings.STATIC_URL, ad, year, f)
-        dayo = spliff[1].split('.')[0]
-        date = datetime.datetime.strptime(
-            '{}-{}-{}'.format(year, spliff[0], dayo), '%Y-%m-%d'
-        )
-        print date.strftime("%A")
-        philes.append({"dayo":dayo,"day":date.strftime("%A"), "path":path})
+        if spliff[1].split('.')[1] == "html":
+            if spliff[0] != m:
+                if m:
+                    philes_dict[month] = philes
+                philes = []
+            m = spliff[0]
+            if "0" in m:
+                month = calendar.month_name[int(m[1:])]
+            path = "{}{}{}/{}".format(settings.STATIC_URL, ad, year, f)
+            dayo = spliff[1].split('.')[0]
+            date = datetime.datetime.strptime(
+                '{}-{}-{}'.format(year, spliff[0], dayo), '%Y-%m-%d'
+            )
+            philes.append({"dayo":dayo,"day":date.strftime("%A"), "path":path})
 
     if philes:
         philes_dict[month] = philes
