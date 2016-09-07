@@ -15,7 +15,7 @@ django.setup()
 
 from django.conf import settings
 
-from djtito.newsletter.views import fetch_newsletter
+from djtito.newsletter.views import fetch_news
 from djtito.utils import create_archive
 
 from djtools.fields import NOW
