@@ -5,8 +5,7 @@ from djwailer.core.models import LivewhaleNews as News
 from djtools.utils.mail import send_mail
 
 import datetime
-
-NOW  = datetime.datetime.now()
+import urllib
 
 
 def fetch_news(days=None):
@@ -17,6 +16,7 @@ def fetch_news(days=None):
     """
 
 
+    NOW  = datetime.datetime.now()
     TAGS = {
         498:['News & Notices',[]],
         499:['Lectures & Presentations',[]],
@@ -59,6 +59,7 @@ def fetch_news(days=None):
 
 def send_newsletter(send, data):
 
+    NOW  = datetime.datetime.now()
     # mail stuff
     if send=="y":
         BCC = settings.NEWSLETTER_TO_LIST
@@ -84,12 +85,25 @@ def send_newsletter(send, data):
 
 def create_archive(data):
 
-    # create path to static file
-    phile = "{}.html".format(NOW.strftime("%m_%d"))
-    sendero = "{}{}{}/{}".format(
-        settings.STATIC_ROOT, settings.ARCHIVES_DIR, NOW.year, phile
+    NOW  = datetime.datetime.now()
+    # suffix for file names
+    suffix = NOW.strftime("%m_%d")
+    # path to current directory
+    path = "{}{}{}".format(
+        settings.STATIC_ROOT, settings.ARCHIVES_DIR, NOW.year
     )
-
+    # fetch the banner image
+    phile = "{}.jpg".format(suffix)
+    sendero = "{}/{}".format(path, phile)
+    banner = urllib.FancyURLopener()
+    banner.retrieve(settings.BRIDGE_NEWSLETTER_BANNER, sendero)
+    data["banner"] = "https://{}{}{}{}/{}".format(
+        settings.SERVER_URL, settings.STATIC_URL, settings.ARCHIVES_DIR,
+        NOW.year, phile
+    )
+    # create path to static file
+    phile = "{}.html".format(suffix)
+    sendero = "{}/{}".format(path, phile)
     permalink = "https://{}{}{}{}/{}".format(
         settings.SERVER_URL, settings.STATIC_URL, settings.ARCHIVES_DIR,
         NOW.year, phile
