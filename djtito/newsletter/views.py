@@ -1,4 +1,5 @@
 from django.conf import settings
+from django.contrib import messages
 from django.core.urlresolvers import reverse
 from django.shortcuts import render_to_response
 from django.template import RequestContext, loader
@@ -24,6 +25,11 @@ def archives(request, year=None):
     """
 
     NOW  = datetime.datetime.now()
+    dir_list = None
+    philes_dict = collections.OrderedDict()
+    m = None
+    philes = []
+    error = "No archives available for {}".format(year)
 
     if not year:
         year = NOW.year
@@ -31,31 +37,34 @@ def archives(request, year=None):
     path = "{}{}{}".format(
         settings.STATIC_ROOT, ad, year
     )
-    dir_list = sorted(os.listdir(path))
-    philes_dict = collections.OrderedDict()
-    m = None
-    philes = []
+    try:
+        dir_list = sorted(os.listdir(path))
+    except:
+        pass
 
-    for f in dir_list:
+    if dir_list:
+        for f in dir_list:
+            spliff = f.split('_')
+            if spliff[1].split('.')[1] == "html":
+                if spliff[0] != m:
+                    if m:
+                        philes_dict[month] = philes
+                    philes = []
+                m = spliff[0]
+                if "0" in m:
+                    month = calendar.month_name[int(m[1:])]
+                path = "{}{}{}/{}".format(settings.STATIC_URL, ad, year, f)
+                dayo = spliff[1].split('.')[0]
+                date = datetime.datetime.strptime(
+                    '{}-{}-{}'.format(year, spliff[0], dayo), '%Y-%m-%d'
+                )
+                philes.append({"dayo":dayo,"day":date.strftime("%A"), "path":path})
 
-        spliff = f.split('_')
-        if spliff[1].split('.')[1] == "html":
-            if spliff[0] != m:
-                if m:
-                    philes_dict[month] = philes
-                philes = []
-            m = spliff[0]
-            if "0" in m:
-                month = calendar.month_name[int(m[1:])]
-            path = "{}{}{}/{}".format(settings.STATIC_URL, ad, year, f)
-            dayo = spliff[1].split('.')[0]
-            date = datetime.datetime.strptime(
-                '{}-{}-{}'.format(year, spliff[0], dayo), '%Y-%m-%d'
-            )
-            philes.append({"dayo":dayo,"day":date.strftime("%A"), "path":path})
+        if philes:
+            philes_dict[month] = philes
 
-    if philes:
-        philes_dict[month] = philes
+    else:
+        messages.add_message(request, messages.ERROR, error, extra_tags='danger')
 
     return render_to_response(
         "newsletter/archives_list.html", {"philes":philes_dict,"year":year},
