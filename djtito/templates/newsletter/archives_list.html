@@ -24,7 +24,7 @@ Carthage College
         <h2>{{month}}</h2>
         <ul>
         {% for f in files %}
-        <li><a href="{{f.path}}">{{f.day}} the {{f.dayo|ordinal}}</a></li>
+        <li><a href="{{f.path}}">{{f.day}}, {{f.date|date:"N j, Y"}}</a></li>
         {% endfor %}
         </ul>
     {% endfor %}

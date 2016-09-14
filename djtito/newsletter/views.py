@@ -43,6 +43,7 @@ def archives(request, year=None):
         pass
 
     if dir_list:
+        dir_list.reverse()
         for f in dir_list:
             spliff = f.split('_')
             if spliff[1].split('.')[1] == "html":
@@ -58,7 +59,7 @@ def archives(request, year=None):
                 date = datetime.datetime.strptime(
                     '{}-{}-{}'.format(year, spliff[0], dayo), '%Y-%m-%d'
                 )
-                philes.append({"dayo":dayo,"day":date.strftime("%A"), "path":path})
+                philes.append({"date":date,"day":date.strftime("%A"), "path":path})
 
         if philes:
             philes_dict[month] = philes
