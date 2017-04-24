@@ -1,17 +1,18 @@
-from django.conf.urls import patterns, url
+from django.conf.urls import url
 from django.views.generic import TemplateView, RedirectView
 
-urlpatterns = patterns('djtito.newsletter.views',
+from djtito.newsletter import views
+urlpatterns = [
     url(
-        r'^archives/(?P<year>\d+)/$', 'archives', name='newsletter_archives'
+        r'^archives/(?P<year>\d+)/$', views.archives, name='newsletter_archives'
     ),
     url(
-        r'^archives/$', 'archives', name='newsletter_archives_default'
+        r'^archives/$', views.archives, name='newsletter_archives_default'
     ),
     url(
-        r'^manager/$', 'manager', name='newsletter_manager'
+        r'^manager/$', views.manager, name='newsletter_manager'
     ),
     url(
         r'^$', RedirectView.as_view(url="/bridge/")
     ),
-)
+]

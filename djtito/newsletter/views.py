@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.contrib import messages
 from django.core.urlresolvers import reverse
-from django.shortcuts import render_to_response
+from django.shortcuts import render
 from django.template import RequestContext, loader
 from django.http import HttpResponseRedirect, HttpResponse
 
@@ -59,7 +59,9 @@ def archives(request, year=None):
                 date = datetime.datetime.strptime(
                     '{}-{}-{}'.format(year, spliff[0], dayo), '%Y-%m-%d'
                 )
-                philes.append({"date":date,"day":date.strftime("%A"), "path":path})
+                philes.append(
+                    {"date":date,"day":date.strftime("%A"), "path":path}
+                )
 
         if philes:
             philes_dict[month] = philes
@@ -67,9 +69,9 @@ def archives(request, year=None):
     else:
         messages.add_message(request, messages.ERROR, error, extra_tags='danger')
 
-    return render_to_response(
-        "newsletter/archives_list.html", {"philes":philes_dict,"year":year},
-        context_instance=RequestContext(request)
+    return render(
+        request, "newsletter/archives_list.html",
+        {"philes":philes_dict,"year":year}
     )
 
 
@@ -108,9 +110,10 @@ def manager(request):
         form = NewsletterForm()
 
 
+    # we have to do this because of livewhale's broken database encoding
     t = loader.get_template('newsletter/manager.html')
-    c = RequestContext(request, {'data': data,'form':form,'days':days,})
 
     return HttpResponse(
-        t.render(c), content_type="text/html; charset=utf8"
+        t.render({'data': data,'form':form,'days':days,}, request),
+        content_type="text/html; charset=utf8"
     )
