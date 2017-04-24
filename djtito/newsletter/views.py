@@ -27,6 +27,7 @@ def archives(request, year=None):
     NOW  = datetime.datetime.now()
     dir_list = None
     philes_dict = collections.OrderedDict()
+    # we set 'm' to numeric value of month to control the display of month names
     m = None
     philes = []
     error = "No archives available for {}".format(year)
@@ -46,14 +47,13 @@ def archives(request, year=None):
         dir_list.reverse()
         for f in dir_list:
             spliff = f.split('_')
+            # we only want .html files
             if spliff[1].split('.')[1] == "html":
-                if spliff[0] != m:
-                    if m:
-                        philes_dict[month] = philes
+                if m and spliff[0] != m:
+                    philes_dict[month] = philes
                     philes = []
                 m = spliff[0]
-                if "0" in m:
-                    month = calendar.month_name[int(m[1:])]
+                month = calendar.month_name[int(m)]
                 path = "{}{}{}/{}".format(settings.STATIC_URL, ad, year, f)
                 dayo = spliff[1].split('.')[0]
                 date = datetime.datetime.strptime(
