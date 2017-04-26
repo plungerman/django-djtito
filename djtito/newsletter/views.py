@@ -35,7 +35,7 @@ def archives(request, year=None):
     if not year:
         year = NOW.year
     ad = settings.ARCHIVES_DIR
-    path = "{}{}{}".format(
+    path = '{}{}{}'.format(
         settings.STATIC_ROOT, ad, year
     )
     try:
@@ -48,18 +48,18 @@ def archives(request, year=None):
         for f in dir_list:
             spliff = f.split('_')
             # we only want .html files
-            if spliff[1].split('.')[1] == "html":
+            if spliff[1].split('.')[1] == 'html':
                 if m and spliff[0] != m:
                     philes_dict[month] = philes
                     philes = []
                 m = spliff[0]
                 month = calendar.month_name[int(m)]
-                path = "{}{}{}/{}".format(settings.STATIC_URL, ad, year, f)
+                path = '{}{}{}/{}'.format(settings.STATIC_URL, ad, year, f)
                 dayo = spliff[1].split('.')[0]
                 date = datetime.datetime.strptime(
                     '{}-{}-{}'.format(year, spliff[0], dayo), '%Y-%m-%d'
                 )
-                philes.append({"date":date,"day":date.strftime("%A"), "path":path})
+                philes.append({'date':date,'day':date.strftime("%A"), "path":path})
 
         if philes:
             philes_dict[month] = philes
@@ -67,8 +67,17 @@ def archives(request, year=None):
     else:
         messages.add_message(request, messages.ERROR, error, extra_tags='danger')
 
+    # past year sub-nav
+    past = []
+    start = 2016
+    today = datetime.date.today().year
+    while start <= today:
+        past.append(start)
+        start += 1
+
     return render_to_response(
-        "newsletter/archives_list.html", {"philes":philes_dict,"year":year},
+        'newsletter/archives_list.html',
+        {'philes':philes_dict,'year':year,'pastnav':past},
         context_instance=RequestContext(request)
     )
 
