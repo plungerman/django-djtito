@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.contrib import messages
 from django.core.urlresolvers import reverse
-from django.shortcuts import render_to_response
+from django.shortcuts import render
 from django.template import RequestContext, loader
 from django.http import HttpResponseRedirect, HttpResponse
 
@@ -75,10 +75,9 @@ def archives(request, year=None):
         past.append(start)
         start += 1
 
-    return render_to_response(
-        'newsletter/archives_list.html',
-        {'philes':philes_dict,'year':year,'pastnav':past},
-        context_instance=RequestContext(request)
+    return render(
+        request, "newsletter/archives_list.html",
+        {"philes":philes_dict,"year":year}
     )
 
 
@@ -117,9 +116,10 @@ def manager(request):
         form = NewsletterForm()
 
 
+    # we have to do this because of livewhale's broken database encoding
     t = loader.get_template('newsletter/manager.html')
-    c = RequestContext(request, {'data': data,'form':form,'days':days,})
 
     return HttpResponse(
-        t.render(c), content_type="text/html; charset=utf8"
+        t.render({'data': data,'form':form,'days':days,}, request),
+        content_type="text/html; charset=utf8"
     )

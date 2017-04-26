@@ -13,11 +13,12 @@ Carthage College
     </h1>
 {% endblock %}
 {% block content %}
+<div class="large-5 medium-5 small-12">
 {% if messages %}
     {% for message in messages %}
-    <div{% if message.tags %} class="{{ message.tags }} large-12 medium-12 small-12"{% endif %}>
+        <div{% if message.tags %} class="{{ message.tags }}"{% endif %}>
         {{ message }}
-    </div>
+        </div>
     {% endfor %}
 {% else %}
    {% for month,files in philes.items %}
@@ -29,4 +30,16 @@ Carthage College
         </ul>
     {% endfor %}
 {% endif %}
+</div>
+<div class="large-1 medium-1">&nbsp;</div>
+<div class="large-5 medium-5 small-12">
+<h2>Year</h2>
+<ul>
+{% for p in pastnav reversed %}
+<li>
+  <a href="{% url 'newsletter_archives' p %}">{{p}}</a>
+</li>
+{% endfor %}
+</ul>
+</div>
 {% endblock %}
