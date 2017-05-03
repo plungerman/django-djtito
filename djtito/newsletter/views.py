@@ -76,8 +76,8 @@ def archives(request, year=None):
         start += 1
 
     return render(
-        request, "newsletter/archives_list.html",
-        {"philes":philes_dict,"year":year}
+        request, 'newsletter/archives_list.html',
+        {'philes':philes_dict,'year':year,'pastnav':past}
     )
 
 
