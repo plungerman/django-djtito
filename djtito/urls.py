@@ -19,7 +19,7 @@ urlpatterns = [
     ),
     url(
         r'^accounts/logout/$',auth_views.logout,
-        {'next_page': reverse_lazy("auth_loggedout")},
+        {'next_page': '/djtito/accounts/loggedout/'}
     ),
     url(
         r'^accounts/loggedout/', loggedout,
