@@ -1,7 +1,7 @@
 {% extends "newsletter/email.html" %}
 {% load ifusergroup %}
 {% block head %}
-    {% if user.is_superuser %}
+    {% ifusergroup Communications %}
     <link href="//www.carthage.edu/themes/shared/css/forms.css"
         rel="stylesheet" type="text/css" />
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css"
@@ -11,7 +11,7 @@
     <style>
     .body_bridge #page-content-wrap { margin-top: 0; }
     </style>
-    {% endif %}
+    {% endifusergroup %}
 {% endblock %}
 {% block footer %}
     {% ifusergroup Communications %}
