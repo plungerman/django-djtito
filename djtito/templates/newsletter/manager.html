@@ -1,4 +1,5 @@
 {% extends "newsletter/email.html" %}
+{% load ifusergroup %}
 {% block head %}
     {% if user.is_superuser %}
     <link href="//www.carthage.edu/themes/shared/css/forms.css"
@@ -13,7 +14,7 @@
     {% endif %}
 {% endblock %}
 {% block footer %}
-    {% if user.is_superuser %}
+    {% ifusergroup Communications %}
     <h2>Email Manager</h2>
     <div class="forms-container" id="page-content-wrap">
         {% include "includes/required_text.html" %}
@@ -31,5 +32,5 @@
         {% include "form_submit.inc.html" %}
     </form>
     </div>
-{% endif %}
+    {% endifusergroup %}
 {% endblock %}
