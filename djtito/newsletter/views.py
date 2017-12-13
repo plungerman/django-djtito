@@ -24,16 +24,17 @@ def archives(request, year=None):
     grouped by month.
     """
 
-    NOW  = datetime.datetime.now()
+    now  = datetime.datetime.now()
     dir_list = None
     philes_dict = collections.OrderedDict()
-    # we set 'm' to numeric value of month to control the display of month names
+    # we set 'm' to numeric value of month to control
+    # the display of month names
     m = None
     philes = []
     error = "No archives available for {}".format(year)
 
     if not year:
-        year = NOW.year
+        year = now.year
     ad = settings.ARCHIVES_DIR
     path = '{}{}{}'.format(
         settings.STATIC_ROOT, ad, year
@@ -59,13 +60,17 @@ def archives(request, year=None):
                 date = datetime.datetime.strptime(
                     '{}-{}-{}'.format(year, spliff[0], dayo), '%Y-%m-%d'
                 )
-                philes.append({'date':date,'day':date.strftime("%A"), "path":path})
+                philes.append(
+                    {'date':date,'day':date.strftime('%A'), 'path':path}
+                )
 
         if philes:
             philes_dict[month] = philes
 
     else:
-        messages.add_message(request, messages.ERROR, error, extra_tags='danger')
+        messages.add_message(
+            request, messages.ERROR, error, extra_tags='danger'
+        )
 
     # past year sub-nav
     past = []
@@ -84,42 +89,40 @@ def archives(request, year=None):
 @group_required(settings.STAFF_GROUP)
 def manager(request):
     data = None
-    if request.GET.get("days"):
-        days=int(request.GET.get("days"))
+    if request.GET.get('days'):
+        days=int(request.GET.get('days'))
     else:
-        days = ""
+        days = ''
     # fetch our stories
     data = fetch_news(days=days)
     # prepare template for static URLs without Analytics tracking
-    data["static"] = True
+    data['static'] = True
     if request.POST:
         form = NewsletterForm(request.POST)
         if form.is_valid():
             cd = form.cleaned_data
-
             # prepare template for static URLs without Analytics tracking
-            data["static"] = True
+            data['static'] = True
             # create static file for archives
             data = create_archive(data)
 
             # send mail
-            send = "n"
-            if cd["send_to"] == "True":
-                send = "y"
+            send = 'n'
+            if cd['send_to'] == 'True':
+                send = 'y'
             if days:
-                days = "-d {}".format(days)
-            data["static"] = False
+                days = '-d {}'.format(days)
+            data['static'] = False
             data = send_newsletter(send, data)
 
             return HttpResponseRedirect(reverse('newsletter_manager'))
     else:
         form = NewsletterForm()
 
-
     # we have to do this because of livewhale's broken database encoding
     t = loader.get_template('newsletter/manager.html')
 
     return HttpResponse(
         t.render({'data': data,'form':form,'days':days,}, request),
-        content_type="text/html; charset=utf8"
+        content_type='text/html; charset=utf8'
     )

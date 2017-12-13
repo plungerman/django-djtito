@@ -4,7 +4,7 @@
 {% block head %}{% endblock %}
 </head>
 <body class="body_bridge" style="line-height:1.5em;font-family:ScalaSans,sans-serif;">
-<img src="https://www.carthage.edu/live/images/1154/?utm_source=djtito&utm_medium=email&utm_term=bridge%2Bbanner&utm_content=bridge%20news&utm_campaign=bridge_newsletter_{{data.now|date:'Y-m-d'}}">
+<img src="https://www.carthage.edu/live/images/1154/?utm_source=djtito&utm_medium=email&utm_term=bridge%2Bbanner&utm_content=bridge%20news&utm_campaign=bridge_newsletter_{% now 'Y-m-d' %}&ts={% now 'YmdHis' %}">
 <h1>News from The Bridge</h1>
 {% include "newsletter/content.inc.html" %}
 {% block footer %}{% endblock %}
