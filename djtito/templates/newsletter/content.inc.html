@@ -12,7 +12,7 @@
             {% else %}
             <a href="{{n.get_absolute_url}}?utm_source=djtito&utm_medium=email&utm_term=bridge%2Bnewsletter&utm_content={{n.headline|truncatechars:100|urlencode}}&utm_campaign=bridge_newsletter_{{data.now|date:'Y-m-d'}}">
             {% endif %}
-            <img src="https://www.carthage.edu/live/image/gid/{{n.image.gid}}/width/100/no_upscale/1/{{n.image.filename}}.{{n.image.extension}}" style="margin-bottom:9px;">
+            <img src="https://www.carthage.edu/live/image/gid/{{n.image.gid}}/1/{{n.image.filename}}.{{n.image.extension}}" style="width:100px; margin-bottom:9px;">
             </a>
       </td>
       {% else %}
