@@ -41,6 +41,21 @@
   </table>
   {% endif %}
 {% endfor %}
+<h3>Athletics Events</h3>
+<table border="0" cellpadding="0" cellspacing="0">
+{% for e in events %}
+  <tr>
+    <td align="left" valign="top">
+      {% if data.static %}
+        <a href="{{e.get_absolute_url}}">{{e.title|safe}}</a>
+      {% else %}
+        <a href="{{e.get_absolute_url}}?utm_source=djtito&utm_medium=email&utm_term=bridge%2Bnewsletter&utm_content={{n.headline|truncatechars:100|urlencode}}&utm_campaign=bridge_newsletter_{{data.now|date:'Y-m-d'}}">{{e.title|safe}}</a>
+      {% endif %}
+      <strong>[{{e.date_dt}}]</strong>
+    </td>
+  </tr>
+{% endfor %}
+</table>
 <h3>
   <a style="color:#800"
     href="https://www.carthage.edu/calendar/#view/month">
