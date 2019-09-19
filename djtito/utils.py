@@ -30,7 +30,7 @@ def fetch_news(days=None):
 
     news = None
     # todays numeric value
-    day = NOW.strftime("%w")
+    day = NOW.strftime('%w')
     # default number of days within which to fetch stories
     # is 4, unless wed or fri or we pass a value to this method
     if not days:
@@ -61,23 +61,23 @@ def send_newsletter(send, data):
 
     NOW  = datetime.datetime.now()
     # mail stuff
-    if send=="y":
+    if send=='y':
         BCC = settings.NEWSLETTER_TO_LIST
-        TO_LIST = ["bridge@carthage.edu",]
+        TO_LIST = ['bridge@carthage.edu',]
     else:
         BCC = settings.MANAGERS
         TO_LIST = settings.NEWSLETTER_TO_LIST_TEST
 
-    FROM = "Carthage Bridge <bridge@carthage.edu>"
+    FROM = 'Carthage Bridge <bridge@carthage.edu>'
     subject = "[The Bridge] News & Events: {}".format(
-        NOW.strftime("%A, %B %d, %Y")
+        NOW.strftime('%A, %B %d, %Y')
     )
 
     # send mail
     request = None
     send_mail(
         request, TO_LIST, subject, FROM,
-        "newsletter/email.html", data, BCC
+        'newsletter/email.html', data, BCC
     )
 
     return data
@@ -87,36 +87,36 @@ def create_archive(data):
 
     NOW  = datetime.datetime.now()
     # suffix for file names
-    suffix = NOW.strftime("%m_%d")
+    suffix = NOW.strftime('%m_%d')
     # path to current directory
-    path = "{}{}{}".format(
+    path = '{}{}{}'.format(
         settings.STATIC_ROOT, settings.ARCHIVES_DIR, NOW.year
     )
     # fetch the banner image
-    phile = "{}.jpg".format(suffix)
-    sendero = "{}/{}".format(path, phile)
+    phile = '{}.jpg'.format(suffix)
+    sendero = '{}/{}'.format(path, phile)
     banner = urllib.FancyURLopener()
     banner.retrieve(settings.BRIDGE_NEWSLETTER_BANNER, sendero)
-    data["banner"] = "https://{}{}{}{}/{}".format(
+    data['banner'] = 'https://{}{}{}{}/{}'.format(
         settings.SERVER_URL, settings.STATIC_URL, settings.ARCHIVES_DIR,
         NOW.year, phile
     )
     # create path to static file
-    phile = "{}.html".format(suffix)
-    sendero = "{}/{}".format(path, phile)
-    permalink = "https://{}{}{}{}/{}".format(
+    phile = '{}.html'.format(suffix)
+    sendero = '{}/{}'.format(path, phile)
+    permalink = 'https://{}{}{}{}/{}'.format(
         settings.SERVER_URL, settings.STATIC_URL, settings.ARCHIVES_DIR,
         NOW.year, phile
     )
 
     # URL for 'read on website' link
-    data["permalink"] = permalink
+    data['permalink'] = permalink
     # used in analytics tracking at the template level
-    data["now"] = NOW
+    data['now'] = NOW
     # create static archive
     content = loader.render_to_string(
-        'newsletter/archives.html', {"data":data,}
-    ).encode("utf-8")
+        'newsletter/archives.html', {'data':data,}
+    ).encode('utf-8')
     with open(sendero, 'w') as static_file:
         static_file.write(content)
 
