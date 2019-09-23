@@ -9,6 +9,7 @@ from djtito.newsletter.forms import NewsletterForm
 from djwailer.core.models import LivewhaleEvents as Events
 from djtito.utils import create_archive, fetch_news, send_newsletter
 
+from djtools.fields import TODAY
 from djtools.decorators.auth import group_required
 
 import os
@@ -98,7 +99,9 @@ def manager(request):
     data = fetch_news(days=days)
     data['events'] = Events.objects.using('livewhale').filter(
         title__contains=' vs '
-    ).filter(date_dt__gt='2019-09-19').order_by('date_dt')[:10]
+    ).exclude(title__contains='JV').filter(
+        date_dt__gt=TODAY
+    ).order_by('date_dt')[:10]
     # prepare template for static URLs without Analytics tracking
     data['static'] = True
     if request.POST:
