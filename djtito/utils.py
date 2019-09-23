@@ -29,7 +29,7 @@ def fetch_news(days=None):
     }
 
     news = None
-    # todays numeric value
+    # today's numeric value
     day = NOW.strftime('%w')
     # default number of days within which to fetch stories
     # is 4, unless wed or fri or we pass a value to this method
