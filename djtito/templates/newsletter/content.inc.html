@@ -54,7 +54,7 @@
       {% else %}
         <a href="{{e.get_absolute_url}}?utm_source=djtito&utm_medium=email&utm_term=bridge%2Bnewsletter&utm_content={{e.title|truncatechars:100|urlencode}}&utm_campaign=bridge_newsletter_{{data.now|date:'Y-m-d'}}">{{e.title|safe}}</a>
       {% endif %}
-      <strong>[{{e.date_dt}}]</strong>
+      <strong>[{{e.date_dt|date:"D, N j, Y, f a"}}]</strong>
     </td>
   </tr>
 {% endfor %}
