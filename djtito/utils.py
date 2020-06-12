@@ -18,6 +18,7 @@ def fetch_news(days=None):
 
     NOW  = datetime.datetime.now()
     TAGS = {
+        1498:['Dear Lake, We Miss You',[]],
         498:['News & Notices',[]],
         499:['Lectures & Presentations',[]],
         500:['Arts & Performances',[]],

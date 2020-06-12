@@ -1,3 +1,4 @@
+{% load livewhale_api %}
 <div id="bridge-newsletter">
 {% for h in data.news %}
   {% if h.1 %}
@@ -42,16 +43,12 @@
   {% endif %}
 {% endfor %}
 </table>
+{% get_lw_content as we_are blurbs 2978 %}
+<div id="lw_success">{{we_are.body|safe}}</div>
 <h3>
   <a style="color:#800"
     href="https://www.carthage.edu/calendar/#view/month">
     See the Carthage Calendar of Events
-  </a>
-</h3>
-<h3>
-  <a style="color:#800"
-    href="https://www.carthage.edu/careers/">
-    View current Carthage career opportunities
   </a>
 </h3>
 <h4>

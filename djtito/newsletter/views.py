@@ -1,21 +1,25 @@
-from django.conf import settings
-from django.contrib import messages
-from django.core.urlresolvers import reverse
-from django.shortcuts import render
-from django.template import RequestContext, loader
-from django.http import HttpResponseRedirect, HttpResponse
-
-from djtito.newsletter.forms import NewsletterForm
-from djwailer.core.models import LivewhaleEvents as Events
-from djtito.utils import create_archive, fetch_news, send_newsletter
-
-from djtools.fields import TODAY
-from djtools.decorators.auth import group_required
-
+import json
 import os
 import calendar
 import datetime
 import collections
+import requests
+
+from django.conf import settings
+from django.contrib import messages
+from django.core.cache import cache
+from django.core.urlresolvers import reverse
+from django.http import HttpResponseRedirect, HttpResponse
+from django.shortcuts import render
+from django.template import RequestContext, loader
+from django.utils.safestring import mark_safe
+from django.views.decorators.csrf import csrf_exempt
+
+from djtito.newsletter.forms import NewsletterForm
+from djtito.utils import create_archive, fetch_news, send_newsletter
+from djtools.fields import TODAY
+from djtools.decorators.auth import group_required
+from djwailer.core.models import LivewhaleEvents as Events
 
 
 def archives(request, year=None):
@@ -133,3 +137,27 @@ def manager(request):
         t.render({'data': data,'form':form,'days':days,}, request),
         content_type='text/html; charset=utf8'
     )
+
+
+@csrf_exempt
+@group_required(settings.STAFF_GROUP)
+def clear_cache(request, ctype='blurb'):
+    if request.is_ajax() and request.method == 'POST':
+        cid = request.POST.get('cid')
+        key = 'livewhale_{0}_{1}'.format(ctype, cid)
+        cache.delete(key)
+        timestamp = date_time = datetime.datetime.now().strftime("%Y-%m-%d_%H:%M:%S")
+        earl = '{}/live/{}/{}@JSON?cache={}'.format(
+            settings.LIVEWHALE_API_URL,ctype,cid,timestamp
+        )
+        try:
+            response = requests.get(earl, headers={'Cache-Control':'no-cache'})
+            text = json.loads(response.text)
+            cache.set(key, text)
+            content = mark_safe(text['body'])
+        except:
+            content = ''
+    else:
+        content = "Requires AJAX POST"
+
+    return HttpResponse(content, content_type='text/plain; charset=utf-8')

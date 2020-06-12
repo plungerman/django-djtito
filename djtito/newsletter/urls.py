@@ -12,6 +12,10 @@ urlpatterns = [
     url(
         r'^manager/$', views.manager, name='newsletter_manager'
     ),
+    # clear livewhale blurb cache via ajax post
+    url(
+        '^cache/(?P<ctype>[-\w]+)/clear/', views.clear_cache, name='clear_cache'
+    ),
     url(
         r'^$', RedirectView.as_view(url="/bridge/")
     ),
