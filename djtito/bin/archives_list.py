@@ -1,31 +1,22 @@
-# -*- coding: utf-8 -*-
-import os, sys
+# *- coding: utf-8 -*-
 
-# env
-sys.path.append('/usr/lib/python2.7/')
-sys.path.append('/usr/lib/python2.7/dist-packages/')
-sys.path.append('/usr/local/lib/python2.7/dist-packages/')
-sys.path.append('/data2/django_1.9/')
-sys.path.append('/data2/django_projects/')
-sys.path.append('/data2/django_third/')
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "djtito.settings")
-
-import os
-import django
 import argparse
-import datetime
 import calendar
 import collections
+import datetime
+import os
+import sys
 
-django.setup()
-
+import django
 from django.conf import settings
 
 from djtools.fields import NOW
 
-"""
-Create static html file from newsletter content
-"""
+
+# env
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'djtito.settings.shell')
+
+django.setup()
 
 # set up command-line options
 desc = """
@@ -37,58 +28,52 @@ desc = """
 parser = argparse.ArgumentParser(description=desc)
 
 parser.add_argument(
-    "-y", "--year",
+    '-y',
+    '--year',
     required=False,
     help="Year from which we want to display the archives.",
-    dest="year"
+    dest='year',
 )
 
+
 def main():
-
-    global year
-
-    if not year:
-        year = NOW.year
-
+    """Create static html file from newsletter content."""
     ad = settings.ARCHIVES_DIR
 
-    path = "{}{}{}".format(
-        settings.STATIC_ROOT, ad, year
-    )
+    path = '{0}{1}{2}'.format(settings.STATIC_ROOT, ad, year)
     dir_list = sorted(os.listdir(path))
     philes_dict = collections.OrderedDict()
-    m = None
+    month = None
     philes = []
-    for f in dir_list:
-        spliff = f.split('_')
-        if spliff[0] != m:
-            if m:
+    for phile in dir_list:
+        spliff = phile.split('_')
+        if spliff[0] != month:
+            if month:
                 philes_dict[month] = philes
             philes = []
-        m = spliff[0]
-        if "0" in m:
-            month = calendar.month_name[int(m[1:])]
-        path = "{}{}{}/{}".format(settings.STATIC_URL, ad, year, f)
+        month = spliff[0]
+        if '0' in month:
+            month = calendar.month_name[int(month[1:])]
+        path = '{0}{1}{2}/{3}'.format(settings.STATIC_URL, ad, year, phile)
         dayo = spliff[1].split('.')[0]
         date = datetime.datetime.strptime(
-            '{}-{}-{}'.format(year,spliff[0],dayo), '%Y-%m-%d'
+            '{0}-{1}-{2}'.format(year, spliff[0], dayo), '%Y-%m-%d',
         )
-        print date.strftime("%A")
-        philes.append({"dayo":dayo,"day":date.strftime("%A"), "path":path})
+        print(date.strftime('%A'))
+        philes.append({'dayo': dayo, 'day': date.strftime('%A'), 'path': path})
 
     if philes:
         philes_dict[month] = philes
 
-    print philes_dict
+    print(philes_dict)
 
 
-######################
-# shell command line
-######################
-
-if __name__ == "__main__":
+if __name__ == '__main__':
 
     args = parser.parse_args()
     year = args.year
+
+    if not year:
+        year = NOW.year
 
     sys.exit(main())
