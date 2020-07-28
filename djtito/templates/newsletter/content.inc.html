@@ -1,5 +1,7 @@
 {% load livewhale_api %}
 <div id="bridge-newsletter">
+{% get_lw_content as we_are blurbs 2978 %}
+<div id="lw_success">{{we_are.body|safe}}</div>
 {% for h in data.news %}
   {% if h.1 %}
     <h3>{{h.0}}</h3>
@@ -8,13 +10,13 @@
       <tr>
       {% if n.tag == 912 and n.image %}
       <td align="left" valign="top" width="110">
-            {% if data.static %}
-            <a href="{{n.get_absolute_url}}">
-            {% else %}
-            <a href="{{n.get_absolute_url}}?utm_source=djtito&utm_medium=email&utm_term=bridge%2Bnewsletter&utm_content={{n.headline|truncatechars:100|urlencode}}&utm_campaign=bridge_newsletter_{{data.now|date:'Y-m-d'}}">
-            {% endif %}
-            <img src="https://www.carthage.edu/live/image/gid/{{n.image.gid}}/1/{{n.image.filename}}.{{n.image.extension}}" style="width:100px; margin-bottom:9px;">
-            </a>
+        {% if data.static %}
+        <a href="{{n.get_absolute_url}}">
+        {% else %}
+        <a href="{{n.get_absolute_url}}?utm_source=djtito&utm_medium=email&utm_term=bridge%2Bnewsletter&utm_content={{n.headline|truncatechars:100|urlencode}}&utm_campaign=bridge_newsletter_{{data.now|date:'Y-m-d'}}">
+        {% endif %}
+        <img src="https://www.carthage.edu/live/image/gid/{{n.image.gid}}/1/{{n.image.filename}}.{{n.image.extension}}" style="width:100px; margin-bottom:9px;">
+        </a>
       </td>
       {% else %}
       <td align="left" valign="top">
@@ -43,8 +45,6 @@
   {% endif %}
 {% endfor %}
 </table>
-{% get_lw_content as we_are blurbs 2978 %}
-<div id="lw_success">{{we_are.body|safe}}</div>
 <h3>
   <a style="color:#800"
     href="https://www.carthage.edu/calendar/#view/month">
