@@ -1,7 +1,6 @@
 {% load livewhale_api %}
+{% get_lw_content as stay_safe blurbs 2978 %}
 <div id="bridge-newsletter">
-{% get_lw_content as we_are blurbs 2978 %}
-<div id="lw_success">{{we_are.body|safe}}</div>
 {% for h in data.news %}
   {% if h.1 %}
     <h3>{{h.0}}</h3>
@@ -40,6 +39,13 @@
         {% endif %}
       </td>
       </tr>
+      {% if n.tag == 912 and n.image %}
+      <tr>
+      <td>
+        <div id="lw_success">{{stay_safe.body|safe}}</div>
+      </td>
+      </tr>
+      {% endif %}
     {% endfor %}
   </table>
   {% endif %}
