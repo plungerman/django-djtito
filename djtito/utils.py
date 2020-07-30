@@ -2,7 +2,7 @@
 
 import collections
 import datetime
-import urllib
+import requests
 
 from django.conf import settings
 from django.template import loader
@@ -108,8 +108,9 @@ def create_archive(content_dict):
     # fetch the banner image
     phile = '{0}.jpg'.format(suffix)
     sendero = '{0}/{1}'.format(path, phile)
-    banner = urllib.FancyURLopener()
-    banner.retrieve(settings.BRIDGE_NEWSLETTER_BANNER, sendero)
+    req = requests.get(settings.BRIDGE_NEWSLETTER_BANNER)
+    with open(sendero, 'wb') as banner:
+        banner.write(req.content)
     content_dict['banner'] = 'https://{0}{1}{2}{3}/{4}'.format(
         settings.SERVER_URL,
         settings.STATIC_URL,
