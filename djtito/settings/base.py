@@ -19,15 +19,16 @@ USE_I18N = False
 USE_L10N = False
 USE_TZ = True
 # 13 Feb 2014
-DEFAULT_CHARSET = 'latin1'
-FILE_CHARSET = 'latin1'
+#DEFAULT_CHARSET = 'latin1'
+#FILE_CHARSET = 'latin1'
 # commented out prior to 13 Feb 2014
-# DEFAULT_CHARSET = 'utf-8'
-# FILE_CHARSET = 'utf-8'
+DEFAULT_CHARSET = 'utf-8'
+FILE_CHARSET = 'utf-8'
 SERVER_URL = ''
 API_URL = '{0}/{1}'.format(SERVER_URL, 'api')
 LIVEWHALE_API_URL = 'https://{0}'.format(SERVER_URL)
-ROOT_URL = "/djtito/"
+#ROOT_URL = "/djtito/"
+ROOT_URL = "/"
 BRIDGE_URL = "/bridge/"
 ROOT_URLCONF = 'djtito.urls'
 WSGI_APPLICATION = 'djtito.wsgi.application'
@@ -79,9 +80,12 @@ INSTALLED_APPS = (
     'djtito',
     'djtito.newsletter',
     'djtools',
-    'djwailer.core',
+    # honeypot for admin attacks
+    'admin_honeypot',
+    # sign in as a user
+    'loginas',
 )
-MIDDLEWARE_CLASSES = (
+MIDDLEWARE = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',

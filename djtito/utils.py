@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.template import RequestContext, loader
 
-from djwailer.core.models import LivewhaleNews as News
+from djtito.models import LivewhaleNews as News
 from djtools.utils.mail import send_mail
 
 import datetime
