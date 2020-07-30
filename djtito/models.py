@@ -14,7 +14,7 @@ CATEGORIES = (
     ('', '---------'),
     ('498', 'News & Notices'),
     ('499', 'Lectures & Presentations'),
-    ('1498', 'Dear Lake, We Miss You'),
+    ('1523', '#StaySafeCarthage'),
     ('500', 'Arts & Performances'),
     ('477', 'Kudos'),
     ('501', 'Faculty & Staff News'),
@@ -30,6 +30,7 @@ SLUGS = {
     501:'faculty-staff-news',
     502:'students/news',
     504:'technology',
+    1523: 'StaySafeCarthage',
 }
 
 BRIDGE_URL = settings.BRIDGE_URL

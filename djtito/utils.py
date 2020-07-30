@@ -1,37 +1,41 @@
-from django.conf import settings
-from django.template import RequestContext, loader
+# -*- coding: utf-8 -*-
 
-from djtito.models import LivewhaleNews as News
-from djtools.utils.mail import send_mail
-
+import collections
 import datetime
 import urllib
+
+from django.conf import settings
+from django.template import loader
+from djtito.models import LivewhaleNews as News
+from djtools.utils.mail import send_mail
 
 
 def fetch_news(days=None):
     """
+    Obtain the news items from the CMS database.
+
     1 Monday's Bridge newsletter includes everything posted on & since Friday.
     3 Wednesday's newsletter includes everything posted on and since Monday.
     5 Friday's newsletter includes everything posted on and since Wednesday.
     """
-
-
-    NOW  = datetime.datetime.now()
-    TAGS = {
-        1498:['Dear Lake, We Miss You',[]],
-        498:['News & Notices',[]],
-        499:['Lectures & Presentations',[]],
-        500:['Arts & Performances',[]],
-        477:['Kudos',[]],
-        501:['Faculty & Staff News',[]],
-        502:['Student News',[]],
-        504:['Library & Technology',[]],
-        912:['Top Bridge Stories',[]]
-    }
+    now = datetime.datetime.now()
+    tags = collections.OrderedDict(
+        {
+            912: ['Top Bridge Stories', []],
+            1523: ['#StaySafeCarthage', []],
+            498: ['News & Notices', []],
+            499: ['Lectures & Presentations', []],
+            500: ['Arts & Performances', []],
+            477: ['Kudos', []],
+            501: ['Faculty & Staff News', []],
+            502: ['Student News', []],
+            504: ['Library & Technology', []],
+        },
+    )
 
     news = None
     # today's numeric value
-    day = NOW.strftime('%w')
+    day = now.strftime('%w')
     # default number of days within which to fetch stories
     # is 4, unless wed or fri or we pass a value to this method
     if not days:
@@ -40,85 +44,98 @@ def fetch_news(days=None):
         else:
             days = 4
 
-    past = NOW - datetime.timedelta(days=int(days))
+    past = now - datetime.timedelta(days=int(days))
     # fetch the news
     news = News.objects.using('livewhale').filter(
-        gid=settings.BRIDGE_GROUP
-    ).filter(status=1).filter(date_dt__lte=NOW).filter(
-        is_archived__isnull=True
+        gid=settings.BRIDGE_GROUP,
+    ).filter(status=1).filter(date_dt__lte=now).filter(
+        is_archived__isnull=True,
     ).exclude(date_dt__lte=past)
 
-    for n in news:
-        tid = n.tag(jid=True)
+    for new in news:
+        tid = new.tag(jid=True)
+        new.headline = new.headline.decode('utf-8')
+        new.phile = '{0}.{1}'.format(
+            new.image().filename.decode('utf-8'),
+            new.image().extension.decode('utf-8'),
+        )
         if tid:
-            TAGS[tid][1].append(n)
+            tags[tid][1].append(new)
     news = []
-    for t in TAGS:
-        news.append(TAGS[t])
-    return {'news':news}
+    for tag in tags:
+        news.append(tags[tag])
+    return {'news': news}
 
 
 def send_newsletter(send, data):
-
-    NOW  = datetime.datetime.now()
+    """Send the bridge newsletter."""
     # mail stuff
-    if send=='y':
-        BCC = settings.NEWSLETTER_TO_LIST
-        TO_LIST = ['bridge@carthage.edu',]
+    if send == 'y':
+        bcc = settings.NEWSLETTER_TO_LIST
+        to_list = ['bridge@carthage.edu']
     else:
-        BCC = settings.MANAGERS
-        TO_LIST = settings.NEWSLETTER_TO_LIST_TEST
+        bcc = settings.MANAGERS
+        to_list = settings.NEWSLETTER_TO_LIST_TEST
 
-    FROM = 'Carthage Bridge <bridge@carthage.edu>'
-    subject = "[The Bridge] News & Events: {}".format(
-        NOW.strftime('%A, %B %d, %Y')
+    phrum = 'Carthage Bridge <bridge@carthage.edu>'
+    subject = "[The Bridge] News & Events: {0}".format(
+        datetime.datetime.now().strftime('%A, %B %d, %Y'),
     )
 
     # send mail
     request = None
     send_mail(
-        request, TO_LIST, subject, FROM,
-        'newsletter/email.html', data, BCC
+        request,
+        to_list,
+        subject,
+        phrum,
+        'newsletter/email.html',
+        data,
+        bcc,
     )
-
     return data
 
 
-def create_archive(data):
-
-    NOW  = datetime.datetime.now()
+def create_archive(content_dict):
+    """Create the archived file for each newsletter."""
+    NOW = datetime.datetime.now()
     # suffix for file names
     suffix = NOW.strftime('%m_%d')
     # path to current directory
-    path = '{}{}{}'.format(
-        settings.STATIC_ROOT, settings.ARCHIVES_DIR, NOW.year
+    path = '{0}{1}{2}'.format(
+        settings.STATIC_ROOT, settings.ARCHIVES_DIR, NOW.year,
     )
     # fetch the banner image
-    phile = '{}.jpg'.format(suffix)
-    sendero = '{}/{}'.format(path, phile)
+    phile = '{0}.jpg'.format(suffix)
+    sendero = '{0}/{1}'.format(path, phile)
     banner = urllib.FancyURLopener()
     banner.retrieve(settings.BRIDGE_NEWSLETTER_BANNER, sendero)
-    data['banner'] = 'https://{}{}{}{}/{}'.format(
-        settings.SERVER_URL, settings.STATIC_URL, settings.ARCHIVES_DIR,
-        NOW.year, phile
+    content_dict['banner'] = 'https://{0}{1}{2}{3}/{4}'.format(
+        settings.SERVER_URL,
+        settings.STATIC_URL,
+        settings.ARCHIVES_DIR,
+        NOW.year,
+        phile,
     )
     # create path to static file
-    phile = '{}.html'.format(suffix)
-    sendero = '{}/{}'.format(path, phile)
-    permalink = 'https://{}{}{}{}/{}'.format(
-        settings.SERVER_URL, settings.STATIC_URL, settings.ARCHIVES_DIR,
-        NOW.year, phile
+    phile = '{0}.html'.format(suffix)
+    sendero = '{0}/{1}'.format(path, phile)
+    permalink = 'https://{0}{1}{2}{3}/{4}'.format(
+        settings.SERVER_URL,
+        settings.STATIC_URL,
+        settings.ARCHIVES_DIR,
+        NOW.year,
+        phile,
     )
-
     # URL for 'read on website' link
-    data['permalink'] = permalink
+    content_dict['permalink'] = permalink
     # used in analytics tracking at the template level
-    data['now'] = NOW
+    content_dict['now'] = NOW
     # create static archive
-    content = loader.render_to_string(
-        'newsletter/archives.html', {'data':data,}
-    ).encode('utf-8')
+    newsletter = loader.render_to_string(
+        'newsletter/archives.html', {'data': content_dict},
+    )
     with open(sendero, 'w') as static_file:
-        static_file.write(content)
+        static_file.write(newsletter)
 
-    return data
+    return content_dict
