@@ -26,10 +26,10 @@ def fetch_news(days=None):
             498: ['News & Notices', []],
             499: ['Lectures & Presentations', []],
             500: ['Arts & Performances', []],
-            477: ['Kudos', []],
             501: ['Faculty & Staff News', []],
             502: ['Student News', []],
             504: ['Library & Technology', []],
+            477: ['Kudos', []],
         },
     )
 
