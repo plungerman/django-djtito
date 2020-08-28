@@ -55,10 +55,13 @@ def fetch_news(days=None):
     for new in news:
         tid = new.tag(jid=True)
         new.headline = new.headline.decode('utf-8')
-        new.phile = '{0}.{1}'.format(
-            new.image().filename.decode('utf-8'),
-            new.image().extension.decode('utf-8'),
-        )
+        if new.image():
+            new.phile = '{0}.{1}'.format(
+                new.image().filename.decode('utf-8'),
+                new.image().extension.decode('utf-8'),
+            )
+        else:
+            new.phile = None
         if tid:
             tags[tid][1].append(new)
     news = []
