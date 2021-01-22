@@ -22,8 +22,8 @@ USE_TZ = True
 DEFAULT_CHARSET = 'latin1'
 FILE_CHARSET = 'latin1'
 # commented out prior to 13 Feb 2014
-#DEFAULT_CHARSET = 'utf-8'
-#FILE_CHARSET = 'utf-8'
+# DEFAULT_CHARSET = 'utf-8'
+# FILE_CHARSET = 'utf-8'
 SERVER_URL = ''
 API_URL = '{0}/{1}'.format(SERVER_URL, 'api')
 LIVEWHALE_API_URL = 'https://{0}'.format(SERVER_URL)
@@ -127,16 +127,18 @@ LDAP_OBJECT_CLASS = ''
 LDAP_GROUPS = None
 LDAP_RETURN = ()
 LDAP_ID_ATTR = ''
+LDAP_VALID_ATTR = []
 LDAP_AUTH_USER_PK = False
 LDAP_EMAIL_DOMAIN = ''
 LDAP_OBJECT_CLASS_LIST = []
+LDAP_GROUP_ATTR = ''
 LDAP_GROUPS = {}
 LDAP_RETURN = []
 LDAP_ID_ATTR = ''
 LDAP_AUTH_USER_PK = False
 # auth backends
 AUTHENTICATION_BACKENDS = (
-    'djauth.ldapBackend.LDAPBackend',
+    'djauth.backends.LDAPBackend',
     'django.contrib.auth.backends.ModelBackend',
 )
 LOGIN_URL = '{0}accounts/login/'.format(ROOT_URL)
@@ -203,10 +205,8 @@ LOGGING = {
     'handlers': {
         'logfile': {
             'level': 'DEBUG',
-            'class': 'logging.handlers.RotatingFileHandler',
+            'class': 'logging.FileHandler',
             'filename': LOG_FILENAME,
-            'maxBytes': 50000,
-            'backupCount': 2,
             'formatter': 'standard',
         },
         'console': {
@@ -252,9 +252,9 @@ LOGGING = {
             'formatter': 'verbose',
         },
         'djauth': {
+            'level': 'DEBUG',
             'handlers': ['logfile'],
             'propagate': True,
-            'level': 'DEBUG',
         },
         'django': {
             'handlers': ['console'],
