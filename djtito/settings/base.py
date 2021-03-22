@@ -19,8 +19,8 @@ USE_I18N = False
 USE_L10N = False
 USE_TZ = True
 # 13 Feb 2014
-DEFAULT_CHARSET = 'latin1'
-FILE_CHARSET = 'latin1'
+#DEFAULT_CHARSET = 'latin1'
+#FILE_CHARSET = 'latin1'
 # commented out prior to 13 Feb 2014
 # DEFAULT_CHARSET = 'utf-8'
 # FILE_CHARSET = 'utf-8'
@@ -64,7 +64,6 @@ DATABASES = {
         'USER': '',
         'PASSWORD': '',
         'OPTIONS': {'charset': 'latin1', 'use_unicode': False},
-        # 'OPTIONS': {'charset':'latin1','use_unicode':True,}
     },
 }
 INSTALLED_APPS = (
