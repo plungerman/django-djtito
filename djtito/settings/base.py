@@ -78,6 +78,7 @@ INSTALLED_APPS = (
     'djtito',
     'djtito.newsletter',
     'djtools',
+    'djwailer',
     # honeypot for admin attacks
     'admin_honeypot',
     # sign in as a user
