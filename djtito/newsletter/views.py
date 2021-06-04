@@ -105,16 +105,17 @@ def manager(request):
     # fetch our stories
     newsletter = fetch_news(days=days)
     # athletics events
-    today = datetime.date.today()
-    sports = Events.objects.using('livewhale').filter(
-        title__contains=' vs ',
-    ).exclude(title__contains='JV').filter(
-        date_dt__gt=today,
-    ).order_by('date_dt')[:10]
     events = []
-    for event in sports:
-        event.title = event.title.decode('utf-8')
-        events.append(event)
+    if settings.BRIDGE_EVENTS:
+        today = datetime.date.today()
+        sports = Events.objects.using('livewhale').filter(
+            title__contains=' vs ',
+        ).exclude(title__contains='JV').filter(
+            date_dt__gt=today,
+        ).order_by('date_dt')[:10]
+        for event in sports:
+            event.title = event.title.decode('utf-8')
+            events.append(event)
     newsletter['events'] = events
     # prepare template for static URLs without Analytics tracking
     newsletter['static'] = True
