@@ -6,7 +6,7 @@ import requests
 
 from django.conf import settings
 from django.template import loader
-from djtito.models import LivewhaleNews as News
+from djwailer.core.models import LivewhaleNews as News
 from djtools.utils.mail import send_mail
 
 
@@ -54,7 +54,10 @@ def fetch_news(days=None):
 
     for new in news:
         tid = new.tag(jid=True)
-        new.headline = new.headline.decode('utf-8')
+        try:
+            new.headline = new.headline.decode('utf-8')
+        except Exception:
+            new.headline = new.headline.decode('latin-1')
         if new.image():
             new.phile = '{0}.{1}'.format(
                 new.image().filename.decode('utf-8'),

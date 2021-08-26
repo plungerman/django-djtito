@@ -78,6 +78,7 @@ INSTALLED_APPS = (
     'djtito',
     'djtito.newsletter',
     'djtools',
+    'djwailer',
     # honeypot for admin attacks
     'admin_honeypot',
     # sign in as a user
@@ -171,6 +172,8 @@ BRIDGE_GROUP = 94
 BRIDGE_TOP_STORY_TAG = '912'
 BRIDGE_NEW_TAG = '988'
 BRIDGE_NEWSLETTER_BANNER = ''
+# set to False in production.py to turn athletics events off
+BRIDGE_EVENTS = True
 NEWSLETTER_TO_LIST = []
 NEWSLETTER_TO_LIST_TEST = []
 STAFF_GROUP = ''
