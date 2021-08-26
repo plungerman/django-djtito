@@ -3,17 +3,18 @@
 import calendar
 import collections
 import datetime
+import requests
 import json
 import os
 
 from django.conf import settings
 from django.contrib import messages
 from django.core.cache import cache
-from django.urls import reverse
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.template import loader
+from django.urls import reverse
 from django.utils.safestring import mark_safe
 from django.views.decorators.csrf import csrf_exempt
 from djtito.models import LivewhaleEvents as Events
@@ -22,8 +23,6 @@ from djtito.utils import create_archive
 from djtito.utils import fetch_news
 from djtito.utils import send_newsletter
 from djtools.decorators.auth import group_required
-
-import requests
 
 
 def archives(request, year=None):
