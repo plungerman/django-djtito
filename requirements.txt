@@ -1,10 +1,10 @@
 django==2.2.24
 python-memcached==1.59
-django-loginas==0.3.8
+django-loginas==0.3.10
 django-admin-honeypot==1.1.0
-pyodbc==4.0.28
-mysqlclient==1.4.6
-python-ldap==3.2.0
+pyodbc==4.0.32
+mysqlclient==2.0.3
+python-ldap==3.3.1
 pycryptodome==3.9.4
-requests==2.24.0
+requests==2.26.0
 wemake-python-styleguide==0.13.3
