@@ -1,5 +1,12 @@
 {% load livewhale_api %}
 {% get_lw_content as stay_safe blurbs 2978 %}
+{% if messages %}
+    {% for message in messages %}
+        <div{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+        {{ message }}
+        </div>
+    {% endfor %}
+{% endif %}
 <div id="bridge-newsletter">
 {% for h in data.news %}
   {% if h.1 %}

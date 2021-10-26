@@ -135,7 +135,9 @@ def manager(request):
                 days = '-d {0}'.format(days)
             newsletter['static'] = False
             newsletter = send_newsletter(send, newsletter)
-
+            messages.add_message(
+                request, messages.SUCCESS, 'Newsletter Sent', extra_tags='success',
+            )
             return HttpResponseRedirect(reverse('newsletter_manager'))
     else:
         form = NewsletterForm()

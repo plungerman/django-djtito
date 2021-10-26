@@ -6,5 +6,6 @@ pyodbc==4.0.32
 mysqlclient==2.0.3
 python-ldap==3.3.1
 pycryptodome==3.9.4
+cryptography==3.4.8
 requests==2.26.0
 wemake-python-styleguide==0.13.3
