@@ -1,10 +1,12 @@
 {% extends "base.html" %}
-{% block title %}
-{{data.now|date:"F j, Y"}} &mdash;
-Bridge &mdash;
-Newsletter &mdash;
-Archives &mdash;
-Carthage College
+{% block extra_style %}
+  {{block.super}}
+  <link href="//app.carthage.edu/themes/shared/css/icons.css"
+    type="text/css" rel="stylesheet">
+  <link href="//app.carthage.edu/themes/shared/css/forms.css"
+    rel="stylesheet" type="text/css">
+  <link href="//app.carthage.edu/themes/shared/css/tables.css"
+    rel="stylesheet" type="text/css">
 {% endblock %}
 {% block left_nav %}
 <ul>
@@ -18,14 +20,7 @@ Carthage College
   </li>
 </ul>
 {% endblock %}
-{% block content_head %}
-  <h1 id="page_title">{{data.now|date:"F j, Y"}}</h1>
-{% endblock %}
 {% block breadcrumb %}
   <li><a href="/bridge/">Bridge</a></li>
   <li><a href="/bridge/newsletter-archive/" aria-current="page">Newsletter Archive</a></li>
-{% endblock %}
-{% block content %}
-  <p><img src="{{data.banner}}"></p>
-  {% include "newsletter/content.inc.html" %}
 {% endblock %}

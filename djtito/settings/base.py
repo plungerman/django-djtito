@@ -96,10 +96,10 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            '/data2/django_projects/djtito/templates/',
+            os.path.join(BASE_DIR, 'templates'),
             '/data2/django_templates/djkatara/',
+            #'/data2/django_templates/djkali/',
             '/data2/django_templates/djcher/',
-            '/data2/django_templates/django-djskins/',
             '/data2/livewhale/includes/',
         ],
         'APP_DIRS': True,

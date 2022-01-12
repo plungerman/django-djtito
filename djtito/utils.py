@@ -62,6 +62,8 @@ def fetch_news(days=None):
             new.phile = '{0}.{1}'.format(
                 new.image().filename.decode('utf-8'),
                 new.image().extension.decode('utf-8'),
+                #new.image().filename,
+                #new.image().extension,
             )
         else:
             new.phile = None
