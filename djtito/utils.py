@@ -54,16 +54,10 @@ def fetch_news(days=None):
 
     for new in news:
         tid = new.tag(jid=True)
-        try:
-            new.headline = new.headline.decode('utf-8')
-        except Exception:
-            new.headline = new.headline.decode('latin-1')
         if new.image():
             new.phile = '{0}.{1}'.format(
-                new.image().filename.decode('utf-8'),
-                new.image().extension.decode('utf-8'),
-                #new.image().filename,
-                #new.image().extension,
+                new.image().filename,
+                new.image().extension,
             )
         else:
             new.phile = None

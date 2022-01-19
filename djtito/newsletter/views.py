@@ -113,7 +113,6 @@ def manager(request):
             date_dt__gt=today,
         ).order_by('date_dt')[:10]
         for event in sports:
-            event.title = event.title.decode('utf-8')
             events.append(event)
     newsletter['events'] = events
     # prepare template for static URLs without Analytics tracking
