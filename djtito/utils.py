@@ -21,15 +21,13 @@ def fetch_news(days=None):
     now = datetime.datetime.now()
     tags = collections.OrderedDict(
         {
-            912: ['Top Bridge Stories', []],
-            1523: ['#StaySafeCarthage', []],
-            498: ['News & Notices', []],
-            499: ['Lectures & Presentations', []],
-            500: ['Arts & Performances', []],
-            501: ['Faculty & Staff News', []],
-            502: ['Student News', []],
-            504: ['Library & Technology', []],
-            477: ['Kudos', []],
+            12: ['Arts', []],
+            13: ['Campus News', []],
+            14: ['Kudos', []],
+            15: ['Lectures & Presentations', []],
+            16: ['News for Faculty & Staff', []],
+            17: ['News for Students', []],
+            18: ['Technology', []],
         },
     )
 
