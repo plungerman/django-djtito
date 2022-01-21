@@ -17,12 +17,12 @@ from django.template import loader
 from django.urls import reverse
 from django.utils.safestring import mark_safe
 from django.views.decorators.csrf import csrf_exempt
+from djtito.core.models import LivewhaleEvents as Events
 from djtito.newsletter.forms import NewsletterForm
 from djtito.utils import create_archive
 from djtito.utils import fetch_news
 from djtito.utils import send_newsletter
 from djtools.decorators.auth import group_required
-from djwailer.core.models import LivewhaleEvents as Events
 
 
 def archives(request, year=None):

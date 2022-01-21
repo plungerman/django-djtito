@@ -6,7 +6,7 @@ import requests
 
 from django.conf import settings
 from django.template import loader
-from djwailer.core.models import LivewhaleNews as News
+from djtito.core.models import LivewhaleNews as News
 from djtools.utils.mail import send_mail
 
 
@@ -19,7 +19,7 @@ def fetch_news(days=None):
     5 Friday's newsletter includes everything posted on and since Wednesday.
     """
     now = datetime.datetime.now()
-    tags = collections.OrderedDict(
+    cats = collections.OrderedDict(
         {
             12: ['Arts', []],
             13: ['Campus News', []],
@@ -51,7 +51,7 @@ def fetch_news(days=None):
     ).exclude(date_dt__lte=past)
 
     for new in news:
-        tid = new.tag(jid=True)
+        kid = new.tag()
         if new.image():
             new.phile = '{0}.{1}'.format(
                 new.image().filename,
@@ -60,10 +60,10 @@ def fetch_news(days=None):
         else:
             new.phile = None
         if tid:
-            tags[tid][1].append(new)
+            cats[tid][1].append(new)
     news = []
-    for tag in tags:
-        news.append(tags[tag])
+    for cat in cats:
+        news.append(cats[cat])
     return {'news': news}
 
 
