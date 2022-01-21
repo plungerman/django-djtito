@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import collections
 import datetime
 
 from django.conf import settings
@@ -15,15 +16,19 @@ SSL = {
     'key': '/d2/www/certs/mysql/titan.carthage.edu/client-key.pem'
 }
 
-# livewhale_news_categories2any
-def get_cat(nid):
-    try:
-        cid  = LivewhaleTags2Any.objects.using(
-            'livewhale'
-        ).filter(id2=nid).filter(type="news").filter(id1__in=tags_list())[0].id1
-        return cid
-    except Exception as error:
-        return ""
+CATEGORIES = collections.OrderedDict(
+    {
+        1: ['Top Stories', []],
+        13: ['Campus News', []],
+        15: ['Lectures & Presentations', []],
+        16: ['News for Faculty & Staff', []],
+        17: ['News for Students', []],
+        12: ['Arts', []],
+        18: ['Technology', []],
+        14: ['Kudos', []],
+    },
+)
+
 
 class LivewhaleActivity(models.Model):
     gid = models.IntegerField()
@@ -730,10 +735,11 @@ class LivewhaleImages(models.Model):
     is_starred = models.IntegerField(blank=True, null=True)
     date = models.CharField(max_length=255)
     date_dt = models.DateTimeField()
-    collection_id = models.IntegerField(blank=True, null=True)
     is_archived = models.CharField(max_length=1, blank=True, null=True)
     last_accessed = models.DateTimeField()
     is_decoration = models.IntegerField(blank=True, null=True)
+    licensing = models.CharField(max_length=500, blank=True, null=True)
+    hash = models.CharField(max_length=32, blank=True, null=True)
 
     class Meta:
         managed = False
@@ -823,7 +829,6 @@ class LivewhaleModules(models.Model):
         managed = False
         db_table = 'livewhale_modules'
 
-
 class LivewhaleNews(models.Model):
     gid = models.IntegerField(default=settings.BRIDGE_GROUP)
     suggested = models.CharField(max_length=500, blank=True, null=True, default=None)
@@ -836,7 +841,7 @@ class LivewhaleNews(models.Model):
     date_dt = models.DateTimeField(auto_now_add=True)
     body = models.TextField(blank=True, null=True)
     contact_info = models.CharField(max_length=1000, blank=True, null=True)
-    rank = models.IntegerField(default=0)
+    balloons = models.IntegerField(default=0)
     date_created = models.DateTimeField(auto_now_add=True)
     last_modified = models.DateTimeField(auto_now=True)
     last_user = models.IntegerField(default=settings.BRIDGE_USER)
@@ -852,6 +857,9 @@ class LivewhaleNews(models.Model):
     is_shared = models.IntegerField(blank=True, null=True)
     views = models.IntegerField(blank=True, null=True)
     languages = models.CharField(max_length=255, blank=True, null=True)
+    is_draft = models.IntegerField(blank=True, null=True)
+    draft_parent = models.IntegerField(blank=True, null=True)
+    draft_approval = models.IntegerField(blank=True, null=True)
 
     class Meta:
         managed = False
@@ -864,7 +872,14 @@ class LivewhaleNews(models.Model):
         return "https://www.carthage.edu/live/news/{0}/".format(self.id)
 
     def cat(self):
-        return get_cat(self.id)
+        cats = list(CATEGORIES.keys())
+        try:
+            cid  = LivewhaleNewsCategories2Any.objects.using(
+                'livewhale'
+                ).filter(id2=self.id).filter(id1__in=cats)[0].id1
+            return cid
+        except Exception as error:
+            return ''
 
     def image(self):
         foto = None
@@ -967,6 +982,32 @@ class LivewhaleNews2Any(models.Model):
     class Meta:
         managed = False
         db_table = 'livewhale_news2any'
+        unique_together = (('id1', 'id2', 'type'),)
+
+
+class LivewhaleNewsCategories(models.Model):
+    gid = models.IntegerField(blank=True, null=True)
+    title = models.CharField(max_length=255)
+    date_created = models.DateTimeField(blank=True, null=True)
+    last_modified = models.DateTimeField(blank=True, null=True)
+    last_user = models.IntegerField()
+    created_by = models.IntegerField(blank=True, null=True)
+    last_user = models.IntegerField()
+    auto_authorize = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'livewhale_news_categories'
+
+
+class LivewhaleNewsCategories2Any(models.Model):
+    id1 = models.IntegerField(primary_key=True)
+    id2 = models.IntegerField()
+    type = models.CharField(max_length=255)
+
+    class Meta:
+        managed = False
+        db_table = 'livewhale_news_categories2any'
         unique_together = (('id1', 'id2', 'type'),)
 
 

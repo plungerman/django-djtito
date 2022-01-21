@@ -1,13 +1,23 @@
 # -*- coding: utf-8 -*-
 
-import collections
 import datetime
 import requests
 
 from django.conf import settings
 from django.template import loader
+from djtito.core.models import CATEGORIES
 from djtito.core.models import LivewhaleNews as News
 from djtools.utils.mail import send_mail
+
+
+def get_cat(nid):
+    try:
+        cid  = LivewhaleNewsCategories2Any.objects.using(
+            'livewhale'
+        ).filter(id2=nid).filter(id1__in=list(CATEGORIES.keys()))[0].id1
+        return cid
+    except Exception as error:
+        return ""
 
 
 def fetch_news(days=None):
@@ -19,18 +29,6 @@ def fetch_news(days=None):
     5 Friday's newsletter includes everything posted on and since Wednesday.
     """
     now = datetime.datetime.now()
-    cats = collections.OrderedDict(
-        {
-            12: ['Arts', []],
-            13: ['Campus News', []],
-            14: ['Kudos', []],
-            15: ['Lectures & Presentations', []],
-            16: ['News for Faculty & Staff', []],
-            17: ['News for Students', []],
-            18: ['Technology', []],
-        },
-    )
-
     news = None
     # today's numeric value
     day = now.strftime('%w')
@@ -51,7 +49,7 @@ def fetch_news(days=None):
     ).exclude(date_dt__lte=past)
 
     for new in news:
-        kid = new.tag()
+        kid = new.cat()
         if new.image():
             new.phile = '{0}.{1}'.format(
                 new.image().filename,
@@ -59,11 +57,11 @@ def fetch_news(days=None):
             )
         else:
             new.phile = None
-        if tid:
-            cats[tid][1].append(new)
+        if kid:
+            CATEGORIES[kid][1].append(new)
     news = []
-    for cat in cats:
-        news.append(cats[cat])
+    for cat in CATEGORIES:
+        news.append(CATEGORIES[cat])
     return {'news': news}
 
 
