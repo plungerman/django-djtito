@@ -10,16 +10,6 @@ from djtito.core.models import LivewhaleNews as News
 from djtools.utils.mail import send_mail
 
 
-def get_cat(nid):
-    try:
-        cid  = LivewhaleNewsCategories2Any.objects.using(
-            'livewhale'
-        ).filter(id2=nid).filter(id1__in=list(CATEGORIES.keys()))[0].id1
-        return cid
-    except Exception as error:
-        return ""
-
-
 def fetch_news(days=None):
     """
     Obtain the news items from the CMS database.
