@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import copy
 import datetime
 import requests
 
@@ -18,6 +19,7 @@ def fetch_news(days=None):
     3 Wednesday's newsletter includes everything posted on and since Monday.
     5 Friday's newsletter includes everything posted on and since Wednesday.
     """
+    cats = copy.deepcopy(CATEGORIES)
     now = datetime.datetime.now()
     news = None
     # today's numeric value
@@ -48,10 +50,10 @@ def fetch_news(days=None):
         else:
             new.phile = None
         if kid:
-            CATEGORIES[kid][1].append(new)
+            cats[kid][1].append(new)
     news = []
-    for cat in CATEGORIES:
-        news.append(CATEGORIES[cat])
+    for cat in cats:
+        news.append(cats[cat])
     return {'news': news}
 
 

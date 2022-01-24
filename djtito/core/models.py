@@ -11,19 +11,14 @@ from djtools.utils.database import mysql_db
 from djtools.utils.users import in_group
 
 
-SSL = {
-    'cert': '/d2/www/certs/mysql/titan.carthage.edu/client-cert.pem',
-    'key': '/d2/www/certs/mysql/titan.carthage.edu/client-key.pem'
-}
-
 CATEGORIES = collections.OrderedDict(
     {
         1: ['Top Stories', []],
         13: ['Campus News', []],
         15: ['Lectures & Presentations', []],
+        12: ['Arts', []],
         16: ['News for Faculty & Staff', []],
         17: ['News for Students', []],
-        12: ['Arts', []],
         18: ['Technology', []],
         14: ['Kudos', []],
     },
@@ -357,60 +352,6 @@ class LivewhaleEvents(models.Model):
 
     def get_absolute_url(self):
         return "https://www.carthage.edu/live/events/{}/".format(self.id)
-
-    def save(self, data=None, *args, **kwargs):
-        self.title = strip_tags(self.title)
-        self.summary = strip_tags(self.summary)
-        self.description = self.description
-        self.location = strip_tags(self.location)
-
-        if data:
-            u = data["user"]
-            # date munging
-            if data['start_time']:
-                self.date_dt = datetime.datetime.combine(data['start_date'],data['start_time'])
-            else:
-                self.date_dt = data['start_date']
-            if data['end_time']:
-                self.date2_dt = datetime.datetime.combine(data['end_date'],data['end_time'])
-            else:
-                self.date2_dt = data['end_date']
-
-            # set contact info from request.user
-            self.contact_info = '''
-                <p>By:&nbsp;<a href="mailto:{}">{} {}</a></p>
-            '''.format(u.email, u.first_name, u.last_name)
-
-            if in_group(u, "carthageStaffStatus", "carthageFacultyStatus"):
-                self.status = 1
-            else: # student
-                self.status = 0
-        # save
-        super(LivewhaleEvents, self).save(*args, **kwargs)
-        """
-        We have to resort to MySQLdb since Django does not support
-        composite Foreign Keys
-        """
-        if data:
-            # tag
-            sql = """
-                INSERT INTO livewhale_tags2any
-                    (id1, id2, type)
-                VALUES
-                    ({}, {}, 'events')
-            """.format(data["category"],self.id)
-            #cursor = connection.cursor()
-            #cursor.execute(sql)
-            mysql_db(sql,db="livewhale",ssl=SSL)
-            # category
-            sql = """
-                INSERT INTO livewhale_events_categories2any
-                    (id1, id2, type)
-                VALUES
-                    ({}, {}, 'events')
-            """.format(30,self.id)
-            #cursor.execute(sql)
-            mysql_db(sql,db="livewhale",ssl=SSL)
 
 
 class LivewhaleEvents2Any(models.Model):
@@ -894,83 +835,6 @@ class LivewhaleNews(models.Model):
         ).filter(type="news").filter(
             id1=settings.BRIDGE_NEW_TAG
         )
-
-    def save(self, data=None, *args, **kwargs):
-        self.headline = strip_tags(self.headline)
-        self.summary = strip_tags(self.summary)
-        self.body = self.body
-
-        # dates
-        NOW  = datetime.datetime.now()
-        TODAY = datetime.date.today()
-        # set contact info from request.user
-        if data:
-            u = data["user"]
-            self.contact_info = '<p><a href="mailto:{}">{} {}</a></p>'.format(
-                u.email, u.first_name, u.last_name
-            )
-            if in_group(u, "carthageStaffStatus", "carthageFacultyStatus"):
-                self.status = 1
-            else: # student
-                self.status = 0
-        # save
-        super(LivewhaleNews, self).save(*args, **kwargs)
-
-        """
-        We have to resort to MySQLdb because:
-            a) livewhale uses UTC for events but not for news
-            b) Django does not support composite Foreign Keys
-        """
-        if data:
-            #cursor = connection.cursor()
-
-            # tag the category
-            sql = """
-                INSERT INTO livewhale_tags2any
-                    (id1, id2, type)
-                VALUES
-                    ({}, {}, 'news')
-            """.format(data["category"], self.id)
-            #cursor.execute(sql)
-            mysql_db(sql,db="livewhale",ssl=SSL)
-            # tag it "New"
-            sql = """
-                INSERT INTO livewhale_tags2any
-                    (id1, id2, type)
-                VALUES
-                    ({}, {}, 'news')
-            """.format(settings.BRIDGE_NEW_TAG, self.id)
-            mysql_db(sql,db="livewhale",ssl=SSL)
-
-            # set dates outside of django timezone aware ecosystem
-            # since livewhale does not use UTC for news items
-            if not self.views:
-                date = NOW.strftime("%m/%d/%Y")
-                date_dt = datetime.datetime.combine(
-                    TODAY, datetime.time()
-                )
-                sql = """
-                    UPDATE
-                        livewhale_news
-                    SET
-                        views = 1,
-                        date = "{}",
-                        date_dt = "{}",
-                        date_created = "{}",
-                        last_modified = "{}"
-                    WHERE
-                        id = {}
-                """.format(date, date_dt, NOW, NOW, self.id)
-            else:
-                sql = """
-                    UPDATE
-                        livewhale_news
-                    SET
-                        last_modified = "{}"
-                    WHERE
-                        id = {}
-                """.format(NOW, self.id)
-            mysql_db(sql,db="livewhale",ssl=SSL)
 
 
 class LivewhaleNews2Any(models.Model):
