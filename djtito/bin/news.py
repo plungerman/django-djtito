@@ -39,13 +39,12 @@ def main():
     ).exclude(date_dt__lte=past)
     for story in news:
         kid = story.cat()
-        print(kid)
-        #print(story)
         if story.image():
             story.phile = '{0}.{1}'.format(
                 story.image().filename,
                 story.image().extension,
             )
+            print(story.phile, story.cat())
         else:
             story.phile = None
         if kid:
@@ -54,7 +53,7 @@ def main():
     for cat in cats:
         news.append(cats[cat])
 
-    print(news)
+    #print(news)
 
 
 if __name__ == '__main__':

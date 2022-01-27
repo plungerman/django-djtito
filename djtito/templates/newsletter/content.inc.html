@@ -14,7 +14,7 @@
     <table border="0" cellpadding="0" cellspacing="0">
     {% for n in h.1 %}
       <tr>
-      {% if n.tag == 912 and n.image %}
+      {% if n.cat == 1 and n.image %}
       <td align="left" valign="top" width="110">
         {% if data.static %}
         <a href="{{n.get_absolute_url}}">
@@ -26,7 +26,7 @@
       </td>
       {% else %}
       <td align="left" valign="top">
-        <div style="background: url(https://www.carthage.edu/themes/korra/assets/img/red-bullet.png) no-repeat left top; margin-top:7px;padding-right:9px;">&nbsp;</div>
+        <div style="background: url(https://app.carthage.edu/themes/korra/assets/img/red-bullet.png) no-repeat left top; margin-top:7px;padding-right:9px;">&nbsp;</div>
       </td>
       {% endif %}
       <td align="left" valign="top">
@@ -46,7 +46,7 @@
         {% endif %}
       </td>
       </tr>
-      {% if n.tag == 912 and n.image %}
+      {% if n.cat == 1 and n.image %}
       <tr>
       <td>
         <div id="lw_success">{{stay_safe.body|safe}}</div>
@@ -64,7 +64,7 @@
 {% for e in data.events %}
   <tr>
     <td align="left" valign="top">
-      <div style="background: url(https://www.carthage.edu/themes/korra/assets/img/red-bullet.png) no-repeat left top; margin-top:7px;padding-right:9px;">&nbsp;</div>
+      <div style="background: url(https://app.carthage.edu/themes/korra/assets/img/red-bullet.png) no-repeat left top; margin-top:7px;padding-right:9px;">&nbsp;</div>
     </td>
     <td align="left" valign="top">
       {% if data.static %}
