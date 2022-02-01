@@ -14,7 +14,7 @@
     <table border="0" cellpadding="0" cellspacing="0">
     {% for n in h.1 %}
       <tr>
-      {% if n.cat == 1 and n.image %}
+      {% if n.cat.0 == 1 and n.image %}
       <td align="left" valign="top" width="110">
         {% if data.static %}
         <a href="{{n.get_absolute_url}}">
@@ -46,7 +46,7 @@
         {% endif %}
       </td>
       </tr>
-      {% if n.cat == 1 and n.image %}
+      {% if n.cat.0 == 1 and n.image %}
       <tr>
       <td>
         <div id="lw_success">{{stay_safe.body|safe}}</div>

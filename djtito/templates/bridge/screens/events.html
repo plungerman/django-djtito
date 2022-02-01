@@ -1,0 +1,44 @@
+<?php require $_SERVER['DOCUMENT_ROOT'].'/livewhale/frontend.php';?>
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta http-equiv="refresh" content="300" /><!-- Refresh page every 5 minutes -->
+  <widget id="431_file_includes_html_head"></widget>
+    <link rel="stylesheet" type="text/css" href="/screens/styles/screen.css" />
+    <meta name="pagename" content="Events"/>
+</head>
+<body class="carthage-screen events carthage-page generic-subpage">
+        <widget id="554_images_screens_background_banner"></widget>
+    <!--START:Page Content-->
+     <div id="page-content-wrap">
+       <div id="page-content" class="site-width cf">
+        <!--START:Content-->
+        <div class="content large-8 medium-7 small-12">
+          <div id="main-page-section" class="cf">
+          </div>
+          <div id="main-content">
+
+          </div>
+        </div><!--END:Content-->
+        <!--START:Sidebar-->
+        <div id="page-sidebar" class="large-3-half medium-4 small-12">
+          <div id="secondary-navigation-wrap">
+            <nav id="secondary-navigation"><widget id="559_events_events_screen"></widget></nav>
+          </div>
+        </div><!--END:Sidebar-->
+      </div>
+    </div><!--END:Page Content-->
+    <footer class="screen-footer">
+        <span class="left"><div class="date" id="dateandtime"></div></span>
+        <span class="right">
+        <div id="weather">
+          <div id="weather_wrap">
+            <widget type="feeds"> <arg id="url">http://weather.yahooapis.com/forecastrss?p=53140&amp;u=f</arg> <arg id="max">1</arg> </widget>
+          </div>
+        </div>
+        </span>
+    </footer>
+    <script src="/screens/scripts/events.js"></script>
+    <script src="/screens/scripts/date.js"></script>
+  </body>
+</html>

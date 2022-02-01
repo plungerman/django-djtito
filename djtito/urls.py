@@ -56,6 +56,10 @@ urlpatterns = [
     path(
         'newsletter/', include('djtito.newsletter.urls'),
     ),
+    # digital signage
+    path(
+        'bridge/', include('djtito.bridge.urls'),
+    ),
     # send home requests to newsletter manager
     path('', RedirectView.as_view(url=reverse_lazy('newsletter_manager'))),
 ]

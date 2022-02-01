@@ -818,7 +818,8 @@ class LivewhaleNews(models.Model):
             cid  = LivewhaleNewsCategories2Any.objects.using(
                 'livewhale'
                 ).filter(id2=self.id).filter(id1__in=cats)[0].id1
-            return cid
+            name = CATEGORIES[cid][0]
+            return [cid, name]
         except Exception as error:
             return ''
 

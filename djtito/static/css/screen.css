@@ -1,0 +1,312 @@
+/* --- LAYOUT --- */
+.carthage-screen {
+    position: relative;
+    width: 1920px;
+    height: 1080px;
+    min-height: 100%;
+    overflow: hidden;
+}
+
+
+/* --- BACKGROUND --- */
+.carthage-screen .screen-bg {
+    z-index: -1;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+/* --- PANEL --- */
+.carthage-screen #page-content-wrap {
+    margin-left: auto;
+    margin-right: auto;
+    padding-bottom: 0;
+}
+
+.carthage-screen #page-content {
+    overflow: hidden;
+    position: relative;
+    padding: 0;
+}
+
+.carthage-screen #page-content-wrap .content {
+    width: 1162px;
+}
+
+
+/* --- SIDEBAR --- */
+.carthage-screen #page-content-wrap #page-sidebar {
+    width: 478px;
+    height: 100%;
+    margin-right: 0;
+    background-color: #fff;
+}
+
+.carthage-screen #secondary-navigation-wrap {
+    position: static;
+    max-height: 600px;
+}
+
+.carthage-screen #secondary-navigation-wrap h3 {
+    border-bottom: 1px solid #e2d3d5;
+    color: #7a232f;
+    font-family: "Scala", "Times New Roman", Times, serif;
+    font-size: 3.2em;
+    font-weight: normal;
+    padding-bottom: 20px;
+    margin-bottom: 30px;
+}
+
+.carthage-screen #secondary-navigation-wrap a{
+    line-height: 1.4;
+    font-size: 2em;
+}
+
+.carthage-screen #secondary-navigation-wrap a:hover,
+.carthage-screen #secondary-navigation-wrap a:focus {
+    color: #7a232f;
+}
+
+.carthage-screen #secondary-navigation-wrap .active a:hover,
+.carthage-screen #secondary-navigation-wrap .active a:focus {
+    color: #6ba2b8;
+}
+
+.carthage-screen .lw_widget_events {
+    margin-top: 0;
+}
+
+.carthage-screen .lw_widget_events .lw_events_title {
+    display: block;
+    margin-bottom: 25px;
+    font-size: 1.6em;
+}
+
+.carthage-screen .lw_item_thumb,
+.carthage-screen .lw_events_detail {
+    display: none;  /* hide details for all events */
+}
+
+.carthage-screen .lw_events_detail .info {
+    width: 635px;
+}
+
+.carthage-screen .lw_item_thumb {
+    position: absolute;
+    bottom: 87px;
+    top: auto;
+    right: 55px;
+    height: auto;
+    width: auto;
+}
+
+.carthage-screen .lw_item_thumb img {
+    margin-bottom: 0;
+}
+
+
+
+
+/* --- FOOTER --- */
+.carthage-screen .screen-footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding: 15px 20px 0;
+    background-color: #000;
+    color: #fff;
+    font-size: 2rem;
+}
+
+.carthage-screen .screen-footer .left {
+    display: inline-block;
+    width: 48%;
+    text-align: left;
+}
+
+.carthage-screen .screen-footer .right {
+    display: inline-block;
+    width: 48%;
+    text-align: right;
+}
+
+.lw_feeds_date, 
+.lw_feeds_title, 
+.lw_feeds_description img, 
+.lw_feeds_description br, 
+.lw_feeds_description strong:nth-child(3) {
+    display:none;
+}
+
+.screen-footer .left .date,
+.lw_feeds_description {
+    display:block; 
+    overflow:hidden;
+    height: 30px; 
+    line-height: 30px;
+}
+    
+.lw_feeds_description strong {
+    display:block; 
+}
+
+
+/* --- EVENTS STYLES --- */
+.events.carthage-screen #page-content-wrap {
+        width: 1640px;
+    margin-top: 60px;
+    margin-bottom: 100px;
+}
+
+.events.carthage-screen #page-content {
+    height: 920px;
+    width: 1640px;
+    background: rgba(250, 250, 250, 0.64);
+}
+
+.events.carthage-screen .lw_widget_events li.active .lw_events_detail {
+    position: absolute;
+    top: 0;
+    left: 550px;
+    width: 1020px;
+    height: 100%;
+    padding-top: 100px;
+}
+
+.events.carthage-screen .lw_events_detail .title {
+    color: #7a232f;
+    font-family: "Scala", "Times New Roman", Times, serif;
+    font-weight: normal;
+    font-size: 4.5em;
+    line-height: 1.2;
+    padding: 80px 0;
+}
+
+.events.carthage-screen .lw_events_detail .date,
+.events.carthage-screen .lw_events_detail .info {
+    color: #7a232f;
+    font-size: 3.1em;
+}
+
+.events.carthage-screen .lw_events_detail .info {
+    position: absolute;
+    bottom: 80px;
+    left: 0;
+}
+
+.events.carthage-screen .lw_events_detail .time,
+.events.carthage-screen .lw_events_detail .location {
+    display: block;
+    margin-top: 0.45em;
+}
+
+
+
+/* --- BRIDGE STYLES --- */
+.bridge.carthage-screen .screen-bg {
+    background-image: url('/themes/katara/assets/images/the-bridge/bridge-background.jpg');
+}
+
+.bridge.carthage-screen #page-content-wrap {
+        width: 1780px;
+    margin-bottom: 96px;
+}
+
+.bridge.carthage-screen #page-content {
+    height: 759px;
+    width: 1780px;
+}
+
+.bridge.carthage-screen #page-content .content {
+    float: left;
+    width: 1262px;
+}
+
+.bridge.carthage-screen #page-content-wrap  #page-sidebar {
+    float: right;
+    width: 472px;
+    overflow: hidden;
+}
+
+.bridge.carthage-screen #bridge-header {
+    margin-bottom: 32px;
+    line-height: 1;
+}
+
+.bridge.carthage-screen #bridge-header h1 {
+    font-size: 7.8125em;
+    color:white;
+}
+
+.bridge.carthage-screen #bridge-header h2 {
+    top: -9px;
+    font-size: 1.575em;
+    color:white;
+}
+
+.bridge.carthage-screen .weather-bug {
+    position: absolute;
+    right: 0;
+    top: 18px;
+    opacity: .7;
+}
+
+.bridge.carthage-screen #bridge-hero-wrap {
+    width: 1262px;
+    height: 759px;
+    padding: 0;
+}
+
+.bridge.carthage-screen #bridge-hero {
+    z-index: 0;
+}
+
+.bridge.carthage-screen #bridge-hero-wrap .bridge-hero-footer {
+    z-index: 2;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    margin: 0;
+    padding: 14px 20px 11px;
+    width: 100%;
+    background-color: #d0202e;
+    color: #fff;
+    font-size: 2.3em;
+    font-weight: bold;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+
+
+.bridge.carthage-screen .lw_widget_news {
+    padding: 45px;    
+    color: #7a232f;
+    font-family: "ScalaSans", "sans-serif";
+}
+
+.bridge.carthage-screen .lw_widget_news .tag {
+    font-size:  3em;
+    line-height: 1.1;
+    text-transform: uppercase;
+    text-decoration: none;
+}
+
+.bridge.carthage-screen .lw_widget_news h2 {
+    margin-top:0.3em;
+    margin-bottom: 0.35em;
+    font-size: 4.25em;
+    line-height: 1.25;
+}
+
+.bridge.carthage-screen .lw_widget_news p {
+    font-size: 1.7em;
+    line-height: 1.4;
+}
+
+.bridge.carthage-screen .lw_widget_news li {
+    display: none;
+}

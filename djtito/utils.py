@@ -41,7 +41,7 @@ def fetch_news(days=None):
     ).exclude(date_dt__lte=past)
 
     for new in news:
-        kid = new.cat()
+        kid = new.cat()[0]
         if new.image():
             new.phile = '{0}.{1}'.format(
                 new.image().filename,
