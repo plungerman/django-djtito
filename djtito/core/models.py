@@ -821,7 +821,7 @@ class LivewhaleNews(models.Model):
             name = CATEGORIES[cid][0]
             return [cid, name]
         except Exception as error:
-            return ''
+            return None
 
     def image(self):
         foto = None

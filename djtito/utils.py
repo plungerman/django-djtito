@@ -41,16 +41,17 @@ def fetch_news(days=None):
     ).exclude(date_dt__lte=past)
 
     for new in news:
-        kid = new.cat()[0]
-        if new.image():
-            new.phile = '{0}.{1}'.format(
-                new.image().filename,
-                new.image().extension,
-            )
-        else:
-            new.phile = None
-        if kid:
-            cats[kid][1].append(new)
+        if new.cat():
+            kid = new.cat()[0]
+            if new.image():
+                new.phile = '{0}.{1}'.format(
+                    new.image().filename,
+                    new.image().extension,
+                )
+            else:
+                new.phile = None
+            if kid:
+                cats[kid][1].append(new)
     news = []
     for cat in cats:
         news.append(cats[cat])
