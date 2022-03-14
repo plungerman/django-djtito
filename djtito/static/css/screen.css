@@ -252,6 +252,18 @@
     top: 18px;
     opacity: .7;
 }
+#page-content-wrap .content img {
+    width: auto;
+}
+img {
+    border: none;
+    display: block;
+    width: 100%;
+}
+img {
+    height: auto;
+    max-width: 100%;
+}
 
 .bridge.carthage-screen #bridge-hero-wrap {
     width: 1262px;

@@ -24,25 +24,32 @@
           <!--START:Bridge Hero-->
           <div id="bridge-hero-wrap" class="large-8 medium-6 small-12">
             <div id="bridge-hero" data-cycle-slides=".bridge-slide" data-cycle-prev=".bridge-hero-previous" data-cycle-next=".bridge-hero-next" class="cycle-slideshow">
-                <img src="https://www.carthage.edu/live/image/gid/24/33009_Pride_Banner.jpg">
+              {% for foto in photos %}
+              <div class="bridge-slide cycle-slide">
+                <img src="{{foto.url}}">
+                <div class="caption">
+                  <p>{#foto.caption#}</p>
+                </div>
+              </div>
+              {% endfor %}
             </div><!--END:Bridge Hero-->
             <p class="bridge-hero-footer">See more. Read more. www.carthage.edu/bridge</p>
           </div><!--END:Bridge Hero wrap-->
         </div><!--END:Content-->
         <!--START:Sidebar-->
         <div id="page-sidebar" class="large-3-half medium-4 small-12">
-<div class="lw_widget lw_widget_type_news lw_widget_news lw_widget_bridge_screen_headlines news">
-  <ul class="lw_widget_results lw_widget_results_news">
-    {% for story in news %}
-    <li class="lw_item_{{forloop.counter}}">
-      <div class="latest-news">
-        <span class="tag">{{story.cat.1}}</span>&#xA0;
-        <h2>{{story.headline}}</h2>
-      </div>
-    </li>
-    {% endfor %}
-  </ul>
-</div>
+          <div class="lw_widget lw_widget_type_news lw_widget_news lw_widget_bridge_screen_headlines news">
+            <ul class="lw_widget_results lw_widget_results_news">
+              {% for story in news %}
+              <li class="lw_item_{{forloop.counter}}">
+              <div class="latest-news">
+                <span class="tag">{{story.cat.1}}</span>&#xA0;
+                <h2>{{story.headline}}</h2>
+              </div>
+              </li>
+              {% endfor %}
+            </ul>
+          </div>
         </div><!--END:Sidebar-->
       </div><!--END:Page Contentp-->
     </div><!--END:Page Content wrap-->
@@ -53,5 +60,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js" type="text/javascript"></script>
     <script src="{% static 'js/bridge.js' %}"></script>
     <script src="{% static 'js/date.js' %}"></script>
+    <script src="//www.carthage.edu/themes/korra/assets/js/jquery.cycle2.min.js" type="text/javascript"></script>
+    <script src="//www.carthage.edu/themes/korra/assets/js/jquery.cycle2.carousel.min.js" type="text/javascript"></script>
   </body>
 </html>
