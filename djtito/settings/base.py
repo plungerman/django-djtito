@@ -171,6 +171,7 @@ BRIDGE_NEWSLETTER_BANNER = ''
 BRIDGE_TOP_STORY_CAT = 1
 BRIDGE_CATEGORY = 30
 BRIDGE_NEW_TAG = 988
+SCREENS_GROUP = 146
 # set to False in production.py to turn athletics events off
 BRIDGE_EVENTS = True
 NEWSLETTER_TO_LIST = []

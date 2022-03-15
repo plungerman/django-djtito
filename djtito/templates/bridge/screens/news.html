@@ -43,8 +43,7 @@
               {% for story in news %}
               <li class="lw_item_{{forloop.counter}}">
               <div class="latest-news">
-                <span class="tag">{{story.cat.1}}</span>&#xA0;
-                <h2>{{story.headline}}</h2>
+                <h2>{{story.title}}</h2>
               </div>
               </li>
               {% endfor %}
