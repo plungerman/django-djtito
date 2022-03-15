@@ -1,4 +1,4 @@
-(function($) {
+$(function() {
   // Cycle through sidebar items
   function displayLoop() {
     // find the current item
@@ -13,9 +13,5 @@
     // repeat after 5 seconds
     setTimeout(displayLoop,6000);
   }
-
-  // Display the first sidebar item when the page loads, then call the display loop method
-  $('.lw_widget_events li:first-child').addClass('active').children('.lw_events_detail, .lw_item_thumb').fadeIn('slow').delay(6000, 'displayQueue').queue('displayQueue', function(){ 
-    displayLoop();
-  }).dequeue('displayQueue');
-} (livewhale.jQuery));
+  displayLoop();
+});

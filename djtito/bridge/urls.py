@@ -7,5 +7,6 @@ from djtito.bridge import views
 
 
 urlpatterns = [
+    path('screens/events/', views.events, name='events'),
     path('screens/news/', views.news, name='news'),
 ]
