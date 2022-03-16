@@ -32,25 +32,16 @@
 }
 
 .carthage-screen #page-content-wrap .content {
-    width: 1162px;
+    width: 90%;
 }
 
-
-/* --- SIDEBAR --- */
-.carthage-screen #page-content-wrap #page-sidebar {
-    width: 478px;
-    height: 100%;
-    margin-right: 0;
-    background-color: #fff;
-}
 
 .carthage-screen #secondary-navigation-wrap {
     position: static;
     max-height: 600px;
 }
 
-h3 {
-    border-bottom: 1px solid #e2d3d5;
+h3, h4 {
     color: #7a232f;
     font-family: "Scala", "Times New Roman", Times, serif;
     font-size: 3.2em;
@@ -58,6 +49,7 @@ h3 {
     padding-bottom: 20px;
     margin-bottom: 30px;
 }
+h4 {font-size: 2.2em;}
 
 .carthage-screen #secondary-navigation-wrap a{
     line-height: 1.4;
@@ -124,6 +116,7 @@ h3 {
     display: inline-block;
     width: 48%;
     text-align: left;
+    margin-bottom:.6em;
 }
 
 .carthage-screen .screen-footer .right {
@@ -222,12 +215,6 @@ h3 {
 .bridge.carthage-screen #page-content .content {
     float: left;
     width: 1262px;
-}
-
-.bridge.carthage-screen #page-content-wrap  #page-sidebar {
-    float: right;
-    width: 472px;
-    overflow: hidden;
 }
 
 #bridge-header {
