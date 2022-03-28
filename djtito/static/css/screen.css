@@ -42,7 +42,7 @@
 }
 
 h3, h4 {
-    color: #7a232f;
+    color: #000;
     font-family: "Scala", "Times New Roman", Times, serif;
     font-size: 3.2em;
     font-weight: normal;
@@ -156,7 +156,7 @@ h4 {font-size: 2.2em;}
 .events.carthage-screen #page-content {
     height: 920px;
     width: 1640px;
-    background: rgba(250, 250, 250, 0.94);
+    background: rgba(250, 250, 250, 0.84);
 }
 
 .events.carthage-screen .lw_widget_events li.active .lw_events_detail {
@@ -295,6 +295,7 @@ img {
 }
 
 .lw_widget_news h2 {
+    color: #7a232f;
     margin-top:0.3em;
     margin-bottom: 0.35em;
     font-size: 4.25em;
