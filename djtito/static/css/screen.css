@@ -50,6 +50,7 @@ h3, h4 {
     margin-bottom: 30px;
 }
 h4 {font-size: 2.2em;}
+h4.summary {font-size: 3.1em;}
 
 .carthage-screen #secondary-navigation-wrap a{
     line-height: 1.4;
@@ -223,8 +224,10 @@ h4 {font-size: 2.2em;}
 }
 
 #bridge-header h1 {
-    font-size: 7.8125em;
-    color:white;
+    font-size: 3.5125em;
+    font-weight: 600;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #7a232f;
 }
 
 #bridge-header h2 {
@@ -282,7 +285,7 @@ img {
 
 
 .bridge.carthage-screen .lw_widget_news {
-    padding: 45px;    
+    padding: 45px;
     color: #7a232f;
     font-family: "ScalaSans", "sans-serif";
 }

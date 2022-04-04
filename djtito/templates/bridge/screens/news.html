@@ -17,11 +17,8 @@
       .events.carthage-screen #page-content-wrap { margin-top: 0;}
       header {margin-left:1em;}
       #main-content {margin-left:1em;}
-      #bridge-header h1 {
-          font-size: 7.8125em;
-          color:black;
-      }
-      #bridge-header h2 {
+      .latest-news h2 {
+          font-size: 5.8125em;
           top: -9px;
           color:black;
       }
@@ -55,7 +52,7 @@
               <li class="lw_item_{{forloop.counter}}">
               <div class="latest-news">
                 <h2>{{story.title}}</h2>
-                <h4>{{story.description|safe}}</h4>
+                <h4 class="summary">{{story.description|safe}}</h4>
               </div>
               </li>
               {% endfor %}

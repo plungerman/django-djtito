@@ -17,13 +17,9 @@
       .events.carthage-screen #page-content-wrap { margin-top: 0;}
       header {margin-left:1em;}
       #main-content {margin-left:1em;}
-      #bridge-header h1 {
-          font-size: 7.8125em;
-          color:black;
-      }
-      #bridge-header h2 {
+      .latest-news h2 {
           top: -9px;
-          font-size: 1.575em;
+          font-size: 3.8125em;
           color:black;
       }
     </style>
@@ -54,10 +50,10 @@
             <ul class="lw_widget_results lw_widget_results_news">
               {% for event in events %}
               <li class="lw_item_{{forloop.counter}}">
+              <h4 style="color:red">{{event.date}} &nbsp;{{event.date_time}}</h4>
               <div class="latest-news">
                 <h2>{{event.title}}</h2>
-                <h4>{{event.description|safe}}</h4>
-                <h4>{{event.date}} &nbsp;{{event.date_time}}</h4>
+                <h4 class="summary">{{event.description|safe}}</h4>
                 <h4 class="location">{{event.location}}</h4>
               </div>
               </li>
