@@ -10,3 +10,7 @@ The Sendwithus Open Source Template Project is a collection of free email templa
 https://github.com/peterbe/premailer/
 
 When you send HTML emails you can't use style tags but instead you have to put inline style attributes on every element.
+
+# replace in files
+
+find . -type f -exec sed -i 's/image\/gid\/94/image\/gid\/24/g' {} \;

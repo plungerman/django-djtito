@@ -23,3 +23,4 @@ class NewsletterForm(forms.Form):
         label="Send to",
         widget=forms.Select(choices=SEND_TO, attrs=REQ),
     )
+    subject = forms.CharField(required=False)
