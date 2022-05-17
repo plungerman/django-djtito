@@ -58,7 +58,7 @@ def fetch_news(days=None):
     return {'news': news}
 
 
-def send_newsletter(send, data):
+def send_newsletter(send, newsletter):
     """Send the bridge newsletter."""
     # mail stuff
     if send == 'y':
@@ -69,9 +69,12 @@ def send_newsletter(send, data):
         to_list = settings.NEWSLETTER_TO_LIST_TEST
 
     phrum = 'Carthage Bridge <bridge@carthage.edu>'
-    subject = "[The Bridge] News & Events: {0}".format(
-        datetime.datetime.now().strftime('%A, %B %d, %Y'),
-    )
+    if newsletter['subject']:
+        subject = newsletter['subject']
+    else:
+        subject = "[The Bridge] News & Events: {0}".format(
+            datetime.datetime.now().strftime('%A, %B %d, %Y'),
+        )
 
     # send mail
     request = None
@@ -81,10 +84,10 @@ def send_newsletter(send, data):
         subject,
         phrum,
         'newsletter/email.html',
-        data,
+        newsletter,
         bcc,
     )
-    return data
+    return newsletter
 
 
 def create_archive(content_dict):

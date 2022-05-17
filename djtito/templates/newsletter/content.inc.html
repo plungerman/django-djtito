@@ -2,7 +2,7 @@
 {% get_lw_content as stay_safe blurbs 2978 %}
 {% if messages %}
     {% for message in messages %}
-        <div{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+        <div{% if message.tags %} class="{{ message.tags }}"{% endif %} style="margin-top:12px;">
         {{ message }}
         </div>
     {% endfor %}
@@ -10,7 +10,7 @@
 <div id="bridge-newsletter">
 {% for h in data.news %}
   {% if h.1 %}
-    <h3>{{h.0}}</h3>
+    <h2>{{h.0}}</h2>
     <table border="0" cellpadding="0" cellspacing="0">
     {% for n in h.1 %}
       <tr>
@@ -72,18 +72,18 @@
       {% else %}
         <a href="{{e.get_absolute_url}}?utm_source=djtito&utm_medium=email&utm_term=bridge%2Bnewsletter&utm_content={{e.title|truncatechars:100|urlencode}}&utm_campaign=bridge_newsletter_{{data.now|date:'Y-m-d'}}" style="text-decoration: none !important; color: #003c4b; line-height: 1.125; transition: .3s color ease-in-out;">{{e.title|safe}}</a>
       {% endif %}
-      <strong>[{{e.date_dt|date:"D, N j, Y, f a"}}]</strong>
+      <strong>{{e.date_dt|date:"D, N j, Y"}}</strong>
     </td>
   </tr>
 {% endfor %}
 </table>
 {% endif %}
-<h3>
+<h2>
   <a style="color:#800"
     href="https://www.carthage.edu/calendar/#view/month">
     See the Carthage Calendar of Events
   </a>
-</h3>
+</h2>
 <h4>
   <a style="color:#800"
     href="https://www.carthage.edu/bridge/submit/">

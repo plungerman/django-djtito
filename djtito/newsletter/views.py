@@ -133,6 +133,7 @@ def manager(request):
             if days:
                 days = '-d {0}'.format(days)
             newsletter['static'] = False
+            newsletter['subject'] = cd['subject']
             newsletter = send_newsletter(send, newsletter)
             messages.add_message(
                 request, messages.SUCCESS, 'Newsletter Sent', extra_tags='success',

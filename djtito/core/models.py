@@ -13,8 +13,8 @@ from djtools.utils.users import in_group
 
 CATEGORIES = collections.OrderedDict(
     {
-        1: ['Top Stories', []],
-        13: ['Campus News', []],
+        1: ["Today's Top Stories", []],
+        13: ['Other  Campus News', []],
         15: ['Lectures & Presentations', []],
         12: ['Arts', []],
         16: ['News for Faculty & Staff', []],
