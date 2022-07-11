@@ -68,7 +68,7 @@ def send_newsletter(send, newsletter):
         bcc = settings.MANAGERS
         to_list = settings.NEWSLETTER_TO_LIST_TEST
 
-    phrum = 'Carthage Bridge <bridge@carthage.edu>'
+    phrum = 'The Bridge <bridge@carthage.edu>'
     if newsletter['subject']:
         subject = newsletter['subject']
     else:
