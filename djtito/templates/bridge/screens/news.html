@@ -2,42 +2,23 @@
 <!DOCTYPE HTML>
 <html lang="en" prefix="og: http://ogp.me/ns#">
 <head>
-    <meta charset="utf-8"/>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta name="generator" content="LiveWhale">
-    <meta name="pagename" content="News">
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <meta name="theme-color" content="#3ab0c8"/>
-    <meta name="msapplication-TileColor" content="#ffffff"/>
-    <title>News | Screens | Carthage College</title>
-    <link rel="stylesheet" type="text/css" href="{% static 'css/reset.css' %}" />
-    <link rel="stylesheet" type="text/css" href="{% static 'css/screen.css' %}" />
-    <style type="text/css">
-      #lw_page {position:absolute;}
-      .events.carthage-screen #page-content-wrap { margin-top: 0;}
-      header {margin-left:1em;}
-      #main-content {margin-left:1em;}
-      .latest-news h2 {
-          font-size: 5.8125em;
-          top: -9px;
-          color:black;
-      }
-    </style>
+  <meta charset="utf-8"/>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="generator" content="LiveWhale">
+  <meta name="pagename" content="News">
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="theme-color" content="#3ab0c8"/>
+  <meta name="msapplication-TileColor" content="#ffffff"/>
+  <title>News | Screens | Carthage College</title>
+  <link rel="stylesheet" type="text/css" href="{% static 'css/reset.css' %}" />
+  <link rel="stylesheet" type="text/css" href="{% static 'css/screen.css' %}" />
+  <link rel="stylesheet" type="text/css" href="{% static 'css/idfive-styles.css' %}" />
+  <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}" />
 <head>
 </head>
-<body class="carthage-screen events carthage-page generic-subpage">
-    <div class="screen-bg">
-      <div data-cycle-slides=".bridge-slide" data-cycle-prev=".bridge-hero-previous" data-cycle-next=".bridge-hero-next" data-speed="100" data-cycle-speed="10000" class="cycle-slideshow">
-      {% for foto in photos %}
-      <div class="bridge-slide cycle-slide">
-        <img src="{{foto.url}}">
-      </div>
-      {% endfor %}
-      </div>
-    </div>
+<body class="carthage-screen news carthage-page generic-subpage">
     <!--START:Page Content-->
     <div id="page-content-wrap">
-       <div style="height:96px;">&nbsp;</div>
        <div id="page-content" class="site-width cf">
         <!--START:Content-->
         <div class="content large-8 medium-7 small-12">
@@ -61,8 +42,7 @@
             </div>
           </div>
           <footer class="screen-footer">
-          <span class="left"><p class="bridge-hero-footer">See more. Read more. www.carthage.edu/bridge</p></span>
-          <span class="right"></span>
+            <div class="call-to-action"><p>Read more: bridge.carthage.edu</p></div>
           </footer>
         </div><!--END:Content-->
       </div>

@@ -16,7 +16,7 @@ requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
 def events(request):
     """Events for digital signage."""
-    earl = '{0}/live/json/events/group/bridge/max/24/'.format(
+    earl = '{0}/live/json/events/group/screens/max/24/'.format(
         settings.LIVEWHALE_API_URL,
     )
     response = requests.get(earl)
