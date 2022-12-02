@@ -47,6 +47,7 @@ STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
     'django.contrib.staticfiles.finders.FileSystemFinder',
 )
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 DATABASES = {
     'default': {
         'HOST': '127.0.0.1',
@@ -65,6 +66,19 @@ DATABASES = {
         'PASSWORD': '',
         'OPTIONS': {'charset': 'latin1', 'use_unicode': False},
     },
+    'workday': {
+        'HOST': '',
+        'PORT': '',
+        'NAME': '',
+        'ENGINE': '',
+        'USER': '',
+        'PASSWORD': None,
+        'OPTIONS': {
+            'charset': 'utf8',
+            'use_unicode': False,
+            'ssl': {'ca': ''},
+        },
+    },
 }
 INSTALLED_APPS = (
     'django.contrib.admin',
@@ -76,6 +90,7 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.staticfiles',
     'djtito',
+    'djtito.catalog',
     'djtito.newsletter',
     'djtools',
     # honeypot for admin attacks
