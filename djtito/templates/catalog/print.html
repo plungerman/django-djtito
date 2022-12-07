@@ -1,0 +1,897 @@
+{% load livewhale_api %}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Carthage Course College </title>
+    {% now "Y" as year %}
+    <meta name="author" content="Larry" />
+    <style type="text/css">
+        /* reset: since livewhale includes its own set of .css files */
+        ul { margin: 0; padding: 0; }
+        @page { size: 8.5in 10.875in;margin: .6in 0; padding: 0 .5in;}
+        @page :left {
+            @top-left {
+                font: 12pt "Arial", sans-serif;
+                font-weight:normal;
+                font-style:italic;
+                vertical-align: bottom;
+                margin: 0 .5in .1in .5in;
+                padding-bottom: .02in;
+                padding-left: .02in;
+                border-bottom: 1px solid black;
+                /* content: counter(page) " - DRAFT {% now "l d F Y H:i:s" %} */
+                content: string(chaptertitle);
+            }
+            @bottom-left {
+                font: 7pt "Arial", sans-serif;
+                padding-left:50px;
+                content: counter(page);
+            }
+            @bottom-right {
+                font: 7pt "Arial", sans-serif;
+                text-align:right;
+                padding-right:30px;
+                content: "Carthage {{year}}-{{year|add:"+1"}} ?> Catalog";
+            }
+        }
+        @page :right {
+            @top-right {
+                font: 12pt "Arial", sans-serif;
+                font-weight:normal;
+                font-style:italic;
+                vertical-align: bottom;
+                text-align:right;
+                margin: 0 .5in .1in .5in;
+                padding-bottom: .02in;
+                padding-right: .02in;
+                border-bottom: 1px solid black;
+                /* content: counter(page) " - DRAFT {% now "l d F Y H:i:s" %} */
+                content: string(chaptertitle);
+            }
+            @bottom-right {
+                font: 7pt "Arial", sans-serif;
+                text-align:right;
+                padding-right:30px;
+                content: counter(page);
+            }
+            @bottom-left {
+                font: 7pt "Arial", sans-serif;
+                padding-left:50px;
+                content: "Carthage {{year}}-{{year|add:"+1"}} ?> Catalog";
+            }
+        }
+        body {
+            display:block;
+            text-align: left;
+            z-index: 1;
+            column-count: 1;
+            column-type: auto;
+            column-gap: 0;
+            font: 9pt "Times New Roman", Times, serif;
+        }
+        h1 { font: bold 1.8em arial,sans-serif; margin-bottom:9px; }
+        h2 { font: bold 1.4em arial,sans-serif; margin-bottom:0;margin-top:6px;}
+        h3 { font: bold 1.2em arial,sans-serif; margin-bottom:0;margin-top:9px;}
+
+        p {margin:0 0 5px 0;padding:0;}
+        em {font-style:italic;}
+        ol {margin:0 0 0 10pt;padding:0;}
+        ul {list-style-type:none;margin:0 0 0 15pt;padding:0;}
+        ul.bullets {list-style-type:disc;}
+        li {margin-bottom:3px;}
+        ol ul {padding-left:10px;list-style-type:disc;}
+        td {vertical-align:top;}
+        a {text-decoration:none;}
+        table {page-break-inside:avoid;column-break-inside:avoid;width:100%}
+
+        a {color:black; text-decoration:none;}
+        a:link {color:black; text-decoration:none;}
+        a:visited {color:black; text-decoration:none;}
+        a:hover {color:black; text-decoration:none;}
+        a:active {color:black; text-decoration:none;}
+
+        .catalog-jump{display:none;} /* widget */
+
+        /* livewhale overrides */
+
+        .lw_widget { margin: 0; }
+        .lw_widget > ul > li, .lw_widget > noscript > ul > li { margin: 0; }
+        .lw_widget > ul  { margin: 0; }
+
+        /* columns */
+
+        .layout3col {
+            column-count: 3;
+            column-type: auto;
+            column-fill:auto;
+            column-gap: 2em;
+        }
+        .layout2col {
+            column-count: 2;
+            column-type: auto;
+            column-gap: 0;
+        }
+        .layout1col {
+            column-count: 1;
+            column-type: auto;
+            column-gap: 0;
+        }
+
+        /* chapters */
+
+        .chaptertoc ul {padding-left:5pt;margin-left:0;margin-top:10pt;margin-bottom:0;}
+        .chaptertoc li {list-style-type:none;padding-left:0;margin:4pt 0 4pt 10pt;font: 1.3em arial,sans-serif;text-indent: -10pt;line-height:14pt;} /* margin-left and negative text-indent are for hanging indents for TOC entries that wrap to more than one line */
+
+        .chapter {page-break-after: always;}
+        /* the chapter1473 rules are to get the department name to be displayed in the page header.  other chapters just display the chapter name
+        #chapter1473>.narrative>.title {string-set: chaptertitle content()}
+        #chapter1473>.narrative>.title {string-set: chaptertitle content()}
+        */
+
+        /* standard */
+        .chapter>.title {string-set: chaptertitle content();}
+        /* departments */
+        .chapter>.narrative h2.title {string-set: chaptertitle content();}
+        /* sub-departments */
+        .chapter>.courses h2.title {string-set: chaptertitle content();}
+
+
+        /* PDF bookmarks */
+        .chapter>.title {prince-bookmark-level:1;}
+        .chapter>.narrative h2.title {prince-bookmark-level:2}
+        .chapter>.courses h2.title {prince-bookmark-level:3}
+
+        /* these lines are for the last few pages of the catalog - registration summary, calendar and index.  also see chapter1col styles, above */
+        #chapter1728 .title, #chapter1729 .title, #chapter1730 .title {height:0;visibility:hidden;}
+        #chapter1728 h2 {padding-bottom:15px;} /* registration summary */
+        #chapter1728 .small td {padding:5px;text-align:right;}
+        #chapter1729 .small td {padding:1px;font-size:8pt;} /*academic calendar */
+
+        .chapter .narrative .narrative .text {display:block;}
+        .chapter .narrative .text {page-break-before:avoid;}
+        .chapter .narrative ol{margin-left:0;padding-left:15px;}
+        .chapter .narrative .text ul {padding-left:10pt;margin-left:0;}
+        .chapter .narrative {padding-bottom:10pt;}
+        .title {break-after: avoid-column; break-after: avoid-page; column-break-after:avoid; page-break-after:avoid;break-inside: avoid-column;}
+        .nb {white-space: nowrap;}
+        .inlineblock {display:inline-block; margin:0;}
+        .manualbreak {page-break-after:always;}
+        .namedscholarships li {margin-bottom:7px;}
+
+        /*
+        overrides: no longer in use as of 25 July 2019
+        #japanese .lw_item_1 .description {font-size:.85em;margin:0;}
+        #japanese .lw_item_1 h3 {margin-top:2px;font-size:1.1em;}
+        #japanese .lw_item_1 h4 {margin:2px 0 0 0; font-size:1.0em;}
+        */
+
+        /* profiles */
+        .person {font-size: 9pt;margin-bottom:10pt;}
+        .personmain {page-break-inside:avoid;column-break-after:avoid;}
+        .headshot {float:left;margin-right:5px;}
+        .headshot img {width:80px;}
+        .name {font-weight:bold;font-size: 11pt;}
+        .jobtitle {font-style:italic;}
+        .description p {margin-top:0;}
+        .education {font-style:italic;}
+        .photo {display:none;}
+
+        /* courses */
+        .coursenumber {float:left;font-weight:bold;margin-right:5px;}
+        .course{font-size: 9pt;page-break-inside:avoid;display:inline-block;margin:-10px 0 5px 0;padding-top:0;}
+        .course .title {font-weight:bold;}
+        .course .description {margin-top:7px;margin-bottom:7px;display:inline-block;}
+        .instructor {display:inline-block;}
+        /* old */
+        .number, .name {font-weight:bold;font-size: 11pt;}
+        .instructorandcredit {height:12pt;}
+        .credit {float:right;}
+        .prereq, .term {font-style:italic;margin-top:0;}
+        .text {font-size:9pt;margin-top:0;padding-top:0;margin-bottom:10px;padding-bottom:0;}
+
+        .tableline hr {color:black;height:1px;background-color:black;border:0;}  /* on Registration Summary page */
+        span.leader {content:leader('. ');}  /* on index */
+    </style>
+  </head>
+  <body>
+    <div style="page-break-after:always;">Table of Contents page (here to force the page numbering for the rest of the document.)</div>
+    <div id="main-content" class="editable">
+        <div class="layout3col">
+            <div class="chapter">
+                {# TOC College Overview: old ID 1837 #}
+                {% get_lw_content as intro blurbs 3533 %}
+                {{intro.body|safe}}
+                <widget id="25_blurbs_catalog_-_college_overview"></widget>
+            </div>
+            <div class="chapter">
+                {# TOC Academic Information: old ID 1838 #}
+                {% get_lw_content as intro blurbs 3531 %}
+                {{intro.body|safe}}
+                <widget id="26_blurbs_catalog_-_academic_information"></widget>
+            </div>
+            <div class="chapter">
+                {# TOC Academic Divisions: old ID 1839 #}
+                {% get_lw_content as intro blurbs 3530 %}
+                {{intro.body|safe}}
+                <widget id="27_blurbs_catalog_-_academic_divisions"></widget>
+            </div>
+            <div class="chapter">
+                <h1 class="title">
+                    Undergraduate Academic Departments and Programs of Study
+                </h1>
+                {# Undergraduate Academic Departments and Programs of Study: old ID 1834 #}
+                {% get_lw_content as intro blurbs 3537 %}
+                {# Accounting and Finance #}
+                {% get_lw_content as intro blurbs 3486 %}
+                <div class="narrative" id="ACC">
+                  <h2 class="title">{{intro.title|safe}}</h2>
+                  <div class="narrative-content">{{intro.body|safe}}</div>
+                </div>
+                <div class="courses">
+                    <h2 class="title">Accounting</h2>
+                    <widget type="course_catalog">
+                        <arg id="dept">ACC</arg>
+                    </widget>
+                </div>
+                <div class="courses">
+                    <h2 class="title">Finance</h2>
+                    <widget type="course_catalog">
+                        <arg id="dept">FIN</arg>
+                    </widget>
+                </div>
+                {# African Studies #}
+                {% get_lw_content as intro blurbs 3481 %}
+                <div class="narrative" id="AFS">
+                  <h2 class="title">{{intro.title|safe}}</h2>
+                  <div class="narrative-content">{{intro.body|safe}}</div>
+                </div>
+                <div class="courses">
+                    <widget type="course_catalog">
+                        <arg id="dept">AFS</arg>
+                    </widget>
+                </div>
+                {# Allied Health Science #}
+                {% get_lw_content as intro blurbs 3510 %}
+                <div class="narrative" id="AHS">
+                  <h2 class="title">{{intro.title|safe}}</h2>
+                  <div class="narrative-content">{{intro.body|safe}}</div>
+                </div>
+                <div class="courses">
+                    <widget type="course_catalog">
+                        <arg id="dept">AHS</arg>
+                    </widget>
+                </div>
+                {# Art #}
+                {% get_lw_content as intro blurbs 3519 %}
+                <div class="narrative" id="ART">
+                  <h2 class="title">{{intro.title|safe}}</h2>
+                  <div class="narrative-content">{{intro.body|safe}}</div>
+                </div>
+                <div class="courses">
+                    <widget type="course_catalog">
+                        <arg id="dept">ART</arg>
+                    </widget>
+                </div>
+                {# Asian Studies #}
+                {% get_lw_content as intro blurbs 3511 %}
+                <div class="narrative" id="ASN">
+                  <h2 class="title">{{intro.title|safe}}</h2>
+                  <div class="narrative-content">{{intro.body|safe}}</div>
+                </div>
+                <div class="courses">
+                    <widget type="course_catalog">
+                        <arg id="dept">ASN</arg>
+                    </widget>
+                </div>
+                {# Athletic Training #}
+                {% get_lw_content as intro blurbs 3511 %}
+                <div class="narrative" id="ATH">
+                  <h2 class="title">{{intro.title|safe}}</h2>
+                  <div class="narrative-content">{{intro.body|safe}}</div>
+                </div>
+                <div class="courses">
+                    <widget type="course_catalog">
+                        <arg id="dept">ATH</arg>
+                    </widget>
+                </div>
+                {# Biology #}
+                {% get_lw_content as intro blurbs 3512 %}
+                <div class="narrative" id="BIO">
+                  <h2 class="title">{{intro.title|safe}}</h2>
+                  <div class="narrative-content">{{intro.body|safe}}</div>
+                </div>
+                <div class="courses">
+                    <widget type="course_catalog">
+                        <arg id="dept">BIO</arg>
+                    </widget>
+                </div>
+                {# Chemistry #}
+                {% get_lw_content as intro blurbs 3513 %}
+                <div class="narrative" id="CHM">
+                  <h2 class="title">{{intro.title|safe}}</h2>
+                  <div class="narrative-content">{{intro.body|safe}}</div>
+                </div>
+                <div class="courses">
+                    <widget type="course_catalog">
+                        <arg id="dept">CHM</arg>
+                    </widget>
+                </div>
+                {# Classics #}
+                {% get_lw_content as intro blurbs 3515 %}
+                <div class="narrative" id="CLS">
+                  <h2 class="title">{{intro.title|safe}}</h2>
+                  <div class="narrative-content">{{intro.body|safe}}</div>
+                </div>
+                <div class="courses">
+                    <h2 class="title">Classics</h2>
+                    <widget type="course_catalog">
+                        <arg id="dept">CLS</arg>
+                    </widget>
+                </div>
+                <div class="courses">
+                    <h2 class="title">Greek</h2>
+                    <widget type="course_catalog">
+                        <arg id="dept">GRK</arg>
+                    </widget>
+                </div>
+                <div class="courses">
+                    <h2 class="title">Latin</h2>
+                    <widget type="course_catalog">
+                        <arg id="dept">LTN</arg>
+                    </widget>
+                </div>
+                {# Communication, Graphic Design, and Public Relations #}
+                {% get_lw_content as intro blurbs 3503 %}
+                <div class="narrative" id="CDM">
+                  <h2 class="title">{{intro.title|safe}}</h2>
+                  <div class="narrative-content">{{intro.body|safe}}</div>
+                </div>
+                <div class="courses">
+                    <widget type="course_catalog">
+                        <arg id="dept">CDM</arg>
+                    </widget>
+                </div>
+                {# Computer Science #}
+                {% get_lw_content as intro blurbs 3504 %}
+                <div class="narrative" id="CSC">
+                  <h2 class="title">{{intro.title|safe}}</h2>
+                  <div class="narrative-content">{{intro.body|safe}}</div>
+                </div>
+                <div class="courses">
+                    <widget type="course_catalog">
+                        <arg id="dept">CSC</arg>
+                    </widget>
+                </div>
+                {# Criminal Justice #}
+                {% get_lw_content as intro blurbs 3505 %}
+                <div class="narrative" id="CRJ">
+                  <h2 class="title">{{intro.title|safe}}</h2>
+                  <div class="narrative-content">{{intro.body|safe}}</div>
+                </div>
+                <div class="courses">
+                    <widget type="course_catalog">
+                        <arg id="dept">CRJ</arg>
+                    </widget>
+                </div>
+                {# Economics / International Political Economy #}
+                {% get_lw_content as intro blurbs 3506 %}
+                <div class="narrative" id="ECN">
+                  <h2 class="title">{{intro.title|safe}}</h2>
+                  <div class="narrative-content">{{intro.body|safe}}</div>
+                </div>
+                <div class="courses">
+                    <widget type="course_catalog">
+                        <arg id="dept">ECN</arg>
+                    </widget>
+                </div>
+                {# Education #}
+                {% get_lw_content as intro blurbs 3507 %}
+                <div class="narrative" id="EDU">
+                  <h2 class="title">{{intro.title|safe}}</h2>
+                  <div class="narrative-content">{{intro.body|safe}}</div>
+                </div>
+                <div class="courses" id="EDU">
+                    <widget type="course_catalog">
+                        <arg id="dept">EDU</arg>
+                    </widget>
+                </div>
+                {# English #}
+                {% get_lw_content as intro blurbs 3508 %}
+                <div class="narrative" id="ENG">
+                  <h2 class="title">{{intro.title|safe}}</h2>
+                  <div class="narrative-content">{{intro.body|safe}}</div>
+                </div>
+                <div class="courses">
+                    <widget type="course_catalog">
+                        <arg id="dept">ENG</arg>
+                    </widget>
+                </div>
+                {# Entrepreneurial Studies (blurb does not exist) #}
+                {% get_lw_content as intro blurbs 666 %}
+                <div class="narrative" id="ESN">
+                  <h2 class="title">{{intro.title|safe}}</h2>
+                  <div class="narrative-content">{{intro.body|safe}}</div>
+                </div>
+                <div class="courses">
+                    <widget type="course_catalog">
+                        <arg id="dept">ESN</arg>
+                    </widget>
+                </div>
+                {# Environmental Science #}
+                {% get_lw_content as intro blurbs 3509 %}
+                <div class="narrative" id="ENV">
+                  <h2 class="title">{{intro.title|safe}}</h2>
+                  <div class="narrative-content">{{intro.body|safe}}</div>
+                </div>
+                <div class="courses">
+                    <widget type="course_catalog">
+                        <arg id="dept">ENV</arg>
+                    </widget>
+                </div>
+                {# Exercise and Sport Science #}
+                {% get_lw_content as intro blurbs 3494 %}
+                <div class="narrative" id="EXS">
+                  <h2 class="title">{{intro.title|safe}}</h2>
+                  <div class="narrative-content">{{intro.body|safe}}</div>
+                </div>
+                <div class="courses">
+                    <widget type="course_catalog">
+                        <arg id="dept">EXS</arg>
+                    </widget>
+                </div>
+                {# General Courses #}
+                {% get_lw_content as intro blurbs 3495 %}
+                <div class="narrative" id="GNR">
+                  <h2 class="title">{{intro.title|safe}}</h2>
+                  <div class="narrative-content">{{intro.body|safe}}</div>
+                </div>
+                <div class="courses">
+                    <widget type="course_catalog">
+                        <arg id="dept">GNR</arg>
+                    </widget>
+                </div>
+                {# Geography and Earth Science (blurb does not exist) #}
+                {% get_lw_content as intro blurbs 666 %}
+                <div class="narrative" id="GEO">
+                  <h2 class="title">{{intro.title|safe}}</h2>
+                  <div class="narrative-content">{{intro.body|safe}}</div>
+                </div>
+                <div class="courses">
+                    <widget type="course_catalog">
+                        <arg id="dept">GEO</arg>
+                    </widget>
+                </div>
+                {# Great Ideas #}
+                {% get_lw_content as intro blurbs 3497 %}
+                <div class="narrative" id="GFW">
+                  <h2 class="title">{{intro.title|safe}}</h2>
+                  <div class="narrative-content">{{intro.body|safe}}</div>
+                </div>
+                <div class="courses">
+                    <widget type="course_catalog">
+                        <arg id="dept">GFW</arg>
+                    </widget>
+                </div>
+                {# History #}
+                {% get_lw_content as intro blurbs 3498 %}
+                <div class="narrative" id="HIS">
+                  <h2 class="title">{{intro.title|safe}}</h2>
+                  <div class="narrative-content">{{intro.body|safe}}</div>
+                </div>
+                <div class="courses">
+                    <widget type="course_catalog">
+                        <arg id="dept">HIS</arg>
+                    </widget>
+                </div>
+                {# Management and Marketing #}
+                {% get_lw_content as intro blurbs 3515 %}
+                <div class="narrative" id="BUS">
+                  <h2 class="title">{{intro.title|safe}}</h2>
+                  <div class="narrative-content">{{intro.body|safe}}</div>
+                </div>
+                <div class="courses">
+                    <h2 class="title">Business Administration</h2>
+                    <widget type="course_catalog">
+                        <arg id="dept">BUS</arg>
+                    </widget>
+                </div>
+                <div class="courses">
+                    <h2 class="title">Management</h2>
+                    <widget type="course_catalog">
+                        <arg id="dept">MGT</arg>
+                    </widget>
+                </div>
+                <div class="courses">
+                    <h2 class="title">Marketing</h2>
+                    <widget type="course_catalog">
+                        <arg id="dept">MKT</arg>
+                    </widget>
+                </div>
+                {# Mathematics #}
+                {% get_lw_content as intro blurbs 3516 %}
+                <div class="narrative" id="MTH">
+                  <h2 class="title">{{intro.title|safe}}</h2>
+                  <div class="narrative-content">{{intro.body|safe}}</div>
+                </div>
+                <div class="courses">
+                    <widget type="course_catalog">
+                        <arg id="dept">MTH</arg>
+                    </widget>
+                </div>
+                {# Modern Languages #}
+                {% get_lw_content as intro blurbs 3499 %}
+                <div class="narrative" id="MLA">
+                  <h2 class="title">{{intro.title|safe}}</h2>
+                  <div class="narrative-content">{{intro.body|safe}}</div>
+                </div>
+                <div class="courses">
+                    <h2 class="title">Chinese</h2>
+                    <widget type="course_catalog">
+                        <arg id="dept">CHN</arg>
+                    </widget>
+                </div>
+                <div class="courses" id="japanese">
+                    <h2 class="title" style="margin-top:0 !important;">Japanese</h2>
+                    <widget type="course_catalog">
+                        <arg id="dept">JPN</arg>
+                    </widget>
+                </div>
+                <div class="courses">
+                    <h2 class="title">Modern Language Courses</h2>
+                    <widget type="course_catalog">
+                        <arg id="dept">MLA</arg>
+                    </widget>
+                </div>
+                <div class="courses">
+                    <h2 class="title">French</h2>
+                    <widget type="course_catalog">
+                        <arg id="dept">FRN</arg>
+                    </widget>
+                </div>
+                <div class="courses">
+                    <h2 class="title">German</h2>
+                    <widget type="course_catalog">
+                        <arg id="dept">GER</arg>
+                    </widget>
+                </div>
+                <div class="courses">
+                    <h2 class="title">Spanish</h2>
+                    <widget type="course_catalog">
+                        <arg id="dept">SPN</arg>
+                    </widget>
+                </div>
+                <div class="narrative">
+                    <widget type="blurbs">
+                        <arg id="type">Catalog - Department Narrative</arg>
+                        <arg id="group">Catalog</arg>
+                        <arg id="tag">Music</arg>
+                        <arg id="format">
+                            <h2 class="title">{title}</h2>
+                            <div class="narrative-content">{body}</div>
+                        </arg>
+                    </widget>
+                </div>
+                <div class="courses">
+                    <widget type="course_catalog">
+                        <arg id="dept">MUS</arg>
+                    </widget>
+                </div>
+                <div class="narrative">
+                    <widget type="blurbs">
+                        <arg id="type">Catalog - Department Narrative</arg>
+                        <arg id="group">Catalog</arg>
+                        <arg id="tag">Neuroscience</arg>
+                        <arg id="format">
+                            <h2 class="title">{title}</h2>
+                            <div class="narrative-content">{body}</div>
+                        </arg>
+                    </widget>
+                </div>
+                <div class="courses">
+                    <widget type="course_catalog">
+                        <arg id="dept">NEU</arg>
+                    </widget>
+                </div>
+                <div class="narrative" id="NSG">
+                    <widget type="blurbs">
+                        <arg id="type">Catalog - Department Narrative</arg>
+                        <arg id="group">Catalog</arg>
+                        <arg id="tag">Nursing</arg>
+                        <arg id="format">
+                            <h2 class="title">{title}</h2>
+                            <div class="narrative-content">{body}</div>
+                        </arg>
+                    </widget>
+                </div>
+                <div class="courses">
+                    <widget type="course_catalog">
+                        <arg id="dept">NSG</arg>
+                    </widget>
+                </div>
+                <div class="narrative">
+                    <widget type="blurbs">
+                        <arg id="type">Catalog - Department Narrative</arg>
+                        <arg id="group">Catalog</arg>
+                        <arg id="tag">Philosophy</arg>
+                        <arg id="format">
+                            <h2 class="title">{title}</h2>
+                            <div class="narrative-content">{body}</div>
+                        </arg>
+                    </widget>
+                </div>
+                <div class="courses">
+                    <widget type="course_catalog">
+                        <arg id="dept">PHL</arg>
+                    </widget>
+                </div>
+                <div class="narrative">
+                    <widget type="blurbs">
+                        <arg id="type">Catalog - Department Narrative</arg>
+                        <arg id="group">Catalog</arg>
+                        <arg id="tag">Physics and Astronomy</arg>
+                        <arg id="format">
+                            <h2 class="title">{title}</h2>
+                            <div class="narrative-content">{body}</div>
+                        </arg>
+                    </widget>
+                </div>
+                <div class="courses">
+                    <widget type="course_catalog">
+                        <arg id="dept">PHY</arg>
+                    </widget>
+                </div>
+                <div class="narrative">
+                    <widget type="blurbs">
+                        <arg id="type">Catalog - Department Narrative</arg>
+                        <arg id="group">Catalog</arg>
+                        <arg id="tag">Political Science</arg>
+                        <arg id="format">
+                            <h2 class="title">{title}</h2>
+                            <div class="narrative-content">{body}</div>
+                        </arg>
+                    </widget>
+                </div>
+                <div class="courses">
+                    <widget type="course_catalog">
+                        <arg id="dept">POL</arg>
+                    </widget>
+                </div>
+                <div class="narrative">
+                    <widget type="blurbs">
+                        <arg id="type">Catalog - Department Narrative</arg>
+                        <arg id="group">Catalog</arg>
+                        <arg id="tag">Psychology</arg>
+                        <arg id="format">
+                            <h2 class="title">{title}</h2>
+                            <div class="narrative-content">{body}</div>
+                        </arg>
+                    </widget>
+                </div>
+                <div class="courses">
+                    <widget type="course_catalog">
+                        <arg id="dept">PYC</arg>
+                    </widget>
+                </div>
+                <div class="narrative">
+                    <widget type="blurbs">
+                        <arg id="type">Catalog - Department Narrative</arg>
+                        <arg id="group">Catalog</arg>
+                        <arg id="tag">Religion</arg>
+                        <arg id="format">
+                            <h2 class="title">{title}</h2>
+                            <div class="narrative-content">{body}</div>
+                        </arg>
+                    </widget>
+                </div>
+                <div class="courses">
+                    <widget type="course_catalog">
+                        <arg id="dept">REL</arg>
+                    </widget>
+                </div>
+                <div class="narrative" id="SSC">
+                    <widget type="blurbs">
+                        <arg id="type">Catalog - Department Narrative</arg>
+                        <arg id="group">Catalog</arg>
+                        <arg id="tag">Social Sciences</arg>
+                        <arg id="format">
+                            <h2 class="title">{title}</h2>
+                            <div class="narrative-content">{body}</div>
+                        </arg>
+                    </widget>
+                </div>
+                <div class="courses">
+                    <widget type="course_catalog">
+                        <arg id="dept">SSC</arg>
+                    </widget>
+                </div>
+                <div class="narrative">
+                    <widget type="blurbs">
+                        <arg id="type">Catalog - Department Narrative</arg>
+                        <arg id="group">Catalog</arg>
+                        <arg id="tag">Social Work</arg>
+                        <arg id="format">
+                            <h2 class="title">{title}</h2>
+                            <div class="narrative-content">{body}</div>
+                        </arg>
+                    </widget>
+                </div>
+                <div class="courses">
+                    <widget type="course_catalog">
+                        <arg id="dept">SWK</arg>
+                    </widget>
+                </div>
+                <div class="narrative">
+                    <widget type="blurbs">
+                        <arg id="type">Catalog - Department Narrative</arg>
+                        <arg id="group">Catalog</arg>
+                        <arg id="tag">Sociology</arg>
+                        <arg id="format">
+                            <h2 class="title">{title}</h2>
+                            <div class="narrative-content">{body}</div>
+                        </arg>
+                    </widget>
+                </div>
+                <div class="courses">
+                    <widget type="course_catalog">
+                        <arg id="dept">SOC</arg>
+                    </widget>
+                </div>
+                <div class="narrative">
+                    <widget type="blurbs">
+                        <arg id="type">Catalog - Department Narrative</arg>
+                        <arg id="group">Catalog</arg>
+                        <arg id="tag">Theatre</arg>
+                        <arg id="format">
+                            <h2 class="title">{title}</h2>
+                            <div class="narrative-content">{body}</div>
+                        </arg>
+                    </widget>
+                </div>
+                <div class="courses">
+                    <widget type="course_catalog">
+                        <arg id="dept">THR</arg>
+                    </widget>
+                </div>
+                <div class="narrative">
+                    <widget type="blurbs">
+                        <arg id="type">Catalog - Department Narrative</arg>
+                        <arg id="group">Catalog</arg>
+                        <arg id="tag">Women's and Gender Studies</arg>
+                        <arg id="format">
+                            <h2 class="title">{title}</h2>
+                            <div class="narrative-content">{body}</div>
+                        </arg>
+                    </widget>
+                </div>
+                <div class="courses">
+                    <widget type="course_catalog">
+                        <arg id="dept">WMG</arg>
+                    </widget>
+                </div>
+            </div> <!-- end Undergraduate courses chapter -->
+            <div class="chapter">
+                <h1 class="title">Graduate Academic Program of Study</h1>
+                <div class="narrative">
+                    <widget type="blurbs">
+                        <arg id="type">Catalog - Department Narrative</arg>
+                        <arg id="group">Catalog</arg>
+                        <arg id="tag">Master of Education</arg>
+                    </widget>
+                </div>
+                <h3>Courses</h3>
+                <div class="courses" id="MED">
+                    <widget type="course_catalog">
+                        <arg id="dept">MED</arg>
+                    </widget>
+                </div>
+                <div class="manualbreak">&nbsp;</div>
+                <div class="narrative">
+                    <widget type="blurbs">
+                        <arg id="type">Catalog - Department Narrative</arg>
+                        <arg id="group">Catalog</arg>
+                        <arg id="tag">Master of Business Design and Innovation</arg>
+                    </widget>
+                </div>
+                <h3>Courses</h3>
+                <div class="courses" id="MBD">
+                    <widget type="course_catalog">
+                        <arg id="dept">MBD</arg>
+                    </widget>
+                </div>
+                <div class="narrative">
+                    <widget type="blurbs">
+                        <arg id="type">Catalog - Department Narrative</arg>
+                        <arg id="group">Catalog</arg>
+                        <arg id="tag">Master of Music in Music Theatre Vocal Pedagogy</arg>
+                    </widget>
+                </div>
+                <h3>Courses</h3>
+                <div class="courses" id="MMT">
+                    <widget type="course_catalog">
+                        <arg id="dept">MMT</arg>
+                    </widget>
+                </div>
+                <div class="narrative">
+                    <widget type="blurbs">
+                        <arg id="type">Catalog - Department Narrative</arg>
+                        <arg id="group">Catalog</arg>
+                        <arg id="tag">Master of Arts in Athletic Training</arg>
+                    </widget>
+                </div>
+                <h3>Courses</h3>
+                <div class="courses" id="MAT">
+                    <widget type="course_catalog">
+                        <arg id="dept">MAT</arg>
+                    </widget>
+                </div>
+            </div>
+            <div class="chapter">
+                <h1 class="title">Admissions</h1>
+                {# TOC Admissions: old ID 1840 #}
+                {% get_lw_content as intro blurbs 3532 %}
+                {{intro.body|safe}}
+                <widget id="54_blurbs_catalog_-_admissions"></widget>
+            </div>
+            <div class="chapter">
+                <h1 class="title">Tuition and Fees</h1>
+                {# TOC Tuition and Fees: old ID 1841 #}
+                {% get_lw_content as intro blurbs 3536 %}
+                {{intro.body|safe}}
+                <widget id="55_blurbs_catalog_-_tuition_and_fees"></widget>
+            </div>
+            <div class="chapter">
+                <h1 class="title">Student Financial Planning</h1>
+                {# TOC Tuition and Fees: old ID 1842 #}
+                {% get_lw_content as intro blurbs 3534 %}
+                {{intro.body|safe}}
+                <widget id="57_blurbs_catalog_-_student_financial_planning"></widget>
+            </div>
+            <div class="chapter">
+                <h1 class="title">Student Affairs</h1>
+                <widget id="56_blurbs_catalog_-_student_affairs"></widget>
+            </div>
+            <div class="chapter">
+                <h1 class="title">Faculty</h1>
+                <widget id="59_blurbs_catalog_-_faculty_and_staff"></widget>
+            </div>
+            <div class="chapter">
+                <h1 class="title">Board of Trustees</h1>
+                <widget id="58_blurbs_catalog_-_miscellaneous">
+                    <arg id="tag">Board of Trustees</arg>
+                </widget>
+            </div>
+            <div class="chapter">
+                <h1 class="title">Campus Buildings</h1>
+                <widget id="58_blurbs_catalog_-_miscellaneous">
+                    <arg id="tag">Campus Buildings</arg>
+                </widget>
+            </div>
+        </div> <!-- end 3 col -->
+        <div id="academic-calendar" class="layout2col">
+            <div class="chapter">
+                <h1 class="title">Academic Calendar</h1>
+                <widget id="58_blurbs_catalog_-_miscellaneous">
+                    <arg id="tag">Calendar</arg>
+                </widget>
+            </div>
+        </div> <!-- end 2 col -->
+        <div id="catalog-index" class="layout3col">
+            <div class="chapter">
+                <h1 class="title" style="clear:both; padding-top:20px;">Index</h1>
+                <widget id="58_blurbs_catalog_-_miscellaneous">
+                    <arg id="tag">Catalog Index</arg>
+                </widget>
+            </div>
+        </div> <!-- end 3 col -->
+    </div> <!-- end main content -->
+    <script type="text/javascript">
+    $(function() {
+        $('a').click(function(e) {
+            e.preventDefault();
+        });
+    });
+    </script>
+  </body>
+</html>

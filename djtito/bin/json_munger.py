@@ -8,8 +8,7 @@ import sys
 django.setup()
 from django.conf import settings
 from django.core import serializers
-from djwailer.core.models import LivewhaleCourseCatalog
-from djwailer.core.models import LivewhaleProfilesFields
+from djtito.catalog.models import Course
 
 
 desc = "Takes a URL and grabs JSON data for processing"
@@ -22,17 +21,6 @@ parser.add_argument(
 )
 
 
-def get_profile_id(email):
-    """Obtain the person's profile from the CMS."""
-    try:
-        pid = LivewhaleProfilesFields.objects.using('livewhale').filter(
-            fid=settings.LIVEWHALE_PROFILE_ID,
-        ).filter(value=email).order_by('pid')[0].pid
-    except Exception:
-        pid = None
-    return pid
-
-
 def main():
     """
     Shell script that manages data exported from Informix and imported into MySQL.
@@ -40,11 +28,11 @@ def main():
     URL structure:
 
     Physics
-    https://www.carthage.edu/apps/mapache/api/catalog/UG21/PHY/
+    https://app.carthage.edu/djmapache/api/catalog/UG21/PHY/
     ALL Undergraduate Courses
-    https://www.carthage.edu/apps/mapache/api/catalog/UG21/
+    https://app.carthage.edu/djmapache/api/catalog/UG21/
     All Graduate Courses
-    https://www.carthage.edu/apps/mapache/api/catalog/GR21/
+    https://app.carthage.edu/djmapache/api/catalog/GR21/
 
     NOTE: You can find the API Key in the djzbar settings file.
 
@@ -54,47 +42,47 @@ def main():
 
     2) import the UG* courses:
 
-    python bin/json_munger.py --url=carthage.edu/apps/mapache/api/catalog/UG21/?api_key=xx
+    python bin/json_munger.py --url=https://app.carthage.edu/djmapache/api/catalog/UG21/?api_key=xx
 
     3) execute the following SQL incantation:
 
-    update livewhale_course_catalog set disc="" where dept="EDU";
-    update livewhale_course_catalog set disc="" where disc="MUS";
-    update livewhale_course_catalog set disc="" where disc="MGT";
-    update livewhale_course_catalog set disc="AHS" where crs_no like "AHS %";
+    update course_catalog set disc="" where dept="EDU";
+    update course_catalog set disc="" where disc="MUS";
+    update course_catalog set disc="" where disc="MGT";
+    update course_catalog set disc="AHS" where crs_no like "AHS %";
 
     4) execute the GR* URL for EDU:
 
-    json_munger.py --url=carthage.edu/apps/mapache/api/catalog/GR21/EDU/?api_key=xx
+    json_munger.py --url=https://app.carthage.edu/djmapache/api/catalog/GR21/EDU/?api_key=xx
 
     execute the SQL incantation for EDU courses:
 
-    update livewhale_course_catalog set disc="MED" where dept="EDU" and disc="EDU";
-    update livewhale_course_catalog set disc="EDU" where dept="EDU" and disc="";
+    update course_catalog set disc="MED" where dept="EDU" and disc="EDU";
+    update course_catalog set disc="EDU" where dept="EDU" and disc="";
 
     5) execute the GR* URL FOR MUS:
 
-    json_munger.py --url=carthage.edu/apps/mapache/api/catalog/GR21/MUS/?api_key=xx
+    json_munger.py --url=https://app.carthage.edu/djmapache/api/catalog/GR21/MUS/?api_key=xx
 
     execute the SQL incantation for MUS courses:
 
-    update livewhale_course_catalog set disc="MMT" where dept="MUS" and disc="MUS";
-    update livewhale_course_catalog set disc="MUS" where dept="MUS" and disc="";
+    update course_catalog set disc="MMT" where dept="MUS" and disc="MUS";
+    update course_catalog set disc="MUS" where dept="MUS" and disc="";
 
     6) execute the GR* URL for MGT
 
-    json_munger.py --url=carthage.edu/apps/mapache/api/catalog/GR21/MGT/?api_key=xx
+    json_munger.py --url=https://app.carthage.edu/djmapache/api/catalog/GR21/MGT/?api_key=xx
 
     execute the SQL incantation for MGT courses:
 
-    update livewhale_course_catalog set disc="MBD" where dept="BUS" and disc="MGT";
-    update livewhale_course_catalog set disc="MGT" where dept="MMK" and disc="";
+    update course_catalog set disc="MBD" where dept="BUS" and disc="MGT";
+    update course_catalog set disc="MGT" where dept="MMK" and disc="";
 
     7) execute the GR* URL for ATH:
 
-    json_munger.py --url=carthage.edu/apps/mapache/api/catalog/GR21/ATH/?api_key=xx
+    json_munger.py --url=https://app.carthage.edu/djmapache/api/catalog/GR21/ATH/?api_key=xx
 
-    update livewhale_course_catalog set disc="MAT" where dept="_ATH" and disc="ATH";
+    update course_catalog set disc="MAT" where dept="_ATH" and disc="ATH";
 
 
     8) generate the PDF with the prince command:
@@ -121,34 +109,26 @@ def main():
             course.object.credits = '{0}-{1}'.format(
                 int(course.object.min_hrs), int(course.object.max_hrs),
             )
-        name = '{0} {1}'.format(course.object.firstname, course.object.lastname)
-        pid = get_profile_id(course.object.email)
-        if pid and pid != settings.LIVEWHALE_PROFILE_STAFF_ID:
-            instructor = '<a href="/live/profiles/{0}-{1}-{2}/">{3}</a>'.format(
-                pid, course.object.firstname, course.object.lastname, name,
-            )
-        else:
-            instructor = name
-        course.object.instructors = instructor
+        course.object.instructors = '{0} {1}'.format(course.object.firstname, course.object.lastname)
         if course.object.instructors in {'', ' '}:
             course.object.instructors = 'Staff'
         course.object.terms = course.object.txt
         course.object.id = None
-        course.save(using='livewhale')
+        course.save(using='workday')
     # search for duplicates and concatenate instructors and terms
     # from duplicates and then remove them.
-    unique_courses = LivewhaleCourseCatalog.objects.using('livewhale').values_list(
+    unique_courses = Course.objects.using('workday').values_list(
         'crs_no', flat=True,
     ).distinct()
 
     fields = []
-    for field in LivewhaleCourseCatalog._meta.get_fields():
+    for field in Course._meta.get_fields():
         fields.append(field.name)
 
     for crs_no in unique_courses:
-        dupes = LivewhaleCourseCatalog.objects.using('livewhale').filter(
-            pk__in=LivewhaleCourseCatalog.objects.filter(
-                crs_no=crs_no.decode('utf-8'),
+        dupes = Course.objects.using('workday').filter(
+            pk__in=Course.objects.using('workday').filter(
+                crs_no=crs_no
             ).values_list(
                 'id', flat=True,
             ),
@@ -158,20 +138,20 @@ def main():
             parent_course = dupes[0]
             # we put professors and terms in lists so we can check for
             # duplicates and sort alphabetically
-            profis = [parent_course.instructors.decode('utf-8')]
+            profis = [parent_course.instructors]
             # oddly, txt is missing from time to time and becomes None
             # which causes the join on sorted(terms) below to barf
             if parent_course.txt and parent_course.txt != '':
-                terms.append(parent_course.txt.decode('utf-8'))
+                terms.append(parent_course.txt)
             # skip the 0 index since that is the course we will update
             # while removing the other dupes
             for dupe in dupes[1:]:
-                instructor = dupe.instructors.decode('utf-8')
+                instructor = dupe.instructors
                 if instructor not in profis:
                     profis.append(instructor)
                 dupe_term = None
                 if dupe.txt:
-                    dupe_term = dupe.txt.decode('utf-8')
+                    dupe_term = dupe.txt
                 if dupe_term and dupe_term not in terms:
                     terms.append(dupe_term)
                 dupe.delete()
@@ -180,7 +160,7 @@ def main():
             for attr in fields:
                 try:
                     setattr(
-                        parent_course, attr, getattr(parent_course, attr).decode('utf-8'),
+                        parent_course, attr, getattr(parent_course, attr)
                     )
                 except Exception:
                     pass
@@ -191,7 +171,7 @@ def main():
                     terms.remove(term)
             parent_course.terms = ', '.join(sorted(terms))
             try:
-                parent_course.save(using='livewhale')
+                parent_course.save(using='workday')
             except Exception as error:
                 print(parent_course.id, '"{0}"'.format(parent_course.instructors), error)
 

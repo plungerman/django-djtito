@@ -52,13 +52,17 @@ urlpatterns = [
         TemplateView.as_view(template_name='denied.html'),
         name='access_denied',
     ),
-    # bridge newsletter
-    path(
-        'newsletter/', include('djtito.newsletter.urls'),
-    ),
     # digital signage
     path(
         'bridge/', include('djtito.bridge.urls'),
+    ),
+    # print catalog
+    path(
+        'catalog/', include('djtito.catalog.urls'),
+    ),
+    # bridge newsletter
+    path(
+        'newsletter/', include('djtito.newsletter.urls'),
     ),
     # send home requests to newsletter manager
     path('', RedirectView.as_view(url=reverse_lazy('newsletter_manager'))),

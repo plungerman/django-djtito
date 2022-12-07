@@ -1,8 +1,13 @@
+# -*- coding: utf-8 -*-
+
 import django
 
 django.setup()
 
-from djwailer.core.models import LivewhaleCourseCatalog
+from djtito.catalog.models import Course
+
+#for course in Course.objects.using('workday').all():
+#    print(course.title)
 
 # delete the current catalog of courses
-LivewhaleCourseCatalog.objects.using('livewhale').all().delete()
+Course.objects.using('workday').all().delete()
