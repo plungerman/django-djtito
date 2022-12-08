@@ -1,12 +1,11 @@
+<!DOCTYPE html>
 {% load livewhale_api %}
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<html lang="en">
+<head>
+  <meta charset="utf-8" http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>Carthage Course College </title>
     {% now "Y" as year %}
-    <meta name="author" content="Larry" />
+    <meta name="author" content="Larry">
     <style type="text/css">
         /* reset: since livewhale includes its own set of .css files */
         ul { margin: 0; padding: 0; }
@@ -33,7 +32,7 @@
                 font: 7pt "Arial", sans-serif;
                 text-align:right;
                 padding-right:30px;
-                content: "Carthage {{year}}-{{year|add:"+1"}} ?> Catalog";
+                content: "Carthage {{year}}-{{year|add:"+1"}} Catalog";
             }
         }
         @page :right {
@@ -59,7 +58,7 @@
             @bottom-left {
                 font: 7pt "Arial", sans-serif;
                 padding-left:50px;
-                content: "Carthage {{year}}-{{year|add:"+1"}} ?> Catalog";
+                content: "Carthage {{year}}-{{year|add:"+1"}} Catalog";
             }
         }
         body {
@@ -562,160 +561,99 @@
                         <arg id="dept">SPN</arg>
                     </widget>
                 </div>
-                <div class="narrative">
-                    <widget type="blurbs">
-                        <arg id="type">Catalog - Department Narrative</arg>
-                        <arg id="group">Catalog</arg>
-                        <arg id="tag">Music</arg>
-                        <arg id="format">
-                            <h2 class="title">{title}</h2>
-                            <div class="narrative-content">{body}</div>
-                        </arg>
-                    </widget>
+                {# Music #}
+                {% get_lw_content as intro blurbs 3500 %}
+                <div class="narrative" id="MUS">
+                  <h2 class="title">{{intro.title|safe}}</h2>
+                  <div class="narrative-content">{{intro.body|safe}}</div>
                 </div>
                 <div class="courses">
                     <widget type="course_catalog">
                         <arg id="dept">MUS</arg>
                     </widget>
                 </div>
-                <div class="narrative">
-                    <widget type="blurbs">
-                        <arg id="type">Catalog - Department Narrative</arg>
-                        <arg id="group">Catalog</arg>
-                        <arg id="tag">Neuroscience</arg>
-                        <arg id="format">
-                            <h2 class="title">{title}</h2>
-                            <div class="narrative-content">{body}</div>
-                        </arg>
-                    </widget>
+                {# Neuroscience #}
+                {% get_lw_content as intro blurbs 3501 %}
+                <div class="narrative" id="NEU">
+                  <h2 class="title">{{intro.title|safe}}</h2>
+                  <div class="narrative-content">{{intro.body|safe}}</div>
                 </div>
                 <div class="courses">
                     <widget type="course_catalog">
                         <arg id="dept">NEU</arg>
                     </widget>
                 </div>
+                {# Nursing #}
+                {% get_lw_content as intro blurbs 3485 %}
                 <div class="narrative" id="NSG">
-                    <widget type="blurbs">
-                        <arg id="type">Catalog - Department Narrative</arg>
-                        <arg id="group">Catalog</arg>
-                        <arg id="tag">Nursing</arg>
-                        <arg id="format">
-                            <h2 class="title">{title}</h2>
-                            <div class="narrative-content">{body}</div>
-                        </arg>
-                    </widget>
+                  <h2 class="title">{{intro.title|safe}}</h2>
+                  <div class="narrative-content">{{intro.body|safe}}</div>
                 </div>
                 <div class="courses">
                     <widget type="course_catalog">
                         <arg id="dept">NSG</arg>
                     </widget>
                 </div>
-                <div class="narrative">
-                    <widget type="blurbs">
-                        <arg id="type">Catalog - Department Narrative</arg>
-                        <arg id="group">Catalog</arg>
-                        <arg id="tag">Philosophy</arg>
-                        <arg id="format">
-                            <h2 class="title">{title}</h2>
-                            <div class="narrative-content">{body}</div>
-                        </arg>
-                    </widget>
+                {# Philosophy #}
+                {% get_lw_content as intro blurbs 3489 %}
+                <div class="narrative" id="PHL">
+                  <h2 class="title">{{intro.title|safe}}</h2>
+                  <div class="narrative-content">{{intro.body|safe}}</div>
                 </div>
                 <div class="courses">
                     <widget type="course_catalog">
                         <arg id="dept">PHL</arg>
                     </widget>
                 </div>
-                <div class="narrative">
-                    <widget type="blurbs">
-                        <arg id="type">Catalog - Department Narrative</arg>
-                        <arg id="group">Catalog</arg>
-                        <arg id="tag">Physics and Astronomy</arg>
-                        <arg id="format">
-                            <h2 class="title">{title}</h2>
-                            <div class="narrative-content">{body}</div>
-                        </arg>
-                    </widget>
+                {# Physics and Astronomy #}
+                {% get_lw_content as intro blurbs 3502 %}
+                <div class="narrative" id="PHY">
+                  <h2 class="title">{{intro.title|safe}}</h2>
+                  <div class="narrative-content">{{intro.body|safe}}</div>
                 </div>
                 <div class="courses">
                     <widget type="course_catalog">
                         <arg id="dept">PHY</arg>
                     </widget>
                 </div>
-                <div class="narrative">
-                    <widget type="blurbs">
-                        <arg id="type">Catalog - Department Narrative</arg>
-                        <arg id="group">Catalog</arg>
-                        <arg id="tag">Political Science</arg>
-                        <arg id="format">
-                            <h2 class="title">{title}</h2>
-                            <div class="narrative-content">{body}</div>
-                        </arg>
-                    </widget>
+                {# Political Science #}
+                {% get_lw_content as intro blurbs 3490 %}
+                <div class="narrative" id="POL">
+                  <h2 class="title">{{intro.title|safe}}</h2>
+                  <div class="narrative-content">{{intro.body|safe}}</div>
                 </div>
                 <div class="courses">
                     <widget type="course_catalog">
                         <arg id="dept">POL</arg>
                     </widget>
                 </div>
-                <div class="narrative">
-                    <widget type="blurbs">
-                        <arg id="type">Catalog - Department Narrative</arg>
-                        <arg id="group">Catalog</arg>
-                        <arg id="tag">Psychology</arg>
-                        <arg id="format">
-                            <h2 class="title">{title}</h2>
-                            <div class="narrative-content">{body}</div>
-                        </arg>
-                    </widget>
+                {# Psychology #}
+                {% get_lw_content as intro blurbs 3580 %}
+                <div class="narrative" id="PYC">
+                  <h2 class="title">{{intro.title|safe}}</h2>
+                  <div class="narrative-content">{{intro.body|safe}}</div>
                 </div>
                 <div class="courses">
                     <widget type="course_catalog">
                         <arg id="dept">PYC</arg>
                     </widget>
                 </div>
-                <div class="narrative">
-                    <widget type="blurbs">
-                        <arg id="type">Catalog - Department Narrative</arg>
-                        <arg id="group">Catalog</arg>
-                        <arg id="tag">Religion</arg>
-                        <arg id="format">
-                            <h2 class="title">{title}</h2>
-                            <div class="narrative-content">{body}</div>
-                        </arg>
-                    </widget>
+                {# Religion #}
+                {% get_lw_content as intro blurbs 3492 %}
+                <div class="narrative" id="REL">
+                  <h2 class="title">{{intro.title|safe}}</h2>
+                  <div class="narrative-content">{{intro.body|safe}}</div>
                 </div>
                 <div class="courses">
                     <widget type="course_catalog">
                         <arg id="dept">REL</arg>
                     </widget>
                 </div>
-                <div class="narrative" id="SSC">
-                    <widget type="blurbs">
-                        <arg id="type">Catalog - Department Narrative</arg>
-                        <arg id="group">Catalog</arg>
-                        <arg id="tag">Social Sciences</arg>
-                        <arg id="format">
-                            <h2 class="title">{title}</h2>
-                            <div class="narrative-content">{body}</div>
-                        </arg>
-                    </widget>
-                </div>
-                <div class="courses">
-                    <widget type="course_catalog">
-                        <arg id="dept">SSC</arg>
-                    </widget>
-                </div>
-                <div class="narrative">
-                    <widget type="blurbs">
-                        <arg id="type">Catalog - Department Narrative</arg>
-                        <arg id="group">Catalog</arg>
-                        <arg id="tag">Social Work</arg>
-                        <arg id="format">
-                            <h2 class="title">{title}</h2>
-                            <div class="narrative-content">{body}</div>
-                        </arg>
-                    </widget>
+                {# Social Work #}
+                {% get_lw_content as intro blurbs 3488 %}
+                <div class="narrative" id="SWK">
+                  <h2 class="title">{{intro.title|safe}}</h2>
+                  <div class="narrative-content">{{intro.body|safe}}</div>
                 </div>
                 <div class="courses">
                     <widget type="course_catalog">
