@@ -27,17 +27,18 @@ USE_TZ = True
 SERVER_URL = ''
 API_URL = '{0}/{1}'.format(SERVER_URL, 'api')
 LIVEWHALE_API_URL = 'https://{0}'.format(SERVER_URL)
-ROOT_URL = '/djtito/'
 BRIDGE_URL = '/bridge/'
 ROOT_URLCONF = 'djtito.urls'
 WSGI_APPLICATION = 'djtito.wsgi.application'
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+PROJECT_APP = os.path.basename(BASE_DIR)
 ROOT_DIR = BASE_DIR
+ROOT_URL = '/{0}/'.format(PROJECT_APP)
 ADMIN_MEDIA_PREFIX = '/static/admin/'
 MEDIA_ROOT = '{0}/assets/'.format(ROOT_DIR)
 STATIC_ROOT = '{0}/static/'.format(ROOT_DIR)
-STATIC_URL = '/static/djtito/'
-MEDIA_URL = '/media/djtito/'
+STATIC_URL = '/static/{0}/'.format(PROJECT_APP)
+MEDIA_URL = '/media/{0}/'.format(PROJECT_APP)
 UPLOADS_DIR = '{0}files/'.format(MEDIA_ROOT)
 UPLOADS_URL = '{0}files/'.format(MEDIA_URL)
 ARCHIVES_DIR = 'bridge/newsletter/archives/'
@@ -124,12 +125,21 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.template.context_processors.debug',
                 'django.template.context_processors.media',
+                'django.template.context_processors.request',
                 'django.template.context_processors.static',
                 'django.contrib.messages.context_processors.messages',
             ],
         },
     },
 ]
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+        'LOCATION': '127.0.0.1:11211',
+        'TIMEOUT': 604800,
+        'KEY_PREFIX': '{0}_'.format(PROJECT_APP),
+    }
+}
 # LDAP Constants
 LDAP_SERVER = ''
 LDAP_PORT = ''
@@ -192,6 +202,7 @@ BRIDGE_EVENTS = True
 NEWSLETTER_TO_LIST = []
 NEWSLETTER_TO_LIST_TEST = []
 STAFF_GROUP = ''
+
 # logging
 LOG_FILEPATH = os.path.join(
     os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'logs/',
@@ -203,7 +214,7 @@ ERROR_LOG_FILENAME = '{0}{1}'.format(LOG_FILEPATH, 'error.log')
 CUSTOM_LOG_FILENAME = '{0}{1}'.format(LOG_FILEPATH, 'custom.log')
 LOGGING = {
     'version': 1,
-    'disable_existing_loggers': True,
+    'disable_existing_loggers': False,
     'formatters': {
         'standard': {
             'format': '[%(asctime)s] %(levelname)s [%(name)s:%(lineno)s] %(message)s',
@@ -247,7 +258,6 @@ LOGGING = {
     'loggers': {
         'custom_logfile': {
             'level': 'ERROR',
-            'filters': ['require_debug_true'],
             'class': 'logging.FileHandler',
             'filename': CUSTOM_LOG_FILENAME,
             'formatter': 'custom',
@@ -257,27 +267,21 @@ LOGGING = {
             'class': 'logging.handlers.RotatingFileHandler',
             'backupCount': 10,
             'maxBytes': 50000,
-            'filters': ['require_debug_false'],  # run logger in production
             'filename': INFO_LOG_FILENAME,
             'formatter': 'simple',
         },
         'debug_logfile': {
             'level': 'DEBUG',
+            'handlers': ['logfile'],
             'class': 'logging.FileHandler',
             'filename': DEBUG_LOG_FILENAME,
             'formatter': 'verbose',
         },
         'error_logfile': {
             'level': 'ERROR',
-            'filters': ['require_debug_true'],  # don't run logger in production
             'class': 'logging.FileHandler',
             'filename': ERROR_LOG_FILENAME,
             'formatter': 'verbose',
-        },
-        'djauth': {
-            'level': 'DEBUG',
-            'handlers': ['logfile'],
-            'propagate': True,
         },
         'django': {
             'handlers': ['console'],
@@ -296,3 +300,24 @@ LOGGING = {
         },
     },
 }
+##################
+# LOCAL SETTINGS #
+##################
+
+# Allow any settings to be defined in local.py which should be
+# ignored in your version control system allowing for settings to be
+# defined per machine.
+
+# Instead of doing "from .local import *", we use exec so that
+# local has full access to everything defined in this module.
+# Also force into sys.modules so it's visible to Django's autoreload.
+
+phile = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'local.py')
+if os.path.exists(phile):
+    import imp
+    import sys
+    module_name = '{0}.settings.local'.format(PROJECT_APP)
+    module = imp.new_module(module_name)
+    module.__file__ = phile
+    sys.modules[module_name] = module
+    exec(open(phile, 'rb').read())
