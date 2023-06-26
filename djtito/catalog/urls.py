@@ -7,5 +7,5 @@ from djtito.catalog import views
 
 
 urlpatterns = [
-    path('print/', views.print, name='print'),
+    path('print/', views.paint, name='paint'),
 ]

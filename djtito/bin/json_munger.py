@@ -28,11 +28,11 @@ def main():
     URL structure:
 
     Physics
-    https://app.carthage.edu/djmapache/api/catalog/UG21/PHY/
+    https://app.carthage.edu/djmapache/api/catalog/UG23/PHY/
     ALL Undergraduate Courses
-    https://app.carthage.edu/djmapache/api/catalog/UG21/
+    https://app.carthage.edu/djmapache/api/catalog/UG23/
     All Graduate Courses
-    https://app.carthage.edu/djmapache/api/catalog/GR21/
+    https://app.carthage.edu/djmapache/api/catalog/GR23/
 
     NOTE: You can find the API Key in the djzbar settings file.
 
@@ -42,7 +42,7 @@ def main():
 
     2) import the UG* courses:
 
-    python bin/json_munger.py --url=https://app.carthage.edu/djmapache/api/catalog/UG21/?api_key=xx
+    python bin/json_munger.py --url=https://app.carthage.edu/djmapache/api/catalog/UG23/?api_key=xx
 
     3) execute the following SQL incantation:
 
@@ -53,7 +53,7 @@ def main():
 
     4) execute the GR* URL for EDU:
 
-    json_munger.py --url=https://app.carthage.edu/djmapache/api/catalog/GR21/EDU/?api_key=xx
+    python bin/json_munger.py --url=https://app.carthage.edu/djmapache/api/catalog/GR23/EDU/?api_key=xx
 
     execute the SQL incantation for EDU courses:
 
@@ -62,7 +62,7 @@ def main():
 
     5) execute the GR* URL FOR MUS:
 
-    json_munger.py --url=https://app.carthage.edu/djmapache/api/catalog/GR21/MUS/?api_key=xx
+    python bin/json_munger.py --url=https://app.carthage.edu/djmapache/api/catalog/GR23/MUS/?api_key=xx
 
     execute the SQL incantation for MUS courses:
 
@@ -71,7 +71,7 @@ def main():
 
     6) execute the GR* URL for MGT
 
-    json_munger.py --url=https://app.carthage.edu/djmapache/api/catalog/GR21/MGT/?api_key=xx
+    python bin/json_munger.py --url=https://app.carthage.edu/djmapache/api/catalog/GR23/MGT/?api_key=xx
 
     execute the SQL incantation for MGT courses:
 
@@ -80,7 +80,7 @@ def main():
 
     7) execute the GR* URL for ATH:
 
-    json_munger.py --url=https://app.carthage.edu/djmapache/api/catalog/GR21/ATH/?api_key=xx
+    python bin/json_munger.py --url=https://app.carthage.edu/djmapache/api/catalog/GR23/ATH/?api_key=xx
 
     update course_catalog set disc="MAT" where dept="_ATH" and disc="ATH";
 
@@ -91,7 +91,7 @@ def main():
     cd /d2/www/vhosts/carthage.edu/subdomains/ganymede/httpdocs/academics/catalog/print/
 
     /usr/local/bin/prince \
-    https://www.carthage.edu/academics/catalog/print/index.php -o catalog.pdf
+    https://app.carthage.edu/djtito/catalog/print/ -o catalog.pdf
 
     9) optionally, set up a cronjob that runs every five minutes:
 
