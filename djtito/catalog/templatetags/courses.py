@@ -32,7 +32,7 @@ class GetContent(template.Node):
         self.code=bits[3]
 
     def render(self, context):
-        """Obtain course data from informix and expose to template layer."""
+        """Obtain course data from database and expose to template layer."""
         code = self.code
         key = 'courses_{0}'.format(code)
         if cache.get(key):
