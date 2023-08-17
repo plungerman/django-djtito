@@ -14,7 +14,7 @@ from djtools.utils.users import in_group
 CATEGORIES = collections.OrderedDict(
     {
         1: ["Today's Top Stories", []],
-        13: ['Other  Campus News', []],
+        13: ['Other Campus News', []],
         15: ['Lectures & Presentations', []],
         12: ['Arts', []],
         17: ['News for Students', []],
@@ -23,6 +23,21 @@ CATEGORIES = collections.OrderedDict(
         14: ['Kudos', []],
     },
 )
+
+'''
+CATEGORIES = collections.OrderedDict(
+    {
+        'Top Stories': ["Today's Top Stories", []],
+        'Campus News': ['Other Campus News', []],
+        'Lectures &amp; Presentations': ['Lectures & Presentations', []],
+        'Arts': ['Arts', []],
+        'News for Students': ['News for Students', []],
+        'News for Faculty &amp; Staff': ['News for Faculty & Staff', []],
+        'Technology': ['Technology', []],
+        'Kudos': ['Kudos', []],
+    },
+)
+'''
 
 
 class LivewhaleActivity(models.Model):

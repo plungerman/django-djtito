@@ -18,6 +18,9 @@ def fetch_news(days=None):
     1 Monday's Bridge newsletter includes everything posted on & since Friday.
     3 Wednesday's newsletter includes everything posted on and since Monday.
     5 Friday's newsletter includes everything posted on and since Wednesday.
+
+    https://www.carthage.edu/live/json/news/group/bridge/start_date/2023-08-11
+    "search_categories": "Events|The Bridge: Lectures &amp; Presentations",
     """
     cats = copy.deepcopy(CATEGORIES)
     now = datetime.datetime.now()
@@ -41,6 +44,7 @@ def fetch_news(days=None):
     ).exclude(date_dt__lte=past)
 
     for new in news:
+        # [cid, name]
         if new.cat():
             kid = new.cat()[0]
             if new.image():
