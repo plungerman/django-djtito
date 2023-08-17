@@ -1,13 +1,9 @@
 # -*- coding: utf-8 -*-
 
-import datetime
 import requests
 
 from django.conf import settings
 from django.shortcuts import render
-from djtito.core.models import LivewhaleEvents as Events
-from djtito.core.models import LivewhaleNews as News
-from djtito.utils import fetch_news
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
 
 
