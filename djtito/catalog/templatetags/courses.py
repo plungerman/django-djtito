@@ -38,7 +38,7 @@ class GetContent(template.Node):
         if cache.get(key):
             courses = cache.get(key)
         else:
-            courses = Course.objects.using('workday').filter(disc=code)
+            courses = Course.objects.using('workday').filter(disc=code).order_by('crs_no')
             if courses:
                 cache.set(key, courses)
 

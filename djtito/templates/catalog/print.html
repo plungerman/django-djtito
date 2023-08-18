@@ -560,6 +560,20 @@
             <div class="description"><p>{{course.abstr|safe}}</p></div>
           {% endfor %}
         </div>
+        {# Engineering #}
+        {% get_lw_content as intro blurbs 3658 %}
+        <div class="narrative" id="EGR">
+          <h2 class="title">{{intro.title|safe}}</h2>
+          <div class="narrative-content">{{intro.body|safe}}</div>
+        </div>
+        <div class="courses">
+          {% get_courses as courses EGR  %}
+          {% for course in courses %}
+            <h4>{{course.crs_no}}</h4>
+            <h3>{{course.title}}</h3>
+            <div class="description"><p>{{course.abstr|safe}}</p></div>
+          {% endfor %}
+        </div>
         {# English #}
         {% get_lw_content as intro blurbs 3508 %}
         <div class="narrative" id="ENG">
@@ -1174,9 +1188,8 @@
         {{intro.body|safe}}
       </div>
     </div> <!-- end 3 col -->
-    <div id="academic-calendar" class="layout2col">
+    <div id="academic-calendar">
       <div class="chapter">
-        <h1 class="title">Academic Calendar</h1>
         {% get_lw_content as intro blurbs 3529 %}
         {{intro.body|safe}}
       </div>
