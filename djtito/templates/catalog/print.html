@@ -457,39 +457,6 @@
             <div class="description"><p>{{course.abstr|safe}}</p></div>
           {% endfor %}
         </div>
-        {# Classics #}
-        {% get_lw_content as intro blurbs 3514 %}
-        <div class="narrative" id="CLS">
-          <h2 class="title">{{intro.title|safe}}</h2>
-          <div class="narrative-content">{{intro.body|safe}}</div>
-        </div>
-        <div class="courses">
-          <h2 class="title">Classics</h2>
-          {% get_courses as courses CLS %}
-          {% for course in courses %}
-            <h4>{{course.crs_no}}</h4>
-            <h3>{{course.title}}</h3>
-            <div class="description"><p>{{course.abstr|safe}}</p></div>
-          {% endfor %}
-        </div>
-        <div class="courses">
-          <h2 class="title">Greek</h2>
-          {% get_courses as courses GRK %}
-          {% for course in courses %}
-            <h4>{{course.crs_no}}</h4>
-            <h3>{{course.title}}</h3>
-            <div class="description"><p>{{course.abstr|safe}}</p></div>
-          {% endfor %}
-        </div>
-        <div class="courses">
-          <h2 class="title">Latin</h2>
-          {% get_courses as courses LTN %}
-          {% for course in courses %}
-            <h4>{{course.crs_no}}</h4>
-            <h3>{{course.title}}</h3>
-            <div class="description"><p>{{course.abstr|safe}}</p></div>
-          {% endfor %}
-        </div>
         {# Communication, Graphic Design, and Public Relations #}
         {% get_lw_content as intro blurbs 3503 %}
         <div class="narrative" id="CDM">
