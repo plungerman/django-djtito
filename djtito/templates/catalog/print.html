@@ -555,20 +555,6 @@
             <div class="description"><p>{{course.abstr|safe}}</p></div>
           {% endfor %}
         </div>
-        {# Entrepreneurial Studies (blurb does not exist) #}
-        {% get_lw_content as intro blurbs 666 %}
-        <div class="narrative" id="ESN">
-          <h2 class="title">{{intro.title|safe}}</h2>
-          <div class="narrative-content">{{intro.body|safe}}</div>
-        </div>
-        <div class="courses">
-          {% get_courses as courses ENS %}
-          {% for course in courses %}
-            <h4>{{course.crs_no}}</h4>
-            <h3>{{course.title}}</h3>
-            <div class="description"><p>{{course.abstr|safe}}</p></div>
-          {% endfor %}
-        </div>
         {# Environmental Science #}
         {% get_lw_content as intro blurbs 3509 %}
         <div class="narrative" id="ENV">
@@ -597,42 +583,14 @@
             <div class="description"><p>{{course.abstr|safe}}</p></div>
           {% endfor %}
         </div>
-        {# General Courses #}
-        {% get_lw_content as intro blurbs 3495 %}
-        <div class="narrative" id="GNR">
-          <h2 class="title">{{intro.title|safe}}</h2>
-          <div class="narrative-content">{{intro.body|safe}}</div>
-        </div>
-        <div class="courses">
-          {% get_courses as courses GNR %}
-          {% for course in courses %}
-            <h4>{{course.crs_no}}</h4>
-            <h3>{{course.title}}</h3>
-            <div class="description"><p>{{course.abstr|safe}}</p></div>
-          {% endfor %}
-        </div>
-        {# Geography and Earth Science (blurb does not exist) #}
-        {% get_lw_content as intro blurbs 666 %}
+        {# Geospatial Science #}
+        {% get_lw_content as intro blurbs 3496 %}
         <div class="narrative" id="GEO">
           <h2 class="title">{{intro.title|safe}}</h2>
           <div class="narrative-content">{{intro.body|safe}}</div>
         </div>
         <div class="courses">
           {% get_courses as courses GEO %}
-          {% for course in courses %}
-            <h4>{{course.crs_no}}</h4>
-            <h3>{{course.title}}</h3>
-            <div class="description"><p>{{course.abstr|safe}}</p></div>
-          {% endfor %}
-        </div>
-        {# Great Ideas #}
-        {% get_lw_content as intro blurbs 3497 %}
-        <div class="narrative" id="GFW">
-          <h2 class="title">{{intro.title|safe}}</h2>
-          <div class="narrative-content">{{intro.body|safe}}</div>
-        </div>
-        <div class="courses">
-          {% get_courses as courses GFW %}
           {% for course in courses %}
             <h4>{{course.crs_no}}</h4>
             <h3>{{course.title}}</h3>

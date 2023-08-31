@@ -104,7 +104,9 @@ def manager(request):
     # fetch our stories
     newsletter = fetch_news(days=days)
     # athletics events
-    events = []
+    athletics_events = []
+    bridge_events = []
+    gid = settings.BRIDGE_GROUP
     if settings.BRIDGE_EVENTS:
         today = datetime.date.today()
         sports = Events.objects.using('livewhale').filter(
@@ -113,8 +115,15 @@ def manager(request):
             date_dt__gt=today,
         ).order_by('date_dt')[:10]
         for event in sports:
-            events.append(event)
-    newsletter['events'] = events
+            athletics_events.append(event)
+        events = Events.objects.using('livewhale').filter(
+            gid=gid,
+        ).filter(date_dt__gt=today).order_by('date_dt')[:10]
+        for event in events:
+            bridge_events.append(event)
+    newsletter['athletics_events'] = athletics_events
+    newsletter['bridge_events'] = bridge_events
+
     # prepare template for static URLs without Analytics tracking
     newsletter['static'] = True
     if request.POST:
