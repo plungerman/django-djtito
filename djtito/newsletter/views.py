@@ -112,13 +112,13 @@ def manager(request):
         sports = Events.objects.using('livewhale').filter(
             title__contains=' vs ',
         ).exclude(title__contains='JV').filter(
-            date_dt__gt=today,
+            date_dt__gte=today,
         ).order_by('date_dt')[:10]
         for event in sports:
             athletics_events.append(event)
         events = Events.objects.using('livewhale').filter(
             gid=gid,
-        ).filter(date_dt__gt=today).order_by('date_dt')[:10]
+        ).filter(date_dt__gte=today).order_by('date_dt')[:10]
         for event in events:
             bridge_events.append(event)
     newsletter['athletics_events'] = athletics_events
