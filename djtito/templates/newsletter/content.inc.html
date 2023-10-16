@@ -1,11 +1,11 @@
 {% load livewhale_api %}
 {% get_lw_content as stay_safe blurbs 2978 %}
 {% if messages %}
-    {% for message in messages %}
-        <div{% if message.tags %} class="{{ message.tags }}"{% endif %} style="margin-top:12px;">
-        {{ message }}
-        </div>
-    {% endfor %}
+  {% for message in messages %}
+    <div{% if message.tags %} class="{{ message.tags }}"{% endif %} style="margin-top:12px;">
+      {{ message }}
+    </div>
+  {% endfor %}
 {% endif %}
 <div id="bridge-newsletter">
 {% for h in data.news %}
@@ -107,6 +107,12 @@
     See the Carthage Calendar of Events
   </a>
 </h2>
+<h4>
+  <a style="color:#800"
+    href="https://harbor.carthage.edu/events/">
+    View student org events on The Harbor
+  </a>
+</h4>
 <h4>
   <a style="color:#800"
     href="https://www.carthage.edu/bridge/submit/">
