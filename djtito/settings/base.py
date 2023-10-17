@@ -94,8 +94,6 @@ INSTALLED_APPS = (
     'djtito.catalog',
     'djtito.newsletter',
     'djtools',
-    # honeypot for admin attacks
-    'admin_honeypot',
     # sign in as a user
     'loginas',
 )
@@ -134,7 +132,7 @@ TEMPLATES = [
 ]
 CACHES = {
     'default': {
-        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+        'BACKEND': 'django.core.cache.backends.memcached.PyMemcacheCache',
         'LOCATION': '127.0.0.1:11211',
         'TIMEOUT': 604800,  # 7 days
         'KEY_PREFIX': '{0}_'.format(PROJECT_APP),
