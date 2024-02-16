@@ -3,9 +3,10 @@
 import calendar
 import collections
 import datetime
-import requests
 import json
 import os
+import re
+import requests
 
 from django.conf import settings
 from django.contrib import messages
@@ -118,9 +119,17 @@ def manager(request):
             athletics_events.append(event)
         events = Events.objects.using('livewhale').filter(
             gid=gid,
-        ).filter(date_dt__gte=today).order_by('date_dt')[:10]
+        ).filter(date_dt__gte=today).order_by('date_dt')[:25]
+        titles = []
+        count = 0
         for event in events:
-            bridge_events.append(event)
+            title = re.sub(r'\W+', '', event.title)
+            if title not in titles:
+                bridge_events.append(event)
+                count += 1
+            titles.append(title)
+            if count == 10:
+                break
     newsletter['athletics_events'] = athletics_events
     newsletter['bridge_events'] = bridge_events
 
