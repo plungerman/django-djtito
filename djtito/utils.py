@@ -81,15 +81,15 @@ def send_newsletter(send, newsletter):
         )
 
     # send mail
-    request = None
     send_mail(
-        request,
+        None,
         to_list,
         subject,
         phrum,
         'newsletter/email.html',
         newsletter,
-        bcc,
+        reply_to=[frum,],
+        bcc=bcc,
     )
     return newsletter
 
