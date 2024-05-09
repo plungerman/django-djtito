@@ -88,7 +88,7 @@ def send_newsletter(send, newsletter):
         phrum,
         'newsletter/email.html',
         newsletter,
-        reply_to=[frum,],
+        reply_to=[phrum,],
         bcc=bcc,
     )
     return newsletter
