@@ -94,6 +94,8 @@ INSTALLED_APPS = (
     'djtito.catalog',
     'djtito.newsletter',
     'djtools',
+    # gmail api for send mail
+    'gmailapi_backend',
     # sign in as a user
     'loginas',
 )
@@ -166,17 +168,14 @@ AUTHENTICATION_BACKENDS = (
 LOGIN_URL = '{0}accounts/login/'.format(ROOT_URL)
 LOGOUT_URL = '{0}accounts/logout/'.format(ROOT_URL)
 LOGIN_REDIRECT_URL = '{0}newsletter/manager/'.format(ROOT_URL)
-# SMTP & Email settings
-EMAIL_HOST = ''
-EMAIL_HOST_USER = ''
-EMAIL_HOST_PASSWORD = ''
-EMAIL_USE_TLS = True
-EMAIL_PORT = 587
-EMAIL_FAIL_SILENTLY = True
-DEFAULT_FROM_EMAIL = ''
-SERVER_EMAIL = ''
-SERVER_MAIL = ''
-USE_X_FORWARDED_HOST = True
+# gmail API settings
+EMAIL_FROM = ''
+GMAIL_USER = ''
+EMAIL_BACKEND = 'gmailapi_backend.service.GmailApiBackend'
+GMAIL_SCOPES = ['https://www.googleapis.com/auth/gmail.send']
+GMAIL_SERVICE_ACCOUNT_JSON = ''
+GOOGLE_SERVICE_ACCOUNT = ''
+# sessions
 SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 SESSION_COOKIE_DOMAIN = ''
 SESSION_COOKIE_NAME = 'django_djtito_cookie'
