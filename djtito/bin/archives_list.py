@@ -10,8 +10,8 @@ import sys
 import django
 from django.conf import settings
 
-from djtools.fields import NOW
 
+NOW = datetime.datetime.now()
 
 # env
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'djtito.settings.shell')
