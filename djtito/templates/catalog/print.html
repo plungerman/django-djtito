@@ -335,7 +335,7 @@
         </h1>
         {# Undergraduate Academic Departments and Programs of Study #}
         {% get_lw_content as intro blurbs 3537 %}
-        {# Accounting and Finance #}
+        {# Accounting #}
         {% get_lw_content as intro blurbs 3486 %}
         <div class="narrative" id="ACC">
           <h2 class="title">{{intro.title|safe}}</h2>
@@ -344,15 +344,6 @@
         <div class="courses">
           <h2 class="title">Accounting</h2>
           {% get_courses as courses ACC %}
-          {% for course in courses %}
-            <h4>{{course.crs_no}}</h4>
-            <h3>{{course.title}}</h3>
-            <div class="description"><p>{{course.abstr|safe}}</p></div>
-          {% endfor %}
-        </div>
-        <div class="courses">
-          <h2 class="title">Finance</h2>
-          {% get_courses as courses FIN %}
           {% for course in courses %}
             <h4>{{course.crs_no}}</h4>
             <h3>{{course.title}}</h3>
@@ -395,20 +386,6 @@
         </div>
         <div class="courses">
           {% get_courses as courses ART %}
-          {% for course in courses %}
-            <h4>{{course.crs_no}}</h4>
-            <h3>{{course.title}}</h3>
-            <div class="description"><p>{{course.abstr|safe}}</p></div>
-          {% endfor %}
-        </div>
-        {# Asian Studies #}
-        {% get_lw_content as intro blurbs 3511 %}
-        <div class="narrative" id="ASN">
-          <h2 class="title">{{intro.title|safe}}</h2>
-          <div class="narrative-content">{{intro.body|safe}}</div>
-        </div>
-        <div class="courses">
-          {% get_courses as courses ASN %}
           {% for course in courses %}
             <h4>{{course.crs_no}}</h4>
             <h3>{{course.title}}</h3>
@@ -583,6 +560,20 @@
             <div class="description"><p>{{course.abstr|safe}}</p></div>
           {% endfor %}
         </div>
+        {# Finance #}
+        {% get_lw_content as intro blurbs 3790 %}
+        <div class="narrative" id="FIN">
+          <h2 class="title">{{intro.title|safe}} test</h2>
+          <div class="narrative-content">{{intro.body|safe}}</div>
+        </div>
+        <div class="courses">
+          {% get_courses as courses FIN %}
+          {% for course in courses %}
+            <h4>{{course.crs_no}}</h4>
+            <h3>{{course.title}}</h3>
+            <div class="description"><p>{{course.abstr|safe}}</p></div>
+          {% endfor %}
+        </div>
         {# Geospatial Science #}
         {% get_lw_content as intro blurbs 3496 %}
         <div class="narrative" id="GEO">
@@ -611,7 +602,7 @@
             <div class="description"><p>{{course.abstr|safe}}</p></div>
           {% endfor %}
         </div>
-        {# Management and Marketing #}
+        {# Management #}
         {% get_lw_content as intro blurbs 3515 %}
         <div class="narrative" id="BUS">
           <h2 class="title">{{intro.title|safe}}</h2>
@@ -635,8 +626,13 @@
             <div class="description"><p>{{course.abstr|safe}}</p></div>
           {% endfor %}
         </div>
+        {# Marketing #}
+        {% get_lw_content as intro blurbs 3791 %}
+        <div class="narrative" id="MKT">
+          <h2 class="title">{{intro.title|safe}} test</h2>
+          <div class="narrative-content">{{intro.body|safe}}</div>
+        </div>
         <div class="courses">
-          <h2 class="title">Marketing</h2>
           {% get_courses as courses MKT %}
           {% for course in courses %}
             <h4>{{course.crs_no}}</h4>
@@ -652,6 +648,20 @@
         </div>
         <div class="courses">
           {% get_courses as courses MTH %}
+          {% for course in courses %}
+            <h4>{{course.crs_no}}</h4>
+            <h3>{{course.title}}</h3>
+            <div class="description"><p>{{course.abstr|safe}}</p></div>
+          {% endfor %}
+        </div>
+        {# Medical Humanities #}
+        {% get_lw_content as intro blurbs 3772 %}
+        <div class="narrative" id="MED">
+          <h2 class="title">{{intro.title|safe}}</h2>
+          <div class="narrative-content">{{intro.body|safe}}</div>
+        </div>
+        <div class="courses">
+          {% get_courses as courses MED %}
           {% for course in courses %}
             <h4>{{course.crs_no}}</h4>
             <h3>{{course.title}}</h3>
