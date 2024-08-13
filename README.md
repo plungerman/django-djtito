@@ -14,3 +14,15 @@ When you send HTML emails you can't use style tags but instead you have to put i
 # replace in files
 
 find . -type f -exec sed -i 's/image\/gid\/94/image\/gid\/24/g' {} \;
+
+# course catalog
+
+https://app.carthage.edu/djtito/catalog/print/
+
+https://eros.carthage.edu/catalog/catalog.pdf
+/data2/www/vhosts/carthage.edu/subdomains/eros/httpsdocs/catalog
+
+prince https://app.carthage.edu/djtito/catalog/print/ -o catalog.pdf
+
+fonts needed for prince:
+sudo apt install ttf-mscorefonts-installer
