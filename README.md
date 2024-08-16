@@ -26,3 +26,6 @@ prince https://app.carthage.edu/djtito/catalog/print/ -o catalog.pdf
 
 fonts needed for prince:
 sudo apt install ttf-mscorefonts-installer
+
+blurbs from API:
+https://www.carthage.edu/live/json/blurbs/group/catalog/type/Catalog%20-%20Department%20Narrative/tag/Physics%20and%20Astronomy/
