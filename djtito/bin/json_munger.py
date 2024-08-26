@@ -34,8 +34,6 @@ def main():
     All Graduate Courses
     https://app.carthage.edu/djmapache/api/catalog/GR23/
 
-    NOTE: You can find the API Key in the djzbar settings file.
-
     Steps:
 
     1) execute destroy.py to dump the catalog.
