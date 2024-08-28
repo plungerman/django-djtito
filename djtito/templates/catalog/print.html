@@ -564,7 +564,7 @@
         {# Finance #}
         {% get_lw_content as intro blurbs 3790 %}
         <div class="narrative" id="FIN">
-          <h2 class="title">{{intro.title|safe}} test</h2>
+          <h2 class="title">{{intro.title|safe}}</h2>
           <div class="narrative-content">{{intro.body|safe}}</div>
         </div>
         <div class="courses">
@@ -610,17 +610,7 @@
           <div class="narrative-content">{{intro.body|safe}}</div>
         </div>
         <div class="courses">
-          <h2 class="title">Business Administration</h2>
           {% get_courses as courses BUS %}
-          {% for course in courses %}
-            <h4>{{course.crs_no}}</h4>
-            <h3>{{course.title}}</h3>
-            <div class="description"><p>{{course.abstr|safe}}</p></div>
-          {% endfor %}
-        </div>
-        <div class="courses">
-          <h2 class="title">Management</h2>
-          {% get_courses as courses MGT %}
           {% for course in courses %}
             <h4>{{course.crs_no}}</h4>
             <h3>{{course.title}}</h3>
@@ -630,7 +620,7 @@
         {# Marketing #}
         {% get_lw_content as intro blurbs 3791 %}
         <div class="narrative" id="MKT">
-          <h2 class="title">{{intro.title|safe}} test</h2>
+          <h2 class="title">{{intro.title|safe}}</h2>
           <div class="narrative-content">{{intro.body|safe}}</div>
         </div>
         <div class="courses">
@@ -660,14 +650,6 @@
         <div class="narrative" id="MED">
           <h2 class="title">{{intro.title|safe}}</h2>
           <div class="narrative-content">{{intro.body|safe}}</div>
-        </div>
-        <div class="courses">
-          {% get_courses as courses MED %}
-          {% for course in courses %}
-            <h4>{{course.crs_no}}</h4>
-            <h3>{{course.title}}</h3>
-            <div class="description"><p>{{course.abstr|safe}}</p></div>
-          {% endfor %}
         </div>
         {# Modern Languages #}
         {% get_lw_content as intro blurbs 3499 %}
@@ -712,7 +694,7 @@
         </div>
         <div class="courses">
           <h2 class="title">German</h2>
-          {% get_courses as courses GER %}
+          {% get_courses as courses GRM %}
           {% for course in courses %}
             <h4>{{course.crs_no}}</h4>
             <h3>{{course.title}}</h3>
