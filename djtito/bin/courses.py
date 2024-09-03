@@ -58,6 +58,7 @@ def main():
     update course_catalog set disc="MMT" where dept="MUS" and disc="MUS";
     update course_catalog set disc="MUS" where dept="MUS" and disc="";
     update course_catalog set disc="MAT" where dept="ATH" and disc="ATH";
+    update course_catalog set disc="BUS" where dept="MGT" and disc="";
 
     4) generate the PDF with the prince command:
 

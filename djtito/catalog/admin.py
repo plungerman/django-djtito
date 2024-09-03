@@ -7,8 +7,8 @@ from djtito.catalog.models import Course
 class CourseAdmin(admin.ModelAdmin):
     """Data model class for the course catalog."""
 
-    list_display = ('title', 'crs_no', 'cat', 'dept', 'credits', 'sess', 'terms')
-    search_fields = ('title', 'crs_no', 'cat', 'dept', 'credits', 'sess', 'terms')
+    list_display = ('title', 'crs_no', 'disc', 'dept', 'credits', 'sess', 'terms')
+    search_fields = ('title', 'crs_no', 'disc', 'dept', 'credits', 'sess', 'terms')
     using = 'workday'
 
     def save_model(self, request, instance, form, change):
