@@ -134,6 +134,9 @@
     #chapter1728 h2 {padding-bottom:15px;} /* registration summary */
     #chapter1728 .small td {padding:5px;text-align:right;}
     #chapter1729 .small td {padding:1px;font-size:8pt;} /*academic calendar */
+
+    table>tbody>tr>td:nth-child(3) { white-space:nowrap; }
+    table>tbody>tr>td:nth-child(1) { white-space:nowrap; }
     .chapter .narrative .narrative .text {display:block;}
     .chapter .narrative .text {page-break-before:avoid;}
     .chapter .narrative ol{margin-left:0;padding-left:15px;}
@@ -746,20 +749,6 @@
         </div>
         <div class="courses">
           {% get_courses as courses NSG %}
-          {% for course in courses %}
-            <h4>{{course.crs_no}}</h4>
-            <h3>{{course.title}}</h3>
-            <div class="description"><p>{{course.abstr|safe}}</p></div>
-          {% endfor %}
-        </div>
-        {# Philosophy #}
-        {% get_lw_content as intro blurbs 3489 %}
-        <div class="narrative" id="PHL">
-          <h2 class="title">{{intro.title|safe}}</h2>
-          <div class="narrative-content">{{intro.body|safe}}</div>
-        </div>
-        <div class="courses">
-          {% get_courses as courses PHL %}
           {% for course in courses %}
             <h4>{{course.crs_no}}</h4>
             <h3>{{course.title}}</h3>
