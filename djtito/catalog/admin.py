@@ -10,6 +10,7 @@ class CourseAdmin(admin.ModelAdmin):
     list_display = ('title', 'crs_no', 'disc', 'dept', 'credits', 'sess', 'terms')
     search_fields = ('title', 'crs_no', 'disc', 'dept', 'credits', 'sess', 'terms')
     using = 'workday'
+    list_editable = ['disc']
 
     def save_model(self, request, instance, form, change):
         """Tell Django to save objects to the 'other' database."""
