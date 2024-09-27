@@ -397,6 +397,14 @@
             <div class="description"><p>{{course.abstr|safe}}</p></div>
           {% endfor %}
         </div>
+        <div class="courses">
+          {% get_courses as courses ARH %}
+          {% for course in courses %}
+            <h4>{{course.crs_no}}</h4>
+            <h3>{{course.title}}</h3>
+            <div class="description"><p>{{course.abstr|safe}}</p></div>
+          {% endfor %}
+        </div>
         {# Athletic Training #}
         {% get_lw_content as intro blurbs 3511 %}
         <div class="narrative" id="ATH">
