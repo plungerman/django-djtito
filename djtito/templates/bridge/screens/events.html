@@ -31,7 +31,7 @@
           <ul class="lw_widget_results lw_widget_results_news">
             {% for event in events %}
             <li class="lw_item_{{forloop.counter}}">
-            <h4>{{event.date}} &nbsp;{{event.date_time}}</h4>
+            <h4>{{event.date|safe}} &nbsp;{{event.date_time|default:"&nbsp;"}}</h4>
             <div class="latest-news">
               <h2>{{event.title}}</h2>
               <h4 class="summary">{{event.description|safe}}</h4>
