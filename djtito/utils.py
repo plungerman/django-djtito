@@ -9,11 +9,48 @@ from django.template import loader
 from djtito.core.models import CATEGORIES
 from djtito.core.models import LivewhaleNews as News
 from djtools.utils.mail import send_mail
+from requests.packages.urllib3.exceptions import InsecureRequestWarning
+
+
+requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
+
+
+def fetch_events():
+    """Obtain the calendar events from the CMS API."""
+    events = {'athletics': [], 'bridge': []}
+    # athletics events
+    athletics_events = []
+    bridge_events = []
+    gid = settings.BRIDGE_GROUP
+    if settings.BRIDGE_EVENTS:
+        today = datetime.date.today()
+        sports = Events.objects.using('livewhale').filter(
+            title__contains=' vs ',
+        ).exclude(title__contains='JV').filter(
+            date_dt__gte=today,
+        ).order_by('date_dt')[:10]
+        for event in sports:
+            athletics_events.append(event)
+        events = Events.objects.using('livewhale').filter(
+            gid=gid,
+        ).filter(date_dt__gte=today).order_by('date_dt')[:25]
+        titles = []
+        count = 0
+        for event in events:
+            title = re.sub(r'\W+', '', event.title)
+            if title not in titles:
+                bridge_events.append(event)
+                count += 1
+            titles.append(title)
+            if count == 10:
+                break
+    newsletter['athletics_events'] = athletics_events
+    newsletter['bridge_events'] = bridge_events
 
 
 def fetch_news(days=None):
     """
-    Obtain the news items from the CMS database.
+    Obtain the news items from the CMS API.
 
     1 Monday's Bridge newsletter includes everything posted on & since Friday.
     3 Wednesday's newsletter includes everything posted on and since Monday.
@@ -23,12 +60,11 @@ def fetch_news(days=None):
     "search_categories": "Events|The Bridge: Lectures &amp; Presentations",
     """
     cats = copy.deepcopy(CATEGORIES)
+    days = None
+
     now = datetime.datetime.now()
-    news = None
-    # today's numeric value
+    # today's numeric value for day of the week
     day = now.strftime('%w')
-    # default number of days within which to fetch stories
-    # is 4, unless wed or fri or we pass a value to this method
     if not days:
         if day == '3' or day == '5':
             days = 3
@@ -36,29 +72,32 @@ def fetch_news(days=None):
             days = 4
 
     past = now - datetime.timedelta(days=int(days))
-    # fetch the news
-    news = News.objects.using('livewhale').filter(
-        gid=settings.BRIDGE_GROUP,
-    ).filter(status=1).filter(date_dt__lte=now).filter(
-        is_archived__isnull=True,
-    ).exclude(date_dt__lte=past)
+    date = past.strftime('%Y-%m-%d')
+    earl = '{0}/live/json/news/group/bridge/start_date/{1}/'.format(
+        settings.LIVEWHALE_API_URL, date,
+    )
+    try:
+        response = requests.get(earl,  timeout=10)
+    except Exception as error:
+        response = None
 
-    for new in news:
-        # [cid, name]
-        if new.cat():
-            kid = new.cat()[0]
-            if new.image():
-                new.phile = '{0}.{1}'.format(
-                    new.image().filename,
-                    new.image().extension,
-                )
-            else:
-                new.phile = None
-            if kid:
-                cats[kid][1].append(new)
     news = []
-    for cat in cats:
-        news.append(cats[cat])
+    if response:
+        news = response.json()
+        # replace width and height with 100 and 67 respectiviely.
+        # https://www.carthage.edu/live/image/gid/24/width/300/height/300/crop/1/src_region/0,0,993,636/32987_20_Feb-14_Lake_01.jpg
+        for story in news:
+            cat = story['news_categories']
+            cat_list = cat.split(':')
+            if len(cat_list) > 0 and '|' not in cat_list[-1]:
+                cat = cat_list[-1].strip()
+            else:
+                cat = cat_list[0].split('|')[-1]
+            cats[cat][1].append(story)
+        news = []
+        for cat, dic in cats.items():
+            news.append(cats[cat])
+
     return {'news': news}
 
 

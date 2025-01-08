@@ -11,6 +11,7 @@ from djtools.utils.database import mysql_db
 from djtools.utils.users import in_group
 
 
+'''
 CATEGORIES = collections.OrderedDict(
     {
         1: ["Today's Top Stories", []],
@@ -23,7 +24,6 @@ CATEGORIES = collections.OrderedDict(
         14: ['Kudos', []],
     },
 )
-
 '''
 CATEGORIES = collections.OrderedDict(
     {
@@ -37,7 +37,6 @@ CATEGORIES = collections.OrderedDict(
         'Kudos': ['Kudos', []],
     },
 )
-'''
 
 
 class LivewhaleActivity(models.Model):
