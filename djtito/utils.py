@@ -22,30 +22,29 @@ def fetch_events():
     athletics_events = []
     bridge_events = []
     gid = settings.BRIDGE_GROUP
-    if settings.BRIDGE_EVENTS:
-        today = datetime.date.today()
-        sports = Events.objects.using('livewhale').filter(
-            title__contains=' vs ',
-        ).exclude(title__contains='JV').filter(
-            date_dt__gte=today,
-        ).order_by('date_dt')[:10]
-        for event in sports:
-            athletics_events.append(event)
-        events = Events.objects.using('livewhale').filter(
-            gid=gid,
-        ).filter(date_dt__gte=today).order_by('date_dt')[:25]
-        titles = []
-        count = 0
-        for event in events:
-            title = re.sub(r'\W+', '', event.title)
-            if title not in titles:
-                bridge_events.append(event)
-                count += 1
-            titles.append(title)
-            if count == 10:
-                break
-    newsletter['athletics_events'] = athletics_events
-    newsletter['bridge_events'] = bridge_events
+
+    today = datetime.date.today()
+    sports = Events.objects.using('livewhale').filter(
+        title__contains=' vs ',
+    ).exclude(title__contains='JV').filter(
+        date_dt__gte=today,
+    ).order_by('date_dt')[:10]
+    for event in sports:
+        events['athletics'].append(event)
+    events = Events.objects.using('livewhale').filter(
+        gid=gid,
+    ).filter(date_dt__gte=today).order_by('date_dt')[:25]
+    titles = []
+    count = 0
+    for event in events:
+        title = re.sub(r'\W+', '', event.title)
+        if title not in titles:
+            events['bridge'].append(event)
+            count += 1
+        titles.append(title)
+        if count == 10:
+            break
+    return events
 
 
 def fetch_news(days=None):
