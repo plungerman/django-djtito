@@ -108,7 +108,6 @@ def manager(request):
     # athletics events
     athletics_events = []
     bridge_events = []
-    gid = settings.BRIDGE_GROUP
     if settings.BRIDGE_EVENTS:
         events = fetch_events()
     newsletter['athletics_events'] = events['athletics']

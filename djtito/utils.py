@@ -2,6 +2,7 @@
 
 import copy
 import datetime
+import re
 import requests
 
 from django.conf import settings
@@ -18,32 +19,47 @@ requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 def fetch_events():
     """Obtain the calendar events from the CMS API."""
     events = {'athletics': [], 'bridge': []}
-    # athletics events
-    athletics_events = []
-    bridge_events = []
-    gid = settings.BRIDGE_GROUP
 
-    today = datetime.date.today()
-    sports = Events.objects.using('livewhale').filter(
-        title__contains=' vs ',
-    ).exclude(title__contains='JV').filter(
-        date_dt__gte=today,
-    ).order_by('date_dt')[:10]
+    # athletics events
+    earl = '{0}/live/json/events/max/100/'.format(settings.LIVEWHALE_API_URL)
+    try:
+        response = requests.get(earl,  timeout=10)
+    except Exception as error:
+        response = None
+
+    if response:
+        sports = response.json()
+
+    count = 0
     for event in sports:
-        events['athletics'].append(event)
-    events = Events.objects.using('livewhale').filter(
-        gid=gid,
-    ).filter(date_dt__gte=today).order_by('date_dt')[:25]
+        if ' vs ' in event['title'] and 'JV' not in event['title']:
+            event['date_tito'] = datetime.datetime.strptime(event['date_iso'], "%Y-%m-%dT%H:%M:%S%z").date()
+            events['athletics'].append(event)
+            count += 1
+        if count == 10:
+            break
+
+    # bridge calendar events
+    earl = '{0}/live/json/events/group/bridge/max/25/'.format(settings.LIVEWHALE_API_URL)
+    try:
+        response = requests.get(earl,  timeout=10)
+    except Exception as error:
+        response = None
+
+    if response:
+        bridges = response.json()
     titles = []
     count = 0
-    for event in events:
-        title = re.sub(r'\W+', '', event.title)
+    for event in bridges:
+        title = re.sub(r'\W+', '', event['title'])
         if title not in titles:
+            event['date_tito'] = datetime.datetime.strptime(event['date_iso'], "%Y-%m-%dT%H:%M:%S%z").date()
             events['bridge'].append(event)
             count += 1
         titles.append(title)
         if count == 10:
             break
+
     return events
 
 

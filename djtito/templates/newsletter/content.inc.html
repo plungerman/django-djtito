@@ -64,18 +64,16 @@
     </td>
     <td align="left" valign="top">
       {% if data.static %}
-        <a href="{{e.get_absolute_url}}" style="text-decoration: none !important; color: #003c4b; line-height: 1.125; transition: .3s color ease-in-out;">{{e.title|safe}}</a>
+        <a href="{{e.url}}" style="text-decoration: none !important; color: #003c4b; line-height: 1.125; transition: .3s color ease-in-out;">{{e.title|safe}}</a>
       {% else %}
-        <a href="{{e.get_absolute_url}}?utm_source=djtito&utm_medium=email&utm_term=bridge%2Bnewsletter&utm_content={{e.title|truncatechars:100|urlencode}}&utm_campaign=bridge_newsletter_{{data.now|date:'Y-m-d'}}" style="text-decoration: none !important; color: #003c4b; line-height: 1.125; transition: .3s color ease-in-out;">{{e.title|safe}}</a>
+        <a href="{{e.url}}?utm_source=djtito&utm_medium=email&utm_term=bridge%2Bnewsletter&utm_content={{e.title|truncatechars:100|urlencode}}&utm_campaign=bridge_newsletter_{{data.now|date:'Y-m-d'}}" style="text-decoration: none !important; color: #003c4b; line-height: 1.125; transition: .3s color ease-in-out;">{{e.title|safe}}</a>
       {% endif %}
-      <strong>{{e.date_dt|date:"D, N j, Y"}}</strong>
+      <strong>{{e.date_tito|date:"D, N j, Y"}}</strong>
     </td>
   </tr>
 {% endfor %}
 </table>
 {% endif %}
-
-
 {% if data.athletics_events %}
 {% get_lw_content as events blurbs 3116 %}
 {{events.body|safe}}
@@ -87,11 +85,11 @@
     </td>
     <td align="left" valign="top">
       {% if data.static %}
-        <a href="{{e.get_absolute_url}}" style="text-decoration: none !important; color: #003c4b; line-height: 1.125; transition: .3s color ease-in-out;">{{e.title|safe}}</a>
+        <a href="{{e.url}}" style="text-decoration: none !important; color: #003c4b; line-height: 1.125; transition: .3s color ease-in-out;">{{e.title|safe}}</a>
       {% else %}
-        <a href="{{e.get_absolute_url}}?utm_source=djtito&utm_medium=email&utm_term=bridge%2Bnewsletter&utm_content={{e.title|truncatechars:100|urlencode}}&utm_campaign=bridge_newsletter_{{data.now|date:'Y-m-d'}}" style="text-decoration: none !important; color: #003c4b; line-height: 1.125; transition: .3s color ease-in-out;">{{e.title|safe}}</a>
+        <a href="{{e.url}}?utm_source=djtito&utm_medium=email&utm_term=bridge%2Bnewsletter&utm_content={{e.title|truncatechars:100|urlencode}}&utm_campaign=bridge_newsletter_{{data.now|date:'Y-m-d'}}" style="text-decoration: none !important; color: #003c4b; line-height: 1.125; transition: .3s color ease-in-out;">{{e.title|safe}}</a>
       {% endif %}
-      <strong>{{e.date_dt|date:"D, N j, Y"}}</strong>
+      <strong>{{e.date_tito|date:"D, N j, Y"}}</strong>
     </td>
   </tr>
 {% endfor %}
