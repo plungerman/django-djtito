@@ -8,7 +8,6 @@ import requests
 from django.conf import settings
 from django.template import loader
 from djtito.core.models import CATEGORIES
-from djtito.core.models import LivewhaleNews as News
 from djtools.utils.mail import send_mail
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
 
@@ -81,7 +80,8 @@ def fetch_news(days=None):
     # today's numeric value for day of the week
     day = now.strftime('%w')
     if not days:
-        if day == '3' or day == '5':
+        #if day == '3' or day == '5':
+        if day in ['2', '3', '4', '5']:
             days = 3
         else:
             days = 4
@@ -108,6 +108,9 @@ def fetch_news(days=None):
                 cat = cat_list[-1].strip()
             else:
                 cat = cat_list[0].split('|')[-1]
+            thumb = story.get('thumbnail')
+            if thumb:
+                story['thumbnail'] = thumb.replace('width/300', 'width/100').replace('height/300/', '')
             cats[cat][1].append(story)
         news = []
         for cat, dic in cats.items():

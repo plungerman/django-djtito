@@ -37,9 +37,6 @@
         {% endif %}
           {{n.title|safe}}
         </a>
-        {% if n.news_categories == "Top Stories" and n.thumbnail %}
-        {{n.summary|safe}}
-        {% endif %}
       </td>
       </tr>
       {% if n.cat.0 == 1 and n.image %}
@@ -53,7 +50,6 @@
   </table>
   {% endif %}
 {% endfor %}
-
 {% if data.bridge_events %}
 <h2>Upcoming Carthage Events</h2>
 <table border="0" cellpadding="0" cellspacing="0">
@@ -87,7 +83,7 @@
       {% if data.static %}
         <a href="{{e.url}}" style="text-decoration: none !important; color: #003c4b; line-height: 1.125; transition: .3s color ease-in-out;">{{e.title|safe}}</a>
       {% else %}
-        <a href="{{e.url}}?utm_source=djtito&utm_medium=email&utm_term=bridge%2Bnewsletter&utm_content={{e.title|truncatechars:100|urlencode}}&utm_campaign=bridge_newsletter_{{data.now|date:'Y-m-d'}}" style="text-decoration: none !important; color: #003c4b; line-height: 1.125; transition: .3s color ease-in-out;">{{e.title|safe}}</a>
+        <a href="{{e.url}}&utm_source=djtito&utm_medium=email&utm_term=bridge%2Bnewsletter&utm_content={{e.title|truncatechars:100|urlencode}}&utm_campaign=bridge_newsletter_{{data.now|date:'Y-m-d'}}" style="text-decoration: none !important; color: #003c4b; line-height: 1.125; transition: .3s color ease-in-out;">{{e.title|safe}}</a>
       {% endif %}
       <strong>{{e.date_tito|date:"D, N j, Y"}}</strong>
     </td>

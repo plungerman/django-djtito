@@ -37,8 +37,9 @@ def main():
     now = datetime.datetime.now()
     # today's numeric value for day of the week
     day = now.strftime('%w')
+    print(day)
     if not days:
-        if day == '3' or day == '5':
+        if day in ['2', '3', '4', '5']:
             days = 3
         else:
             days = 4
