@@ -102,16 +102,18 @@ def fetch_news(days=None):
         # replace width and height with 100 and 67 respectiviely.
         # https://www.carthage.edu/live/image/gid/24/width/300/height/300/crop/1/src_region/0,0,993,636/32987_20_Feb-14_Lake_01.jpg
         for story in news:
-            cat = story['news_categories']
-            cat_list = cat.split(':')
-            if len(cat_list) > 0 and '|' not in cat_list[-1]:
-                cat = cat_list[-1].strip()
-            else:
-                cat = cat_list[0].split('|')[-1]
-            thumb = story.get('thumbnail')
-            if thumb:
-                story['thumbnail'] = thumb.replace('width/300', 'width/100').replace('height/300/', '')
-            cats[cat][1].append(story)
+            cat = story.get('news_categories')
+            if cat:
+                cat_list = cat.split(':')
+                if len(cat_list) > 0 and '|' not in cat_list[-1]:
+                    cat = cat_list[-1].strip()
+                else:
+                    cat = cat_list[1].split('|')[-1]
+                thumb = story.get('thumbnail')
+                story['news_categories'] = cat
+                if thumb:
+                    story['thumbnail'] = thumb.replace('width/300', 'width/100').replace('height/300/', '')
+                cats[cat][1].append(story)
         news = []
         for cat, dic in cats.items():
             news.append(cats[cat])
