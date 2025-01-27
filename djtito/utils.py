@@ -108,12 +108,13 @@ def fetch_news(days=None):
                 if len(cat_list) > 0 and '|' not in cat_list[-1]:
                     cat = cat_list[-1].strip()
                 else:
-                    cat = cat_list[1].split('|')[-1]
+                    cat = cat.split('|')[1]
                 thumb = story.get('thumbnail')
                 story['news_categories'] = cat
-                if thumb:
-                    story['thumbnail'] = thumb.replace('width/300', 'width/100').replace('height/300/', '')
-                cats[cat][1].append(story)
+                if story:
+                    if thumb:
+                        story['thumbnail'] = thumb.replace('width/300', 'width/100').replace('height/300/', '')
+                    cats[cat][1].append(story)
         news = []
         for cat, dic in cats.items():
             news.append(cats[cat])
