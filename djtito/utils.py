@@ -116,7 +116,10 @@ def fetch_news(days=None):
                         story['thumbnail'] = thumb.replace('width/300', 'width/100').replace('height/300/', '')
                     cats[cat][1].append(story)
         news = []
+
         for cat, dic in cats.items():
+            # reverse the order of the stories from how they are ordered in json API
+            cats[cat][1] = list(reversed(cats[cat][1]))
             news.append(cats[cat])
 
     return {'news': news}
