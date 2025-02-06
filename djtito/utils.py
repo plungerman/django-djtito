@@ -119,7 +119,8 @@ def fetch_news(days=None):
 
         for cat, dic in cats.items():
             # reverse the order of the stories from how they are ordered in json API
-            cats[cat][1] = list(reversed(cats[cat][1]))
+            if cat != 'Top Stories':
+                cats[cat][1] = list(reversed(cats[cat][1]))
             news.append(cats[cat])
 
     return {'news': news}
