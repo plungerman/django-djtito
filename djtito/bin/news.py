@@ -73,15 +73,20 @@ def main():
                         story['thumbnail'] = thumb.replace('width/300', 'width/100').replace('height/300/', '')
                     cats[cat][1].append(story)
         news = []
-
+        from operator import itemgetter
         for cat, dic in cats.items():
             print(cat)
-            print(cats[cat][1])
             # reverse the order of the stories from how they are ordered in json API
-            if cat != 'Top Stories':
+            if cat == 'Top Stories':
+                #newlist = sorted(cats[cat][1], key=lambda d: d['id'])
+                #cats[cat][1][0] = dict(cats[cat][1][0].items(), key=lambda item: item[1]),
+                cats[cat][1] = sorted(cats[cat][1], key=itemgetter('id'), reverse=False)
+            else:
                 cats[cat][1] = list(reversed(cats[cat][1]))
             news.append(cats[cat])
 
+    for new in news:
+        print(news)
     #print({'news': news})
 
 
