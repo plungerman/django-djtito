@@ -9,6 +9,7 @@ from django.conf import settings
 from django.template import loader
 from djtito.core.models import CATEGORIES
 from djtools.utils.mail import send_mail
+from operator import itemgetter
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
 
 
@@ -111,15 +112,25 @@ def fetch_news(days=None):
                     cat = cat.split('|')[1]
                 thumb = story.get('thumbnail')
                 story['news_categories'] = cat
-                if story:
+                if story and cats.get(cat):
                     if thumb:
                         story['thumbnail'] = thumb.replace('width/300', 'width/100').replace('height/300/', '')
                     cats[cat][1].append(story)
         news = []
 
-        for cat, dic in cats.items():
+        #for cat, dic in cats.items():
             # reverse the order of the stories from how they are ordered in json API
-            if cat != 'Top Stories':
+            #if cat != 'Top Stories':
+                #cats[cat][1] = list(reversed(cats[cat][1]))
+
+        for cat, dic in cats.items():
+            print(cat)
+            # reverse the order of the stories from how they are ordered in json API
+            if cat == 'Top Stories':
+                #newlist = sorted(cats[cat][1], key=lambda d: d['id'])
+                #cats[cat][1][0] = dict(cats[cat][1][0].items(), key=lambda item: item[1]),
+                cats[cat][1] = sorted(cats[cat][1], key=itemgetter('id'), reverse=False)
+            else:
                 cats[cat][1] = list(reversed(cats[cat][1]))
             news.append(cats[cat])
 
