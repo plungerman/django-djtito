@@ -1,5 +1,4 @@
 {% load livewhale_api %}
-{% get_lw_content as stay_safe blurbs 2978 %}
 {% if messages %}
   {% for message in messages %}
     <div{% if message.tags %} class="{{ message.tags }}"{% endif %} style="margin-top:12px;">
@@ -35,19 +34,17 @@
         {% else %}
         <a href="{{n.url}}?utm_source=djtito&utm_medium=email&utm_term=bridge%2Bnewsletter&utm_content={{n.title|truncatechars:100|urlencode}}&utm_campaign=bridge_newsletter_{{data.now|date:'Y-m-d'}}" style="text-decoration: none !important; color: #003c4b; line-height: 1.125; transition: .3s color ease-in-out;">
         {% endif %}
-          {{n.title|safe}}
+        {{n.title|safe}}
         </a>
+        {% if balloons and n.news_categories == "Top Stories" %}
+        <br>
+        <div style="float:left;"><img src="{{media_url}}/img/balloon.gif" style="width:18px;height:26px;margin-top:2px;margin-right:8px;"></div>
+        <div style="float:left;"><input name="balloons" type="text" size="4" maxlength="1" =required style="width: 28px; height:28px;"></div>
+        {% endif %}
       </td>
       </tr>
-      {% if n.cat.0 == 1 and n.image %}
-      <tr>
-      <td>
-        <div id="lw_success">{{stay_safe.body|safe}}</div>
-      </td>
-      </tr>
-      {% endif %}
     {% endfor %}
-  </table>
+    </table>
   {% endif %}
 {% endfor %}
 {% if data.bridge_events %}

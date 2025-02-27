@@ -2,6 +2,7 @@
 
 import copy
 import datetime
+import logging
 import re
 import requests
 
@@ -14,6 +15,8 @@ from requests.packages.urllib3.exceptions import InsecureRequestWarning
 
 
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
+# django logging
+logger = logging.getLogger('debug_logfile')
 
 
 def fetch_events():
@@ -63,7 +66,7 @@ def fetch_events():
     return events
 
 
-def fetch_news(days=None):
+def fetch_news(balloons=None, days=None):
     """
     Obtain the news items from the CMS API.
 
@@ -118,23 +121,42 @@ def fetch_news(days=None):
                     cats[cat][1].append(story)
         news = []
 
-        #for cat, dic in cats.items():
-            # reverse the order of the stories from how they are ordered in json API
-            #if cat != 'Top Stories':
-                #cats[cat][1] = list(reversed(cats[cat][1]))
-
         for cat, dic in cats.items():
             print(cat)
             # reverse the order of the stories from how they are ordered in json API
             if cat == 'Top Stories':
-                #newlist = sorted(cats[cat][1], key=lambda d: d['id'])
-                #cats[cat][1][0] = dict(cats[cat][1][0].items(), key=lambda item: item[1]),
-                cats[cat][1] = sorted(cats[cat][1], key=itemgetter('id'), reverse=False)
+                if balloons:
+
+                    logger.debug(balloons)
+
+                    combined_lists = list(zip(balloons, cats[cat][1]))
+                    logger.debug(combined_lists)
+                    sorted_lists = sorted(combined_lists, key=lambda x: x[0])
+
+                    top_sorted = [item[1] for item in sorted_lists]
+                    logger.debug(top_sorted)
+
+                    logger.debug('balloons = {0}'.format(balloons))
+
+                    '''
+                    for top in cats[cat][1]:
+                        logger.debug('{0}|{1}'.format(top['id'], top['title']))
+
+                    for b in balloons:
+                        logger.debug(cats[cat][1][int(b) - 1])
+                        top_sorted.append(cats[cat][1][int(b) - 1])
+                    '''
+
+                    cats[cat][1] = top_sorted
+
+                    #for top in cats[cat][1]:
+                        #logger.debug('{0}|{1}'.format(top['id'], top['title']))
+
             else:
                 cats[cat][1] = list(reversed(cats[cat][1]))
             news.append(cats[cat])
 
-    return {'news': news}
+    return news
 
 
 def send_newsletter(send, newsletter):

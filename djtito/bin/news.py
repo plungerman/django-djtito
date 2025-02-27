@@ -75,18 +75,40 @@ def main():
         news = []
         from operator import itemgetter
         for cat, dic in cats.items():
-            print(cat)
+            #print(cat)
             # reverse the order of the stories from how they are ordered in json API
+            # sort top stories according to balloon sort order
             if cat == 'Top Stories':
-                #newlist = sorted(cats[cat][1], key=lambda d: d['id'])
-                #cats[cat][1][0] = dict(cats[cat][1][0].items(), key=lambda item: item[1]),
-                cats[cat][1] = sorted(cats[cat][1], key=itemgetter('id'), reverse=False)
+                #top_sorted = [None] * len(cats[cat][1])
+                #print(top_sorted)
+                balloons = [2, 3, 1]
+                print(balloons)
+                print('cats')
+                for counter, top in enumerate(cats[cat][1]):
+                    print('{0}|{1}|{2}'.format(counter, cats[cat][1][counter]['id'], cats[cat][1][counter]['title']))
+                print('ballon cats')
+                for balloon in balloons:
+                    print('{0}|{1}'.format(cats[cat][1][balloon - 1]['id'], cats[cat][1][balloon - 1]['title']))
+                    top_sorted[balloon - 1] = cats[cat][1][balloon - 1]
+
+                combined_lists = list(zip(balloons, cats[cat][1]))
+                print(combined_lists)
+                sorted_lists = sorted(combined_lists, key=lambda x: x[0])
+
+                top_sorted = [item[1] for item in sorted_lists]
+                print('top sorted')
+                print(top_sorted)
+
+
+
+
+                cats[cat][1] = top_sorted
             else:
                 cats[cat][1] = list(reversed(cats[cat][1]))
             news.append(cats[cat])
 
-    for new in news:
-        print(news)
+    #for new in news:
+        #print(news)
     #print({'news': news})
 
 

@@ -4,6 +4,7 @@ import calendar
 import collections
 import datetime
 import json
+import logging
 import os
 import re
 import requests
@@ -25,6 +26,10 @@ from djtito.utils import fetch_events
 from djtito.utils import fetch_news
 from djtito.utils import send_newsletter
 from djtools.decorators.auth import group_required
+
+
+# django logging
+logger = logging.getLogger('debug_logfile')
 
 
 def archives(request, year=None):
@@ -103,8 +108,9 @@ def manager(request):
         days = int(request.GET.get('days'))
     else:
         days = ''
+    newsletter = dict()
     # fetch our stories
-    newsletter = fetch_news(days=days)
+    newsletter['news'] = fetch_news(days=days)
     # athletics events
     athletics_events = []
     bridge_events = []
@@ -115,7 +121,11 @@ def manager(request):
     # prepare template for static URLs without Analytics tracking
     newsletter['static'] = True
     if request.POST:
+        balloons = request.POST.getlist('balloons')
+        #logger.debug(request.POST)
+        #logger.debug(balloons)
         form = NewsletterForm(request.POST)
+        newsletter['news'] = fetch_news(balloons=balloons, days=days)
         if form.is_valid():
             cd = form.cleaned_data
             # prepare template for static URLs without Analytics tracking
@@ -144,7 +154,7 @@ def manager(request):
 
     return HttpResponse(
         template.render(
-            {'data': newsletter, 'form': form, 'days': days}, request,
+            {'data': newsletter, 'form': form, 'days': days, 'balloons': True}, request,
         ),
         content_type='text/html; charset=utf8',
     )
@@ -154,7 +164,7 @@ def manager(request):
 @group_required(settings.STAFF_GROUP)
 def clear_cache(request, ctype='blurb'):
     """Clear the cache for API content."""
-    if request.is_ajax() and request.method == 'POST':
+    if request.method == 'POST':
         cid = request.POST.get('cid')
         key = 'livewhale_{0}_{1}'.format(ctype, cid)
         cache.delete(key)
