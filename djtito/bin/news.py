@@ -99,9 +99,6 @@ def main():
                 print('top sorted')
                 print(top_sorted)
 
-
-
-
                 cats[cat][1] = top_sorted
             else:
                 cats[cat][1] = list(reversed(cats[cat][1]))
