@@ -114,10 +114,11 @@ def manager(request):
     # athletics events
     athletics_events = []
     bridge_events = []
+    events = {}
     if settings.BRIDGE_EVENTS:
         events = fetch_events()
-    newsletter['athletics_events'] = events['athletics']
-    newsletter['bridge_events'] = events['bridge']
+    newsletter['athletics_events'] = events.get('athletics')
+    newsletter['bridge_events'] = events.get('bridge')
     # prepare template for static URLs without Analytics tracking
     newsletter['static'] = True
     if request.POST:
