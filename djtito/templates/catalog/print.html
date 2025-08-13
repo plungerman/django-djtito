@@ -855,6 +855,16 @@
           <div class="narrative-content">{{intro.body|safe}}</div>
         </div>
         <div class="courses">
+          <h2 class="title">Dance</h2>
+          {% get_courses as courses DNC %}
+          {% for course in courses %}
+            <h4>{{course.crs_no}}</h4>
+            <h3>{{course.title}}</h3>
+            <div class="description"><p>{{course.abstr|safe}}</p></div>
+          {% endfor %}
+        </div>
+        <div class="courses">
+          <h2 class="title">Theatre</h2>
           {% get_courses as courses THR %}
           {% for course in courses %}
             <h4>{{course.crs_no}}</h4>
@@ -1105,7 +1115,7 @@
         {{intro.body|safe}}
       </div>
     </div> <!-- end 2 col -->
-    <div id="catalog-index" class="layout3col">
+    <div id="catalog-index">
       <div class="chapter">
         <h1 class="title" style="clear:both; padding-top:20px;">Index</h1>
         {% get_lw_content as intro blurbs 3538 %}
