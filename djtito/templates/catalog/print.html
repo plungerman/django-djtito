@@ -601,6 +601,24 @@
             <div class="description"><p>{{course.abstr|safe}}</p></div>
           {% endfor %}
         </div>
+
+
+
+        {# Graphic Design and Film #}
+        {% get_lw_content as intro blurbs 3845 %}
+        <div class="narrative" id="GDF">
+          <h2 class="title">{{intro.title|safe}}</h2>
+          <div class="narrative-content">{{intro.body|safe}}</div>
+        </div>
+        <div class="courses">
+          {% get_courses as courses GDF %}
+          {% for course in courses %}
+            <h4>{{course.crs_no}}</h4>
+            <h3>{{course.title}}</h3>
+            <div class="description"><p>{{course.abstr|safe}}</p></div>
+          {% endfor %}
+        </div>
+
         {# History #}
         {% get_lw_content as intro blurbs 3498 %}
         <div class="narrative" id="HIS">
@@ -907,13 +925,13 @@
         <div class="manualbreak">&nbsp;</div>
         {# Master of Science in Business Design and Innovation #}
         {% get_lw_content as intro blurbs 3484 %}
-        <div class="narrative" id="MBD">
+        <div class="narrative" id="MGT">
           <h2 class="title">{{intro.title|safe}}</h2>
           <div class="narrative-content">{{intro.body|safe}}</div>
         </div>
         <h3>Courses</h3>
         <div class="courses" id="master-biz">
-          {% get_courses as courses MBD %}
+          {% get_courses as courses MGT %}
           {% for course in courses %}
             <h4>{{course.crs_no}}</h4>
             <h3>{{course.title}}</h3>
@@ -937,13 +955,13 @@
         </div>
         {# Master of Arts in Athletic Training #}
         {% get_lw_content as intro blurbs 3482 %}
-        <div class="narrative" id="MAT">
+        <div class="narrative" id="ATH">
           <h2 class="title">{{intro.title|safe}}</h2>
           <div class="narrative-content">{{intro.body|safe}}</div>
         </div>
         <h3>Courses</h3>
         <div class="courses" id="master-athletic-training">
-          {% get_courses as courses MAT %}
+          {% get_courses as courses ATH %}
           {% for course in courses %}
             <h4>{{course.crs_no}}</h4>
             <h3>{{course.title}}</h3>
@@ -1085,14 +1103,6 @@
         {{intro.body|safe}}
       </div>
       <div class="chapter">
-        <h1 class="title">Faculty</h1>
-        {# Faculty #}
-        {% get_lw_content as intro blurbs 3521 %}
-        <h2>{{intro.title|safe}}</h2>
-        <div>{{intro.body|safe}}</div>
-        {# Faculty Emeriti (3522: hidden as of 20221208) #}
-        {# Limited Appointment Faculty (3523: hidden as of 20221208) #}
-        {# Adjunct Faculty (3524: hidden as of 20221208) #}
         {# President’s Executive Staff #}
         {% get_lw_content as intro blurbs 3525 %}
         <h2>{{intro.title|safe}}</h2>
